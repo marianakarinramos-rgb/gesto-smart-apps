@@ -73,53 +73,51 @@
             line-height: 1.6;
         }
         
-        /* SECCIÓN DESTACADA EN VIOLETA */
+        /* SECCIÓN DESTACADA EN VIOLETA LIMPIA */
         .featured-banner {
             width: 100%;
             max-width: 1025px;
             margin: 0 20px 35px 20px;
-            background: linear-gradient(135deg, rgba(147, 51, 234, 0.15) 0%, rgba(22, 27, 34, 0.9) 100%);
+            background: linear-gradient(135deg, rgba(147, 51, 234, 0.18) 0%, rgba(22, 27, 34, 0.95) 100%);
             border: 2px solid #a855f7;
             border-radius: 20px;
-            padding: 35px;
+            padding: 40px 30px;
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
-            box-shadow: 0 15px 35px rgba(168, 85, 247, 0.15);
+            box-shadow: 0 15px 35px rgba(168, 85, 247, 0.2);
             position: relative;
-            overflow: hidden;
         }
-        .featured-banner::before {
-            content: "🔥 EL MÁS RECOMENDADO";
-            position: absolute;
-            top: 15px;
-            right: -35px;
-            background: #a855f7;
-            color: #fff;
-            font-size: 0.65em;
-            font-weight: 800;
-            padding: 5px 35px;
-            transform: rotate(35deg);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        .featured-tag {
+            background-color: rgba(168, 85, 247, 0.2);
+            border: 1px solid #a855f7;
+            color: #d8b4fe;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.75em;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
         }
         .featured-banner h2 {
             color: #ffffff;
-            font-size: 2em;
+            font-size: 2.2em;
             margin-top: 0;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
         }
         .featured-banner p {
             color: #c9d1d9;
-            font-size: 1.05em;
+            font-size: 1.1em;
             max-width: 700px;
-            margin-bottom: 25px;
-            line-height: 1.5;
+            margin-bottom: 30px;
+            line-height: 1.6;
         }
         .btn-featured {
             background-color: #a855f7;
             color: #ffffff;
-            padding: 14px 32px;
+            padding: 15px 35px;
             border-radius: 12px;
             font-weight: 800;
             font-size: 1.1em;
@@ -343,8 +341,9 @@
             <p class="subtitle">Elegí la App diseñada exactamente para tu rubro. Dejá de pelear con planillas de Excel y empezá a gestionar de verdad, sin fricción y manteniendo tus datos seguros.</p>
         </div>
 
-        <!-- BANNER DESTACADO EN VIOLETA: CATÁLOGO ONLINE -->
+        <!-- BANNER DESTACADO EN VIOLETA CON BADGE INTERNO -->
         <div class="featured-banner">
+            <div class="featured-tag">🚀 Lanzamiento Destacado</div>
             <h2>Catálogo Online con Stock en Vivo</h2>
             <p>La solución definitiva para comercios. Tus clientes lo instalan como app en su celular, ven el stock actualizado al instante y te hacen el pedido directo por WhatsApp con un solo clic.</p>
             <a href="https://v2-nu-blue.vercel.app?modo=tienda" target="_blank" class="btn-featured">
@@ -470,7 +469,7 @@
             modalBody.innerHTML = data.items.map(item => `
                 <div class="modal-item">
                     <span class="modal-item-title">${item.titulo}</span>
-                    <img src="${item.archivo}" alt="${item.titulo}" loading="lazy" onerror="this.src='https://via.placeholder.com/800x450/0d1117/8b949e?text=Cargando+Imagen...'">
+                    <img src="${item.archivo}" alt="${item.titulo}" loading="lazy" onerror="this.src='https://via.placeholder.com/800x450/0d1117/8b949e?text=Cargando+Imagen+...'">
                 </div>
             `).join('');
             document.body.classList.add('modal-open'); 
