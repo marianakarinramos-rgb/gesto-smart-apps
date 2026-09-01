@@ -6,7 +6,6 @@
     <title>Gesto Smart | La App de tu Negocio</title>
     <style>
         * { box-sizing: border-box; }
-        
         body {
             background-color: #050b14;
             background-image: radial-gradient(circle, #1e293b 1.5px, transparent 1.5px);
@@ -21,7 +20,6 @@
             min-height: 100vh;
             overflow-x: hidden;
         }
-
         .main-container {
             width: 100%;
             max-width: 1200px;
@@ -32,7 +30,6 @@
             position: relative;
             z-index: 10;
         }
-
         .header {
             text-align: center;
             padding: 0 20px 40px 20px;
@@ -40,7 +37,6 @@
             flex-direction: column;
             align-items: center;
         }
-
         .logo {
             width: 120px;
             height: 120px;
@@ -50,7 +46,6 @@
             display: block; 
             object-fit: cover;
         }
-
         .badge {
             background-color: rgba(0, 191, 255, 0.1);
             border: 1px solid #00bfff;
@@ -62,7 +57,6 @@
             letter-spacing: 0.5px;
             margin-bottom: 20px;
         }
-
         h1 {
             font-size: 3.5em;
             color: #ffffff;
@@ -70,15 +64,75 @@
             line-height: 1.1;
             font-weight: 800;
         }
-
         .highlight { color: #00bfff; }
-
         .subtitle {
             font-size: 1.25em;
             color: #8b949e;
             max-width: 650px;
             margin: 0 auto 40px auto;
             line-height: 1.6;
+        }
+        
+        /* SECCIÓN DE LA SUPER BOMBA (DESTACADO) */
+        .featured-banner {
+            width: 100%;
+            max-width: 1025px;
+            margin: 0 20px 35px 20px;
+            background: linear-gradient(135deg, rgba(251, 113, 133, 0.15) 0%, rgba(22, 27, 34, 0.9) 100%);
+            border: 2px solid #fb7185;
+            border-radius: 20px;
+            padding: 35px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(251, 113, 133, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+        .featured-banner::before {
+            content: "🔥 LA NUEVA ESTRELLA";
+            position: absolute;
+            top: 15px;
+            right: -30px;
+            background: #fb7185;
+            color: #fff;
+            font-size: 0.7em;
+            font-weight: 800;
+            padding: 5px 35px;
+            transform: rotate(35deg);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .featured-banner h2 {
+            color: #ffffff;
+            font-size: 2em;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+        .featured-banner p {
+            color: #c9d1d9;
+            font-size: 1.05em;
+            max-width: 700px;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+        .btn-featured {
+            background-color: #fb7185;
+            color: #ffffff;
+            padding: 14px 32px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 1.1em;
+            text-decoration: none;
+            box-shadow: 0 4px 20px rgba(251, 113, 133, 0.4);
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .btn-featured:hover {
+            transform: scale(1.03);
+            background-color: #f43f5e;
         }
 
         .cards-container {
@@ -89,7 +143,6 @@
             padding: 0 20px;
             width: 100%;
         }
-
         .card {
             background-color: rgba(22, 27, 34, 0.85);
             backdrop-filter: blur(10px);
@@ -102,19 +155,16 @@
             display: flex;
             flex-direction: column;
         }
-
         .card:hover {
             transform: translateY(-8px);
             box-shadow: 0 10px 20px rgba(0,0,0,0.5);
         }
-
         .card h3 {
             color: #ffffff;
             font-size: 1.4em;
             margin-top: 0;
             margin-bottom: 5px;
         }
-
         .card-desc {
             font-size: 0.9em;
             color: #8b949e;
@@ -123,7 +173,6 @@
             padding-bottom: 15px;
             border-bottom: 1px solid #30363d;
         }
-
         .card ul {
             padding-left: 0;
             list-style-type: none;
@@ -132,32 +181,29 @@
             line-height: 1.5;
             flex-grow: 1;
         }
-
         .card li {
             margin-bottom: 12px;
             position: relative;
             padding-left: 20px;
         }
-
         .card li::before {
             content: "✓";
             position: absolute;
             left: 0;
             font-weight: bold;
         }
-
-        .card-retail { border-top: 4px solid #3b82f6; }
-        .card-retail li::before { color: #3b82f6; }
-
-        .card-salon { border-top: 4px solid #ec4899; }
-        .card-salon li::before { color: #ec4899; }
-
-        .card-web { border-top: 4px solid #10b981; }
-        .card-web li::before { color: #10b981; }
-
+        .card-retail { border-top: 4px solid #3b82f6; }        .card-retail li::before { color: #3b82f6; }
+        .card-salon { border-top: 4px solid #ec4899; }        .card-salon li::before { color: #ec4899; }
+        .card-web { border-top: 4px solid #10b981; }        .card-web li::before { color: #10b981; }
+        
+        .card-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+        }
         .btn-interfaz {
             width: 100%;
-            margin-top: 20px;
             padding: 10px;
             background-color: #0d1117;
             border: 1px solid #30363d;
@@ -166,10 +212,22 @@
             font-weight: bold;
             cursor: pointer;
             transition: all 0.2s ease;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
         }
         .btn-interfaz:hover {
             background-color: #30363d;
             color: #ffffff;
+        }
+        .btn-demo {
+            background-color: rgba(0, 191, 255, 0.15);
+            border: 1px solid #00bfff;
+            color: #ffffff;
+        }
+        .btn-demo:hover {
+            background-color: #00bfff;
+            color: #050b14;
         }
 
         /* --- MODAL VERTICAL ESTABILIZADO --- */
@@ -177,7 +235,6 @@
             overflow: hidden; 
             padding-right: 8px; 
         }
-
         .modal-overlay {
             position: fixed; top: 0; left: 0; right: 0; bottom: 0;
             background: rgba(5, 11, 20, 0.95);
@@ -187,11 +244,9 @@
             transition: opacity 0.3s ease;
             padding: 20px;
         }
-        
         .modal-overlay.active {
             opacity: 1; pointer-events: auto;
         }
-
         .modal-content {
             width: 100%; max-width: 900px;
             max-height: 90vh; 
@@ -200,24 +255,19 @@
             position: relative; display: flex; flex-direction: column;
             box-shadow: 0 25px 50px rgba(0,0,0,0.6);
         }
-
         .close-modal {
             position: absolute; top: 15px; right: 20px;
             color: #8b949e; font-size: 28px; font-weight: bold;
             cursor: pointer; transition: color 0.2s; line-height: 1;
             z-index: 10;
         }
-        
         .close-modal:hover { color: #ef4444; }
-        
         .modal-header {
             margin-bottom: 15px; padding-bottom: 12px;
             border-bottom: 1px solid #30363d;
             flex-shrink: 0; 
         }
-        
         .modal-title { color: #fff; font-size: 1.3em; font-weight: bold; }
-        
         .modal-body {
             overflow-y: scroll; 
             padding-right: 15px;
@@ -226,12 +276,10 @@
             gap: 20px;
             flex-grow: 1;
         }
-        
         .modal-body::-webkit-scrollbar { width: 8px; }
         .modal-body::-webkit-scrollbar-track { background: #0d1117; border-radius: 4px; }
         .modal-body::-webkit-scrollbar-thumb { background: #30363d; border-radius: 4px; }
         .modal-body::-webkit-scrollbar-thumb:hover { background: #00bfff; }
-        
         .modal-item {
             display: flex;
             flex-direction: column;
@@ -241,13 +289,11 @@
             border-radius: 10px;
             padding: 12px;
         }
-        
         .modal-item-title {
             color: #00bfff;
             font-size: 0.9em;
             font-weight: 600;
         }
-        
         .modal-item img {
             width: 100%;
             height: auto;
@@ -274,14 +320,13 @@
         .btn:hover { transform: scale(1.05); opacity: 0.9; }
         .btn-wa { background-color: #25D366; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.2); }
         .btn-ig { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); box-shadow: 0 4px 15px rgba(220, 39, 67, 0.2); }
-
+        
         @media (max-width: 768px) {
             h1 { font-size: 2.5em; }
             .card { width: 100%; max-width: 400px; }
             .btn { width: 100%; max-width: 300px; display: flex; }
             .modal-content { padding: 15px; }
         }
-
         .sparkle {
             position: fixed; pointer-events: none; width: 6px; height: 6px;
             border-radius: 50%; animation: fadeOut 0.8s forwards; z-index: 8000; 
@@ -290,13 +335,21 @@
     </style>
 </head>
 <body>
-
     <div class="main-container">
         <div class="header">
             <img src="logo.jpg" alt="Gesto Smart Logo" class="logo">
             <div class="badge">⚡ PAGO ÚNICO. SIN INTERNET. ULTRA FÁCILES.</div>
             <h1>La App de tu negocio<br><span class="highlight">no tiene que ser un dolor de cabeza.</span></h1>
             <p class="subtitle">Elegí la App diseñada exactamente para tu rubro. Dejá de pelear con planillas de Excel y empezá a gestionar de verdad, sin fricción y manteniendo tus datos seguros.</p>
+        </div>
+
+        <!-- BANNER DESTACADO: CATÁLOGO PWA (LA SUPER BOMBA) -->
+        <div class="featured-banner">
+            <h2>Catálogo PWA con Stock en Vivo</h2>
+            <p>La solución definitiva para comercios. Instalable como app en el celular del cliente, sincronización en tiempo real con Firebase y pedidos directos a tu WhatsApp con un solo clic.</p>
+            <a href="https://tu-dominio-limpio.vercel.app?modo=tienda" target="_blank" class="btn-featured">
+                ✨ Probar Catálogo PWA en Vivo
+            </a>
         </div>
 
         <div class="cards-container">
@@ -309,9 +362,11 @@
                     <li><strong>Punto de Venta ágil:</strong> Cobrá o armá presupuestos en 2 clics.</li>
                     <li><strong>Módulo RRHH:</strong> Cálculo exacto de comisiones y márgenes reales.</li>
                 </ul>
-                <button onclick="abrirModal('retail')" class="btn-interfaz">📸 Ver Interfaz</button>
+                <div class="card-actions">
+                    <a href="https://tu-demo-retail.vercel.app" target="_blank" class="btn-interfaz btn-demo">🚀 Probar Demo en Vivo</a>
+                    <button onclick="abrirModal('retail')" class="btn-interfaz">📸 Ver Interfaz</button>
+                </div>
             </div>
-
             <!-- Tarjeta Salones -->
             <div class="card card-salon">
                 <h3>Estética & Servicios</h3>
@@ -321,9 +376,11 @@
                     <li><strong>Stock Automático:</strong> Al cobrar el servicio, se descuentan los insumos usados al instante.</li>
                     <li><strong>Métricas Clave:</strong> Alerta de clientes ausentes (+90 días) para reactivar ventas.</li>
                 </ul>
-                <button onclick="abrirModal('salon')" class="btn-interfaz" style="color:#ec4899;">📸 Ver Interfaz</button>
+                <div class="card-actions">
+                    <a href="https://tu-demo-salon.vercel.app" target="_blank" class="btn-interfaz btn-demo" style="border-color:#ec4899; color:#ec4899;">🚀 Probar Demo en Vivo</a>
+                    <button onclick="abrirModal('salon')" class="btn-interfaz" style="color:#ec4899;">📸 Ver Interfaz</button>
+                </div>
             </div>
-
             <!-- Tarjeta Web -->
             <div class="card card-web">
                 <h3>E-commerce & Catálogos</h3>
@@ -333,7 +390,10 @@
                     <li><strong>Generador de Catálogos:</strong> Creá flyers listos para WhatsApp o Estados usando las fotos.</li>
                     <li><strong>Cero Estrés:</strong> Olvidate de armar archivos CSV a mano.</li>
                 </ul>
-                <button onclick="abrirModal('web')" class="btn-interfaz" style="color:#10b981;">📸 Ver Interfaz</button>
+                <div class="card-actions">
+                    <a href="https://tu-demo-ecommerce.vercel.app" target="_blank" class="btn-interfaz btn-demo" style="border-color:#10b981; color:#10b981;">🚀 Probar Demo en Vivo</a>
+                    <button onclick="abrirModal('web')" class="btn-interfaz" style="color:#10b981;">📸 Ver Interfaz</button>
+                </div>
             </div>
         </div>
     </div>
@@ -342,11 +402,9 @@
     <div class="contact-section">
         <h2>¿Lista para profesionalizar tu gestión?</h2>
         <p>Hablemos directo. Sin intermediarios, de emprendedora a emprendedor.</p>
-        
         <a href="https://wa.me/5491121586674" target="_blank" class="btn btn-wa">
             💬 Escribime por WhatsApp
         </a>
-        
         <a href="https://www.instagram.com/gesto.smart/" target="_blank" class="btn btn-ig">
             📸 Seguime en @gesto.smart
         </a>
@@ -409,14 +467,12 @@
         function abrirModal(modulo) {
             const data = modulosData[modulo];
             modalTitle.innerText = data.titulo;
-            
             modalBody.innerHTML = data.items.map(item => `
                 <div class="modal-item">
                     <span class="modal-item-title">${item.titulo}</span>
-                    <img src="${item.archivo}" alt="${item.titulo}" onerror="this.src='https://via.placeholder.com/800x450/0d1117/8b949e?text=Cargando+Imagen...'">
+                    <img src="${item.archivo}" alt="${item.titulo}" loading="lazy" onerror="this.src='https://via.placeholder.com/800x450/0d1117/8b949e?text=Cargando+Imagen...'">
                 </div>
             `).join('');
-            
             document.body.classList.add('modal-open'); 
             modal.classList.add('active');
             modalBody.scrollTop = 0; 
@@ -426,7 +482,7 @@
             modal.classList.remove('active');
             document.body.classList.remove('modal-open');
         }
-        
+
         function cerrarModalFondo(e) {
             if (e.target === modal) cerrarModal();
         }
@@ -435,7 +491,6 @@
         const colors = ['#00bfff', '#4dd2ff', '#80dfff']; 
         document.addEventListener('mousemove', function(e) {
             if (document.body.classList.contains('modal-open')) return; 
-            
             const sparkle = document.createElement('div');
             sparkle.className = 'sparkle';
             sparkle.style.left = e.clientX + 'px';
