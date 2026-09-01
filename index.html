@@ -1,505 +1,1004 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
+<!DOCTYPE html><html lang="es" data-theme="dark"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gesto Smart | La App de tu Negocio</title>
+    <title>Gesto Smart Lite - Catálogo Profesional</title>
+    
+    <!-- PWA Meta Tags -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#050b14">
+    <link rel="icon" type="image/png" sizes="192x192" href="/icono-192x192.png">
+    <link rel="apple-touch-icon" href="/icono-192x192.png">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        base: 'var(--bg-base)', card: 'var(--bg-card)', input: 'var(--bg-input)',
+                        main: 'var(--text-main)', muted: 'var(--text-muted)', borderline: 'var(--border-color)',
+                        accent: 'var(--accent-color)', accenttext: 'var(--accent-text)', pattern: 'var(--pattern-color)'
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    
     <style>
+        :root {
+            --bg-base: #050b14; --bg-card: #161b22; --bg-input: #0d1117;
+            --text-main: #ffffff; --text-muted: #8b949e; --border-color: #30363d;
+            --accent-color: #00bfff; --accent-text: #050b14; --pattern-color: #1e293b;
+        }
+        [data-theme="sky"] {
+            --bg-base: #f0f4f8; --bg-card: #ffffff; --bg-input: #f8fafc;
+            --text-main: #0f172a; --text-muted: #64748b; --border-color: #e2e8f0;
+            --accent-color: #38bdf8; --accent-text: #ffffff; --pattern-color: #cbd5e1;
+        }
+        [data-theme="rose"] {
+            --bg-base: #fff1f2; --bg-card: #ffffff; --bg-input: #ffe4e6;
+            --text-main: #4c0519; --text-muted: #9f1239; --border-color: #fecdd3;
+            --accent-color: #fb7185; --accent-text: #ffffff; --pattern-color: #fecdd3;
+        }
+        [data-theme="mint"] {
+            --bg-base: #f0fdf4; --bg-card: #ffffff; --bg-input: #dcfce7;
+            --text-main: #022c22; --text-muted: #059669; --border-color: #bbf7d0;
+            --accent-color: #34d399; --accent-text: #ffffff; --pattern-color: #bbf7d0;
+        }
+
         * { box-sizing: border-box; }
-        body {
-            background-color: #050b14;
-            background-image: radial-gradient(circle, #1e293b 1.5px, transparent 1.5px);
-            background-size: 30px 30px;
-            color: #c9d1d9;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-        .main-container {
-            width: 100%;
-            max-width: 1200px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding-top: 60px;
-            position: relative;
-            z-index: 10;
-        }
-        .header {
-            text-align: center;
-            padding: 0 20px 40px 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .logo {
-            width: 120px;
-            height: 120px;
-            border-radius: 20px;
-            box-shadow: 0 0 25px rgba(0, 191, 255, 0.4);
-            margin-bottom: 25px;
-            display: block; 
-            object-fit: cover;
-        }
-        .badge {
-            background-color: rgba(0, 191, 255, 0.1);
-            border: 1px solid #00bfff;
-            color: #00bfff;
-            padding: 8px 18px;
-            border-radius: 30px;
-            font-weight: 700;
-            font-size: 0.85em;
-            letter-spacing: 0.5px;
-            margin-bottom: 20px;
-        }
-        h1 {
-            font-size: 3.5em;
-            color: #ffffff;
-            margin: 0 0 15px 0;
-            line-height: 1.1;
-            font-weight: 800;
-        }
-        .highlight { color: #00bfff; }
-        .subtitle {
-            font-size: 1.25em;
-            color: #8b949e;
-            max-width: 650px;
-            margin: 0 auto 40px auto;
-            line-height: 1.6;
-        }
+        body { background-color: var(--bg-base); background-image: radial-gradient(circle, var(--pattern-color) 1.5px, transparent 1.5px); background-size: 30px 30px; color: var(--text-main); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; overflow: hidden; transition: background-color 0.3s ease, color 0.3s ease; }
         
-        /* SECCIÓN DESTACADA EN VIOLETA LIMPIA */
-        .featured-banner {
-            width: 100%;
-            max-width: 1025px;
-            margin: 0 20px 35px 20px;
-            background: linear-gradient(135deg, rgba(147, 51, 234, 0.18) 0%, rgba(22, 27, 34, 0.95) 100%);
-            border: 2px solid #a855f7;
-            border-radius: 20px;
-            padding: 40px 30px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            box-shadow: 0 15px 35px rgba(168, 85, 247, 0.2);
-            position: relative;
-        }
-        .featured-tag {
-            background-color: rgba(168, 85, 247, 0.2);
-            border: 1px solid #a855f7;
-            color: #d8b4fe;
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-weight: 700;
-            font-size: 0.75em;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            margin-bottom: 15px;
-        }
-        .featured-banner h2 {
-            color: #ffffff;
-            font-size: 2.2em;
-            margin-top: 0;
-            margin-bottom: 12px;
-        }
-        .featured-banner p {
-            color: #c9d1d9;
-            font-size: 1.1em;
-            max-width: 700px;
-            margin-bottom: 30px;
-            line-height: 1.6;
-        }
-        .btn-featured {
-            background-color: #a855f7;
-            color: #ffffff;
-            padding: 15px 35px;
-            border-radius: 12px;
-            font-weight: 800;
-            font-size: 1.1em;
-            text-decoration: none;
-            box-shadow: 0 4px 20px rgba(168, 85, 247, 0.4);
-            transition: all 0.2s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .btn-featured:hover {
-            transform: scale(1.03);
-            background-color: #9333ea;
-        }
-
-        .cards-container {
-            display: flex;
-            gap: 25px;
-            justify-content: center;
-            flex-wrap: wrap;
-            padding: 0 20px;
-            width: 100%;
-        }
-        .card {
-            background-color: rgba(22, 27, 34, 0.85);
-            backdrop-filter: blur(10px);
-            border: 1px solid #30363d;
-            border-radius: 16px;
-            padding: 30px;
-            width: 320px;
-            text-align: left;
-            transition: all 0.3s ease;
-            display: flex;
-            flex-direction: column;
-        }
-        .card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
-        }
-        .card h3 {
-            color: #ffffff;
-            font-size: 1.4em;
-            margin-top: 0;
-            margin-bottom: 5px;
-        }
-        .card-desc {
-            font-size: 0.9em;
-            color: #8b949e;
-            font-style: italic;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #30363d;
-        }
-        .card ul {
-            padding-left: 0;
-            list-style-type: none;
-            color: #c9d1d9;
-            font-size: 0.95em;
-            line-height: 1.5;
-            flex-grow: 1;
-        }
-        .card li {
-            margin-bottom: 12px;
-            position: relative;
-            padding-left: 20px;
-        }
-        .card li::before {
-            content: "✓";
-            position: absolute;
-            left: 0;
-            font-weight: bold;
-        }
-        .card-retail { border-top: 4px solid #3b82f6; }        .card-retail li::before { color: #3b82f6; }
-        .card-salon { border-top: 4px solid #ec4899; }        .card-salon li::before { color: #ec4899; }
-        .card-web { border-top: 4px solid #10b981; }        .card-web li::before { color: #10b981; }
+        .fade-in { animation: fadeIn 0.25s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
         
-        .card-actions {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-top: 20px;
-        }
-        .btn-interfaz {
-            width: 100%;
-            padding: 10px;
-            background-color: #0d1117;
-            border: 1px solid #30363d;
-            color: #00bfff;
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-        }
-        .btn-interfaz:hover {
-            background-color: #30363d;
-            color: #ffffff;
-        }
-        .btn-demo {
-            background-color: rgba(0, 191, 255, 0.15);
-            border: 1px solid #00bfff;
-            color: #ffffff;
-        }
-        .btn-demo:hover {
-            background-color: #00bfff;
-            color: #050b14;
-        }
-
-        /* --- MODAL VERTICAL ESTABILIZADO --- */
-        body.modal-open {
-            overflow: hidden; 
-            padding-right: 8px; 
-        }
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(5, 11, 20, 0.95);
-            z-index: 9999;
-            display: flex; justify-content: center; align-items: center;
-            opacity: 0; pointer-events: none;
-            transition: opacity 0.3s ease;
-            padding: 20px;
-        }
-        .modal-overlay.active {
-            opacity: 1; pointer-events: auto;
-        }
-        .modal-content {
-            width: 100%; max-width: 900px;
-            max-height: 90vh; 
-            background: #161b22; border: 1px solid #30363d;
-            border-radius: 16px; padding: 25px;
-            position: relative; display: flex; flex-direction: column;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.6);
-        }
-        .close-modal {
-            position: absolute; top: 15px; right: 20px;
-            color: #8b949e; font-size: 28px; font-weight: bold;
-            cursor: pointer; transition: color 0.2s; line-height: 1;
-            z-index: 10;
-        }
-        .close-modal:hover { color: #ef4444; }
-        .modal-header {
-            margin-bottom: 15px; padding-bottom: 12px;
-            border-bottom: 1px solid #30363d;
-            flex-shrink: 0; 
-        }
-        .modal-title { color: #fff; font-size: 1.3em; font-weight: bold; }
-        .modal-body {
-            overflow-y: scroll; 
-            padding-right: 15px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            flex-grow: 1;
-        }
-        .modal-body::-webkit-scrollbar { width: 8px; }
-        .modal-body::-webkit-scrollbar-track { background: #0d1117; border-radius: 4px; }
-        .modal-body::-webkit-scrollbar-thumb { background: #30363d; border-radius: 4px; }
-        .modal-body::-webkit-scrollbar-thumb:hover { background: #00bfff; }
-        .modal-item {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            background: #0d1117;
-            border: 1px solid #30363d;
-            border-radius: 10px;
-            padding: 12px;
-        }
-        .modal-item-title {
-            color: #00bfff;
-            font-size: 0.9em;
-            font-weight: 600;
-        }
-        .modal-item img {
-            width: 100%;
-            height: auto;
-            min-height: 200px; 
-            border-radius: 6px;
-            display: block;
-            background-color: #161b22; 
-        }
-
-        /* Sección Contacto */
-        .contact-section {
-            margin-top: 80px; text-align: center; padding: 60px 20px;
-            background-color: #0d1117; border-top: 1px solid #30363d;
-            width: 100%; position: relative; z-index: 10;
-        }
-        .contact-section h2 { color: #fff; font-size: 2.2em; margin-top: 0; margin-bottom: 10px; }
-        .contact-section p { color: #8b949e; font-size: 1.1em; margin-bottom: 35px; }
-        .btn {
-            display: inline-flex; align-items: center; justify-content: center;
-            padding: 14px 30px; margin: 10px; border-radius: 50px;
-            text-decoration: none; font-weight: bold; font-size: 1.1em; color: #ffffff;
-            transition: transform 0.2s, opacity 0.2s;
-        }
-        .btn:hover { transform: scale(1.05); opacity: 0.9; }
-        .btn-wa { background-color: #25D366; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.2); }
-        .btn-ig { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); box-shadow: 0 4px 15px rgba(220, 39, 67, 0.2); }
+        ::-webkit-scrollbar { width: 6px; height: 6px; } 
+        ::-webkit-scrollbar-track { background: var(--bg-input); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent-color); }
         
-        @media (max-width: 768px) {
-            h1 { font-size: 2.5em; }
-            .card { width: 100%; max-width: 400px; }
-            .btn { width: 100%; max-width: 300px; display: flex; }
-            .modal-content { padding: 15px; }
+        #toast-container { position: fixed; bottom: 20px; right: 20px; z-index: 999999; display: flex; flex-direction: column; gap: 10px; }
+        .toast { padding: 12px 24px; border-radius: 8px; font-weight: bold; box-shadow: 0 4px 15px rgba(0,0,0,0.2); animation: slideIn 0.3s forwards; }
+        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        
+        .cargando-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.85); display: flex; align-items: center; justify-content: center; z-index: 9999999; backdrop-filter: blur(5px); transition: opacity 0.3s ease; }
+        .cargando-spinner { width: 40px; height: 40px; border: 4px solid var(--border-color); border-top-color: var(--accent-color); border-radius: 50%; animation: spin 0.7s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        
+        .btn-excel { background-color: #10b981; color: #ffffff; transition: 0.2s; cursor: pointer; }
+        .btn-excel:hover { background-color: #059669; }
+        
+        input, select, textarea { background-color: var(--bg-input) !important; border-color: var(--border-color) !important; color: var(--text-main) !important; }
+        input:focus, select:focus, textarea:focus { outline: none !important; border-color: var(--accent-color) !important; box-shadow: 0 0 5px rgba(0, 0, 0, 0.1) !important; }
+        
+        table { border-collapse: separate; border-spacing: 0; width: 100%; }
+        thead th { background-color: var(--bg-input); color: var(--text-muted); border-bottom: 2px solid var(--border-color); }
+        tbody tr { border-bottom: 1px solid var(--border-color); transition: background-color 0.15s; }
+        tbody tr:hover { background-color: var(--bg-input); opacity: 0.9; }
+        
+        .tab-link { padding-top: 12px !important; padding-bottom: 12px !important; margin-bottom: 4px !important; font-size: 0.9rem !important; }
+        .tab-link.active { background-color: var(--accent-color) !important; color: var(--accent-text) !important; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        .tab-link:not(.active) { color: var(--text-muted); }
+        .tab-link:not(.active):hover { background-color: var(--bg-card); color: var(--text-main); }
+
+        body.modo-tienda-activa #erp-container { display: none !important; }
+        body.modo-tienda-activa #public-catalog { display: flex !important; }
+        #public-catalog { position: fixed; inset: 0; background-color: var(--bg-base); z-index: 99999; display: none; flex-direction: column; overflow-y: auto; }
+        
+        .product-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s; }
+        .product-card:hover { transform: translateY(-4px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); border-color: var(--accent-color); }
+        .product-image { width: 100%; height: 180px; object-fit: contain; padding: 12px; background-color: #ffffff; border-bottom: 1px solid var(--border-color); }
+
+        .cat-chip { padding: 6px 16px; border-radius: 20px; font-size: 10px; font-weight: 700; border: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-muted); cursor: pointer; transition: 0.2s; white-space: nowrap; text-transform: uppercase; }
+        .cat-chip.active, .cat-chip:hover { background: var(--accent-color); color: var(--accent-text); border-color: var(--accent-color); }
+
+        .btn-theme { border: 2px solid transparent; opacity: 0.6; transition: all 0.2s; }
+        .btn-theme:hover { opacity: 1; transform: scale(1.02); }
+        .btn-theme.active { opacity: 1; border-color: var(--accent-color); box-shadow: 0 0 15px rgba(0,0,0,0.1); }
+
+        @media print {
+            body { background: #ffffff !important; background-image: none !important; color: #111827 !important; overflow: visible !important; }
+            #erp-container, #toast-container, .cargando-overlay, #public-catalog, #pantalla-login { display: none !important; }
+            #pdf-mayorista-preview { display: block !important; position: static !important; width: 100% !important; background: #ffffff !important; }
+            @page { margin: 8mm; size: auto; }
         }
-        .sparkle {
-            position: fixed; pointer-events: none; width: 6px; height: 6px;
-            border-radius: 50%; animation: fadeOut 0.8s forwards; z-index: 8000; 
-        }
-        @keyframes fadeOut { 0% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(0); } }
     </style>
 </head>
-<body>
-    <div class="main-container">
-        <div class="header">
-            <img src="logo.jpg" alt="Gesto Smart Logo" class="logo">
-            <div class="badge">⚡ PAGO ÚNICO. ACCESO RÁPIDO. ULTRA FÁCILES.</div>
-            <h1>La App de tu negocio<br><span class="highlight">no tiene que ser un dolor de cabeza.</span></h1>
-            <p class="subtitle">Elegí la App diseñada exactamente para tu rubro. Dejá de pelear con planillas de Excel y empezá a gestionar de verdad, sin fricción y manteniendo tus datos seguros.</p>
+<body class="h-screen w-full">
+    <!-- PANTALLA DE CARGA -->
+    <div id="carga-overlay-global" class="cargando-overlay flex flex-col hidden" style="display:none;">
+        <div class="text-center">
+            <div class="cargando-spinner mx-auto mb-4"></div>
+            <p class="text-lg font-black text-white mb-6" id="carga-overlay-msg">Procesando...</p>
         </div>
+    </div>
 
-        <!-- BANNER DESTACADO EN VIOLETA CON BADGE INTERNO -->
-        <div class="featured-banner">
-            <div class="featured-tag">🚀 Lanzamiento Destacado</div>
-            <h2>Catálogo Online con Stock en Vivo</h2>
-            <p>La solución definitiva para comercios. Tus clientes lo instalan como app en su celular, ven el stock actualizado al instante y te hacen el pedido directo por WhatsApp con un solo clic.</p>
-            <a href="https://v2-nu-blue.vercel.app?modo=tienda" target="_blank" class="btn-featured">
-                ✨ Probar Catálogo en Vivo
-            </a>
+    <!-- PANTALLA LOGIN ADMIN CON BOTON DEMO -->
+    <div id="pantalla-login" class="fixed inset-0 bg-base z-[99999] hidden flex-col items-center justify-center p-4">
+        <div class="bg-card border border-borderline rounded-3xl p-8 max-w-sm w-full text-center shadow-[0_20px_50px_rgba(0,0,0,0.1)] fade-in relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-2 h-full bg-accent"></div>
+            <div id="login-logo-container" class="w-16 h-16 bg-accent text-accenttext rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold overflow-hidden shadow-md">
+                <i class="fas fa-lock" id="login-logo-icon"></i>
+                <img id="login-logo-img" class="w-full h-full object-cover hidden">
+            </div>
+            <h2 class="text-2xl font-black text-main mb-1">Gesto Smart Lite</h2>
+            <p class="text-[10px] text-muted uppercase mb-6 tracking-widest" id="login-store-name">Mi Tienda</p>
+            <div class="text-left mb-6">
+                <label class="text-[10px] font-bold text-muted uppercase block mb-1">PIN de Acceso</label>
+                <input type="password" id="login-pin" maxlength="4" class="w-full text-center text-3xl tracking-[0.5em] rounded-xl py-3 font-bold bg-input text-main border border-borderline focus:border-accent outline-none" onkeypress="if(event.key === 'Enter') procesarLogin()">
+            </div>
+            <button onclick="procesarLogin()" class="w-full bg-accent text-accenttext py-3 rounded-xl font-bold transition text-sm shadow-sm hover:opacity-90 mb-3">Ingresar a tu panel</button>
+            <button onclick="cargarModoDemo()" class="w-full bg-input border border-borderline text-main py-2.5 rounded-xl font-bold transition text-xs hover:border-accent"><i class="fas fa-eye mr-2 text-accent"></i> Probar Tienda Demo</button>
         </div>
+    </div>
 
-        <div class="cards-container">
-            <!-- Tarjeta Retail -->
-            <div class="card card-retail">
-                <h3>Retail & PyMEs</h3>
-                <div class="card-desc">Control total de mostrador, sin exponer tus números.</div>
-                <ul>
-                    <li><strong>Modo Dueño/Vendedor:</strong> Bloqueá el acceso a costos y rentabilidad con un PIN. Tus empleados solo ven la caja.</li>
-                    <li><strong>Punto de Venta ágil:</strong> Cobrá o armá presupuestos en 2 clics.</li>
-                    <li><strong>Módulo RRHH:</strong> Cálculo exacto de comisiones y márgenes reales.</li>
-                </ul>
-                <div class="card-actions">
-                    <a href="https://tu-demo-retail.vercel.app" target="_blank" class="btn-interfaz btn-demo">🚀 Probar Demo en Vivo</a>
-                    <button onclick="abrirModal('retail')" class="btn-interfaz">📸 Ver Interfaz</button>
+    <!-- CONTENEDOR ADMIN -->
+    <div id="erp-container" class="hidden flex-col md:flex-row h-screen w-full">
+        <div class="fixed top-0 left-0 right-0 z-30 md:hidden bg-input border-b border-borderline text-main px-4 py-3 flex items-center justify-between">
+            <span class="text-sm font-bold text-muted">Gesto Smart Lite</span>
+            <button class="text-accent text-xl" onclick="document.querySelector('aside').classList.toggle('hidden')"><i class="fas fa-bars"></i></button>
+        </div>
+        <aside class="w-full md:w-[240px] bg-input border-r border-borderline flex flex-col shrink-0 shadow-lg z-20 md:min-h-screen pt-14 md:pt-4 hidden md:flex absolute md:relative inset-0">
+            <div class="p-4 space-y-3 flex-1 flex flex-col overflow-hidden">
+                <nav id="mobile-menu" class="flex flex-col flex-1 overflow-y-auto pr-1">
+                    <a href="#" onclick="switchTab('tab-catalogo', this)" class="tab-link active flex items-center px-3 rounded-lg font-bold transition"><i class="fas fa-box-open w-6"></i> Mis Productos</a>
+                    <a href="#" onclick="switchTab('tab-config', this)" class="tab-link flex items-center px-3 rounded-lg font-medium transition"><i class="fas fa-cog w-6"></i> Configuración</a>
+                </nav>
+                <div class="mt-2 pt-3 border-t border-borderline">
+                    <button onclick="abrirCatalogoEnNuevaPestana()" class="w-full bg-[#10b981] text-white py-2.5 rounded-lg font-bold transition text-xs hover:bg-[#34d399] mb-2 shadow-sm"><i class="fas fa-store mr-2"></i> Ver Mi Tienda</button>
+                    <button onclick="procesarLogout()" class="w-full bg-card border border-borderline text-muted py-2 rounded-lg font-bold transition text-xs hover:text-main"><i class="fas fa-sign-out-alt mr-2"></i> Cerrar Sesión</button>
                 </div>
             </div>
-            <!-- Tarjeta Salones -->
-            <div class="card card-salon">
-                <h3>Estética & Servicios</h3>
-                <div class="card-desc">Historial clínico y caja diaria en un solo flujo.</div>
-                <ul>
-                    <li><strong>Fichero Inteligente:</strong> Guardá fórmulas, servicios e historial de cada cliente.</li>
-                    <li><strong>Stock Automático:</strong> Al cobrar el servicio, se descuentan los insumos usados al instante.</li>
-                    <li><strong>Métricas Clave:</strong> Alerta de clientes ausentes (+90 días) para reactivar ventas.</li>
-                </ul>
-                <div class="card-actions">
-                    <a href="https://tu-demo-salon.vercel.app" target="_blank" class="btn-interfaz btn-demo" style="border-color:#ec4899; color:#ec4899;">🚀 Probar Demo en Vivo</a>
-                    <button onclick="abrirModal('salon')" class="btn-interfaz" style="color:#ec4899;">📸 Ver Interfaz</button>
+        </aside>
+
+        <main class="flex-grow flex flex-col h-[calc(100vh-4rem)] md:h-screen relative overflow-y-auto bg-base">
+            <div id="toast-container"></div>
+            <div class="p-4 md:p-6 lg:p-8 max-w-[1400px] mx-auto w-full pt-16 md:pt-6">
+                
+                <div id="tab-catalogo" class="tab-content fade-in">
+                    <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-6 gap-4 border-b border-borderline pb-4">
+                        <div>
+                            <h2 class="text-2xl font-bold text-main">Gestión de Catálogo</h2>
+                            <p class="text-muted text-xs">Cargá tus productos, subí fotos y exportá listas.</p>
+                        </div>
+                        
+                        <div class="flex flex-wrap items-center gap-2 w-full lg:w-auto justify-start lg:justify-end">
+                            <button onclick="abrirModalStock()" class="bg-accent text-accenttext px-3 py-2 rounded-lg font-bold text-xs shadow-sm hover:opacity-90 transition flex items-center">
+                                <i class="fas fa-plus mr-1.5"></i> Cargar
+                            </button>
+                            <label class="btn-excel font-bold px-3 py-2 rounded-lg text-xs cursor-pointer shadow-sm transition flex items-center">
+                                <i class="fas fa-file-import mr-1.5"></i> Subir Excel
+                                <input type="file" accept=".xlsx, .xls" class="hidden" onchange="importarExcel(event)">
+                            </label>
+                            <button onclick="aumentoMasivo()" class="bg-[#f59e0b] hover:bg-[#d97706] text-white px-3 py-2 rounded-lg font-bold text-xs shadow-sm transition flex items-center" title="Aumentar o rebajar precios por %">
+                                <i class="fas fa-percentage mr-1.5"></i> Ajustar %
+                            </button>
+                            <button onclick="generarCatalogoPDF()" class="bg-[#8b5cf6] hover:bg-[#7c3aed] text-white px-3 py-2 rounded-lg font-bold text-xs shadow-sm transition flex items-center">
+                                <i class="fas fa-file-pdf mr-1.5"></i> PDF Mayorista
+                            </button>
+                            <button onclick="exportarExcel()" class="bg-[#3b82f6] hover:bg-[#2563eb] text-white px-3 py-2 rounded-lg font-bold text-xs shadow-sm transition flex items-center">
+                                <i class="fas fa-file-export mr-1.5"></i> Bajar Excel
+                            </button>
+                            <button onclick="vaciarCatalogo()" class="bg-[#ef4444] hover:bg-[#dc2626] text-white px-3 py-2 rounded-lg font-bold text-xs shadow-sm transition flex items-center">
+                                <i class="fas fa-trash-alt mr-1.5"></i> Vaciar
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                        <div class="bg-card p-5 rounded-2xl shadow-sm border border-borderline">
+                            <h3 class="text-sm font-bold text-main mb-1"><i class="fas fa-bolt text-accent mr-2"></i> Subida Masiva de Fotos</h3>
+                            <p class="text-[10px] text-muted mb-3">Seleccioná fotos juntas. El sistema detecta el número de SKU automáticamente.</p>
+                            <label class="bg-input text-main border border-borderline font-bold px-4 py-2.5 rounded-xl shadow-sm flex items-center justify-center text-xs cursor-pointer w-full transition hover:border-accent hover:text-accent">
+                                <i class="fas fa-images mr-2"></i> Seleccionar Imágenes
+                                <input type="file" multiple accept="image/*" class="hidden" id="input-imagenes-catalogo" onchange="procesarImagenesCatalogo(event)">
+                            </label>
+                        </div>
+                        <div class="md:col-span-2 relative bg-card rounded-2xl shadow-sm border border-borderline flex items-center h-full min-h-[90px]">
+                            <i class="fas fa-search absolute left-5 text-muted text-lg"></i>
+                            <input type="text" id="buscador-stock" placeholder="Buscar por código SKU o nombre del artículo..." oninput="debouncedRenderStock()" class="w-full h-full pl-14 pr-6 border-none bg-transparent outline-none font-bold text-main rounded-2xl text-base">
+                        </div>
+                    </div>
+
+                    <div class="bg-card/90 backdrop-blur rounded-2xl shadow-md border border-borderline overflow-x-auto pb-10">
+                        <table class="w-full text-left border-collapse min-w-[800px]">
+                            <thead>
+                                <tr class="bg-input border-b border-borderline text-[10px] text-muted font-bold uppercase tracking-widest">
+                                    <th class="py-4 px-4 w-16">Foto</th>
+                                    <th class="py-4 px-4 w-24">SKU</th>
+                                    <th class="py-4 px-4 w-32">Categoría</th>
+                                    <th class="py-4 px-4">Producto</th>
+                                    <th class="py-4 px-4 text-center w-24">Stock</th>
+                                    <th class="py-4 px-4 text-right w-32">Precio ($)</th>
+                                    <th class="py-4 px-4 text-center w-24">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="lista-stock-tabla" class="divide-y divide-borderline text-sm"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div id="tab-config" class="tab-content hidden fade-in">
+                    <div class="max-w-4xl mx-auto bg-card/90 backdrop-blur rounded-3xl shadow-md border border-borderline p-6 md:p-8">
+                        <h2 class="text-2xl font-bold text-main mb-1">Configuración de la Tienda</h2>
+                        <p class="text-muted text-sm mb-8">Personalizá tu marca, elegí el diseño y gestioná tus accesos.</p>
+                        
+                        <div class="space-y-6">
+                            <div class="bg-input p-6 rounded-2xl border border-borderline shadow-sm">
+                                <h3 class="text-sm font-bold text-accent mb-2 border-b border-borderline pb-2"><i class="fas fa-palette mr-2"></i> APARIENCIA</h3>
+                                <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">
+                                    <button onclick="cambiarTema('sky')" id="btn-theme-sky" class="btn-theme py-3 px-2 rounded-xl font-bold text-sm bg-[#f0f4f8] text-[#38bdf8] border-[#38bdf8]">Sky Pastel</button>
+                                    <button onclick="cambiarTema('dark')" id="btn-theme-dark" class="btn-theme active py-3 px-2 rounded-xl font-bold text-sm bg-[#050b14] text-[#00bfff] border-[#00bfff]">Dark Elegance</button>
+                                    <button onclick="cambiarTema('rose')" id="btn-theme-rose" class="btn-theme py-3 px-2 rounded-xl font-bold text-sm bg-[#fff1f2] text-[#fb7185] border-[#fb7185]">Rosé Glamour</button>
+                                    <button onclick="cambiarTema('mint')" id="btn-theme-mint" class="btn-theme py-3 px-2 rounded-xl font-bold text-sm bg-[#f0fdf4] text-[#34d399] border-[#34d399]">Mint Natural</button>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-input p-6 rounded-2xl border border-borderline shadow-sm">
+                                <h3 class="text-sm font-bold text-main mb-4 border-b border-borderline pb-2"><i class="fas fa-store text-[#10b981] mr-2"></i> Datos Públicos y Seguridad</h3>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                    <div><label class="text-[10px] font-bold text-muted uppercase tracking-widest block mb-1">Nombre del Local</label><input type="text" id="conf-empresa-nombre" class="w-full border border-borderline p-3 rounded-xl bg-input text-main outline-none text-sm font-bold focus:border-accent"></div>
+                                    <div><label class="text-[10px] font-bold text-muted uppercase tracking-widest block mb-1">WhatsApp Recepción Pedidos</label><input type="text" id="conf-empresa-ws" class="w-full border border-borderline p-3 rounded-xl bg-input text-main outline-none text-sm font-bold focus:border-accent" placeholder="Ej: 5491100000000"></div>
+                                    
+                                    <div class="md:col-span-2 border-t border-borderline pt-4 mt-2">
+                                        <label class="text-[10px] font-bold text-accent uppercase tracking-widest block mb-1"><i class="fas fa-key mr-1"></i> PIN de Acceso al Panel Admin (4 dígitos)</label>
+                                        <input type="password" id="conf-empresa-pin" maxlength="4" class="w-full md:w-1/2 border border-borderline p-3 rounded-xl bg-input text-main outline-none text-sm font-bold focus:border-accent" placeholder="1234">
+                                    </div>
+
+                                    <div class="md:col-span-2 pt-4 border-t border-borderline mt-2">
+                                        <label class="text-[10px] font-bold text-muted uppercase tracking-widest block mb-2">Logo de la Tienda (Opcional)</label>
+                                        <div class="flex items-center gap-3">
+                                            <div id="preview-logo" class="w-14 h-14 rounded-xl bg-card border border-borderline flex items-center justify-center overflow-hidden shadow-sm">
+                                                <i class="fas fa-image text-muted text-xl"></i>
+                                            </div>
+                                            <label class="bg-input text-main border border-borderline font-bold px-4 py-2.5 rounded-xl shadow-sm flex items-center justify-center text-xs cursor-pointer transition hover:border-accent hover:text-accent">
+                                                <i class="fas fa-upload mr-2"></i> Subir Logo
+                                                <input type="file" accept="image/*" class="hidden" onchange="subirLogo(event)">
+                                            </label>
+                                            <button onclick="borrarLogo()" class="text-[#ef4444] text-xs font-bold px-3 hover:underline hidden" id="btn-borrar-logo">Quitar Logo</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button onclick="guardarInfoEmpresa()" class="w-full md:w-auto mt-4 bg-[#10b981] text-white py-3 px-6 rounded-xl font-bold shadow-sm hover:bg-[#34d399] transition text-sm"><i class="fas fa-save mr-2"></i> Guardar Configuración</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <!-- Tarjeta Web -->
-            <div class="card card-web">
-                <h3>E-commerce & Catálogos</h3>
-                <div class="card-desc">Sincronizá tu stock web sin ser programador.</div>
-                <ul>
-                    <li><strong>Cruce Automático:</strong> Subí tu Excel y la App cruza stock físico vs tienda online al instante.</li>
-                    <li><strong>Generador de Catálogos:</strong> Creá flyers listos para WhatsApp o Estados usando las fotos.</li>
-                    <li><strong>Cero Estrés:</strong> Olvidate de armar archivos CSV a mano.</li>
-                </ul>
-                <div class="card-actions">
-                    <a href="https://tu-demo-ecommerce.vercel.app" target="_blank" class="btn-interfaz btn-demo" style="border-color:#10b981; color:#10b981;">🚀 Probar Demo en Vivo</a>
-                    <button onclick="abrirModal('web')" class="btn-interfaz" style="color:#10b981;">📸 Ver Interfaz</button>
+        </main>
+    </div>
+
+    <!-- ================= CATÁLOGO PÚBLICO (MODO TIENDA) ================= -->
+    <div id="public-catalog" class="hidden flex-col fixed inset-0 z-[99999] overflow-y-auto bg-base">
+        <!-- BANNER INSTALACIÓN PWA -->
+        <div id="pwa-install-banner" class="hidden bg-accent/10 border border-accent/30 rounded-2xl p-4 mx-4 my-3 flex items-center justify-between fade-in shadow-lg">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-accent text-accenttext rounded-xl flex items-center justify-center font-bold text-lg shadow-sm">
+                    <i class="fas fa-mobile-alt"></i>
                 </div>
+                <div>
+                    <h4 class="text-xs font-bold text-main">Instalar Aplicación</h4>
+                    <p class="text-[10px] text-muted">Acceso directo en tu pantalla de inicio</p>
+                </div>
+            </div>
+            <button id="btn-pwa-install" onclick="ejecutarInstalacionPWA()" class="bg-accent text-accenttext font-bold text-xs px-4 py-2 rounded-xl shadow-md hover:opacity-90 transition">
+                Instalar
+            </button>
+        </div>
+
+        <header class="bg-input border-b border-borderline sticky top-0 z-10 px-4 md:px-8 py-4 flex justify-between items-center shadow-md">
+            <div class="flex items-center gap-3">
+                <div class="w-11 h-11 bg-accent text-accenttext rounded-xl flex items-center justify-center font-black text-xl shadow-md overflow-hidden" id="public-logo-container">
+                    <i class="fas fa-store" id="public-logo-icon"></i>
+                    <img id="public-logo-img" class="w-full h-full object-cover hidden">
+                </div>
+                <div>
+                    <h1 id="store-name" class="text-xl font-bold text-main">Mi Tienda</h1>
+                    <span class="text-[10px] text-[#10b981] font-bold block"><i class="fas fa-check-circle mr-1"></i> Stock en Vivo</span>
+                </div>
+            </div>
+            <div class="flex items-center gap-3">
+                <button onclick="compartirTienda()" class="text-main hover:text-accent text-lg transition bg-card border border-borderline w-11 h-11 rounded-xl flex items-center justify-center shadow-sm">
+                    <i class="fas fa-share-alt"></i>
+                </button>
+                <button onclick="abrirLoginAdmin()" class="text-muted hover:text-main text-xs bg-card border border-borderline px-3 py-2 rounded-xl transition flex items-center gap-2 shadow-sm"><i class="fas fa-lock"></i></button>
+                <button onclick="abrirCarritoWeb()" class="relative text-main hover:text-accent text-2xl transition bg-card border border-borderline w-11 h-11 rounded-xl flex items-center justify-center shadow-sm">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span id="cart-badge" class="absolute -top-2 -right-2 bg-[#ef4444] text-white text-[10px] font-bold px-2 py-0.5 rounded-full hidden">0</span>
+                </button>
+            </div>
+        </header>
+        <div class="px-4 md:px-8 py-4 bg-card border-b border-borderline">
+            <div class="max-w-4xl mx-auto relative mb-4">
+                <i class="fas fa-search absolute left-4 top-3.5 text-muted"></i>
+                <input type="text" id="buscador-tienda" placeholder="Buscar productos por nombre o SKU..." oninput="debouncedRenderTienda()" class="w-full bg-input border border-borderline text-main pl-12 pr-4 py-3 rounded-xl font-bold focus:border-accent outline-none">
+            </div>
+            <div class="max-w-[1400px] mx-auto flex gap-2 overflow-x-auto pb-1 scrollbar-none" id="contenedor-categorias"></div>
+        </div>
+        <div class="flex-grow p-4 md:p-8 overflow-y-auto">
+            <div class="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6" id="grid-productos-tienda"></div>
+        </div>
+    </div>
+
+    <!-- MODAL INSTALACIÓN IOS -->
+    <div id="modal-ios-install" class="fixed inset-0 bg-black/80 hidden items-end justify-center p-4 backdrop-blur-sm z-[9999999]">
+        <div class="bg-card border border-borderline rounded-t-3xl w-full max-w-md p-6 text-center fade-in space-y-4">
+            <div class="w-12 h-1 bg-borderline rounded-full mx-auto mb-2"></div>
+            <h3 class="text-base font-bold text-main">Instalar en iPhone / iPad</h3>
+            <p class="text-xs text-muted leading-relaxed">
+                1. Toca el botón <strong>Compartir</strong> <i class="fas fa-share-square text-accent"></i> en la barra inferior.<br>
+                2. Selecciona <strong>"Agregar a inicio"</strong> <i class="fas fa-plus-square text-accent"></i>.
+            </p>
+            <button onclick="cerrarModal('modal-ios-install')" class="w-full bg-input text-main py-3 rounded-xl font-bold text-xs border border-borderline">Entendido</button>
+        </div>
+    </div>
+
+    <!-- MODALES CARRITO Y EDICION -->
+    <div id="modal-carrito-web" class="fixed inset-0 bg-black/70 hidden items-center justify-center p-4 backdrop-blur-sm z-[999999]">
+        <div class="bg-card border border-borderline rounded-3xl w-full max-w-lg shadow-2xl overflow-hidden fade-in flex flex-col max-h-[90vh]">
+            <div class="p-5 border-b border-borderline bg-input flex justify-between items-center"><h3 class="text-lg font-bold text-main"><i class="fas fa-shopping-cart text-accent mr-2"></i> Tu Pedido</h3><button onclick="cerrarModal('modal-carrito-web')" class="text-muted hover:text-[#ef4444] text-xl transition"><i class="fas fa-times"></i></button></div>
+            <div class="flex-grow overflow-y-auto p-4 space-y-3" id="lista-carrito-web"></div>
+            <div class="p-5 bg-input border-t border-borderline space-y-3">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs">
+                    <div><label class="text-[9px] font-bold text-muted uppercase block mb-1">Nombre Completo *</label><input type="text" id="web-cli-nombre" class="w-full border border-borderline bg-card text-main p-2.5 rounded-lg outline-none focus:border-accent" required></div>
+                    <div><label class="text-[9px] font-bold text-muted uppercase block mb-1">Teléfono *</label><input type="text" id="web-cli-tel" class="w-full border border-borderline bg-card text-main p-2.5 rounded-lg outline-none focus:border-accent" required></div>
+                    <div class="md:col-span-2"><label class="text-[9px] font-bold text-muted uppercase block mb-1">Dirección / Aclaraciones *</label><input type="text" id="web-cli-dir" class="w-full border border-borderline bg-card text-main p-2.5 rounded-lg outline-none focus:border-accent" required></div>
+                </div>
+                <div class="flex justify-between items-center pt-2 border-t border-borderline mt-2"><span class="text-muted font-bold uppercase text-xs">Total</span><h3 class="text-2xl font-black text-[#10b981]" id="total-carrito-web">$0</h3></div>
+                <button onclick="finalizarCompraWeb()" class="w-full bg-[#10b981] hover:bg-[#34d399] text-white py-3.5 rounded-xl font-bold shadow-md transition flex justify-center items-center text-sm mt-2"><i class="fab fa-whatsapp mr-2 text-lg"></i> Enviar Pedido por WhatsApp</button>
             </div>
         </div>
     </div>
 
-    <!-- Sección de Contacto -->
-    <div class="contact-section">
-        <h2>¿Lista para profesionalizar tu gestión?</h2>
-        <p>Hablemos directo. Sin intermediarios, de emprendedora a emprendedor.</p>
-        <a href="https://wa.me/5491121586674" target="_blank" class="btn btn-wa">
-            💬 Escribime por WhatsApp
-        </a>
-        <a href="https://www.instagram.com/gesto.smart/" target="_blank" class="btn btn-ig">
-            📸 Seguime en @gesto.smart
-        </a>
-    </div>
-
-    <!-- MODAL VERTICAL -->
-    <div id="imageModal" class="modal-overlay" onclick="cerrarModalFondo(event)">
-        <div class="modal-content">
-            <span class="close-modal" onclick="cerrarModal()">×</span>
-            <div class="modal-header">
-                <div class="modal-title" id="modalTitle">Interfaz del Módulo</div>
+    <!-- MODAL EDICION PRODUCTO -->
+    <div id="modal-stock" class="fixed inset-0 bg-black/70 hidden items-center justify-center p-4 backdrop-blur-sm z-[999998]">
+        <div class="bg-card border border-borderline rounded-3xl w-full max-w-md shadow-2xl p-6 fade-in">
+            <div class="flex justify-between items-center mb-4 border-b border-borderline pb-3"><h3 class="font-bold text-main text-base" id="modal-stock-title">Artículo</h3><button onclick="cerrarModal('modal-stock')" class="text-muted hover:text-[#ef4444]"><i class="fas fa-times text-lg"></i></button></div>
+            <input type="hidden" id="stock-id">
+            <div class="space-y-3">
+                <div class="grid grid-cols-3 gap-2">
+                    <div><label class="text-[9px] font-bold text-muted uppercase block mb-1">SKU</label><input type="text" id="stock-sku" class="w-full border border-borderline bg-input text-main p-2.5 rounded-lg text-xs font-bold"></div>
+                    <div class="col-span-2"><label class="text-[9px] font-bold text-muted uppercase block mb-1">Categoría</label><input type="text" id="stock-cat" class="w-full border border-borderline bg-input text-main p-2.5 rounded-lg text-xs font-bold uppercase"></div>
+                </div>
+                <div><label class="text-[9px] font-bold text-muted uppercase block mb-1">Nombre de Producto</label><input type="text" id="stock-nombre" class="w-full border border-borderline bg-input text-main p-2.5 rounded-lg text-sm font-bold" required></div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div><label class="text-[9px] font-bold text-[#10b981] uppercase block mb-1">Precio Final ($)</label><input type="number" id="stock-precio" class="w-full border border-[#10b981]/50 bg-input text-[#10b981] p-2.5 rounded-lg text-sm font-black"></div>
+                    <div><label class="text-[9px] font-bold text-muted uppercase block mb-1">Stock Opcional</label><input type="number" id="stock-cantidad" class="w-full border border-borderline bg-input text-main p-2.5 rounded-lg text-sm" value="999"></div>
+                </div>
             </div>
-            <div id="modalBody" class="modal-body"></div>
+            <div class="flex gap-2 mt-6"><button onclick="cerrarModal('modal-stock')" class="flex-1 bg-input text-muted py-2.5 rounded-lg font-bold text-xs">Cancelar</button><button onclick="guardarStock()" class="flex-1 bg-accent text-accenttext py-2.5 rounded-lg font-bold text-xs shadow-sm">Guardar</button></div>
         </div>
     </div>
+
+    <div id="pdf-mayorista-preview" style="display:none;"></div>
 
     <script>
-        const modulosData = {
-            'retail': { 
-                titulo: 'Módulo: Retail & PyMEs', 
-                items: [
-                    { titulo: '1. Base de Clientes', archivo: 'retail1.png' },
-                    { titulo: '2. Punto de Venta (Carrito)', archivo: 'retail2.png' },
-                    { titulo: '3. Gestión de Presupuestos Pendientes', archivo: 'retail3.png' },
-                    { titulo: '4. Panel de Remitos y Entregas', archivo: 'retail4.png' },
-                    { titulo: '5. Caja Diaria e Historial', archivo: 'retail5.png' },
-                    { titulo: '6. Gestión de Inventario y Stock', archivo: 'retail6.png' },
-                    { titulo: '7. Listas de Precios y Costos', archivo: 'retail7.png' },
-                    { titulo: '8. Tablero de Rentabilidad y Gastos Fijos', archivo: 'retail8.png' }
-                ]
-            },
-            'salon': { 
-                titulo: 'Módulo: Estética & Servicios', 
-                items: [
-                    { titulo: '1. Fichero de Clientes y Fórmulas', archivo: 'salon1.png' },
-                    { titulo: '2. Agenda Inteligente', archivo: 'salon2.png' },
-                    { titulo: '3. Caja Diaria (Integrada con Stock)', archivo: 'salon3.png' },
-                    { titulo: '4. Stock y Control de Insumos', archivo: 'salon4.png' },
-                    { titulo: '5. Balance y Rentabilidad Neta', archivo: 'salon5.png' },
-                    { titulo: '6. Generador de Textos para Redes', archivo: 'salon6.png' }
-                ]
-            },
-            'web': { 
-                titulo: 'Módulo: E-commerce, Catálogos & Sincronización Web', 
-                items: [
-                    { titulo: '1. Panel Central de Carga de Archivos', archivo: 'captura1.png' },
-                    { titulo: '2. Calculadora de Stock Real (Depósito vs Reservas)', archivo: 'captura2.png' },
-                    { titulo: '3. Generador de Catálogos Express y Flyers', archivo: 'captura3.png' },
-                    { titulo: '4. Catálogo Final en Formato PDF A4', archivo: 'captura4.png' },
-                    { titulo: '5. Flyer Exportado para WhatsApp / Redes', archivo: 'captura5.png' },
-                    { titulo: '6. Auditoría de Productos Faltantes por Publicar', archivo: 'captura6.png' }
-                ]
-            }
+        const firebaseConfig = {
+            apiKey: "AIzaSyBzgIYRyMFLL616w_OhOO_dC6bR7df5kCI",
+            authDomain: "catalogo-sami.firebaseapp.com",
+            projectId: "catalogo-sami",
+            storageBucket: "catalogo-sami.firebasestorage.app",
+            messagingSenderId: "82548197889",
+            appId: "1:82548197889:web:50330ffc4b55d640ef8e00"
         };
 
-        const modal = document.getElementById('imageModal');
-        const modalBody = document.getElementById('modalBody');
-        const modalTitle = document.getElementById('modalTitle');
+        let firestoreDb = null; let esModoNube = false; let firebaseLoaded = false;
+        let isUploading = false; 
 
-        function abrirModal(modulo) {
-            const data = modulosData[modulo];
-            modalTitle.innerText = data.titulo;
-            modalBody.innerHTML = data.items.map(item => `
-                <div class="modal-item">
-                    <span class="modal-item-title">${item.titulo}</span>
-                    <img src="${item.archivo}" alt="${item.titulo}" loading="lazy" onerror="this.src='https://via.placeholder.com/800x450/0d1117/8b949e?text=Cargando+Imagen+...'">
-                </div>
-            `).join('');
-            document.body.classList.add('modal-open'); 
-            modal.classList.add('active');
-            modalBody.scrollTop = 0; 
+        try { if (typeof firebase !== 'undefined') { firebase.initializeApp(firebaseConfig); firestoreDb = firebase.firestore(); esModoNube = true; } } catch(err) {}
+
+        let db = { config: {}, usuarios: [], productos: [] };
+        
+        function verificarIntegridadDB() {
+            if(!db.config) db.config = { nombreEmpresa: 'Mi Tienda Demo', whatsappTurnos: '5491100000000', tema: 'dark', logoBase64: '', pinAdmin: '1234' };
+            if(!db.config.pinAdmin) db.config.pinAdmin = '1234';
+            if(!db.usuarios || db.usuarios.length===0) db.usuarios = [ { id: 'admin', nombre: 'Admin', pin: '1234' } ];
+            if(!Array.isArray(db.productos)) db.productos = [];
+        }
+        
+        try { const s = localStorage.getItem('catalogo_plantilla_maestra'); if (s) { const p = JSON.parse(s); if (p && typeof p === 'object') { db = { ...db, ...p }; } } } catch (e) {}
+        verificarIntegridadDB();
+
+        let carritoWeb = []; let catActiva = 'TODAS';
+        const generarId = () => Date.now().toString(36) + Math.random().toString(36).substr(2);
+        
+        function debounce(func, wait) { let timeout; return function(...args) { clearTimeout(timeout); timeout = setTimeout(() => func.apply(this, args), wait); }; }
+        const debouncedRenderStock = debounce(() => renderStock(), 200); 
+        const debouncedRenderTienda = debounce(() => renderTiendaWeb(), 200);
+        const isTiendaWeb = window.location.href.toLowerCase().includes('modo=tienda');
+
+        function guardarBD() {
+            return new Promise((resolve) => {
+                isUploading = true;
+                try {
+                    guardarLocal(db); 
+                    if(esModoNube && firestoreDb) {
+                        firestoreDb.collection("lite_erp").doc("tienda_base").set(db)
+                            .then(() => resolve(true))
+                            .catch(e => { console.error(e); resolve(false); });
+                    } else { resolve(true); }
+                } catch (e) { resolve(false); }
+                finally { setTimeout(() => { isUploading = false; }, 800); }
+            });
         }
 
-        function cerrarModal() {
-            modal.classList.remove('active');
-            document.body.classList.remove('modal-open');
+        function guardarLocal(baseData) {
+            try { localStorage.setItem('catalogo_plantilla_maestra', JSON.stringify(baseData)); } catch(e) {}
         }
 
-        function cerrarModalFondo(e) {
-            if (e.target === modal) cerrarModal();
+        // ================= FUNCIÓN DE CARGA DE DATOS DEMO =================
+        function cargarModoDemo() {
+            db.config.nombreEmpresa = "Frutos Secos La Superior";
+            db.config.whatsappTurnos = "5491100000000";
+            db.productos = [
+                { id: 'd1', sku: '1', categoria: 'NUEZ', nombre: 'NUEZ EXTRA LIGHT (X1 KG)', precio: 22979, cantidad: 50, imagenBase64: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=400&q=80' },
+                { id: 'd2', sku: '2', categoria: 'PISTACHOS', nombre: 'PISTACHOS CON CASCARA (X1KG)', precio: 39964, cantidad: 30, imagenBase64: 'https://images.unsplash.com/photo-1536256263959-770b48d82b0a?w=400&q=80' },
+                { id: 'd3', sku: '3', categoria: 'DATILES', nombre: 'DATILES EGIPTO CON CAROZO (X1KG)', precio: 8992, cantidad: 40, imagenBase64: 'https://images.unsplash.com/photo-1596560548464-f010f4f97c04?w=400&q=80' },
+                { id: 'd4', sku: '4', categoria: 'ALMENDRAS', nombre: 'ALMENDRA GUARA (X1 KG)', precio: 19982, cantidad: 25, imagenBase64: 'https://images.unsplash.com/photo-1508061253366-f7da154b6d46?w=400&q=80' },
+                { id: 'd5', sku: '5', categoria: 'CASTAÑAS', nombre: 'CASTAÑA DE CAJU (BRASIL) (X1 KG)', precio: 19982, cantidad: 35, imagenBase64: 'https://images.unsplash.com/photo-1528698827591-e19ccd7bc23d?w=400&q=80' },
+                { id: 'd6', sku: '6', categoria: 'MIX FRUTOS SECOS', nombre: 'PREMIUM (CAJU NUEZ ALMENDRA) (1 KG)', precio: 17984, cantidad: 60, imagenBase64: 'https://images.unsplash.com/photo-1563227812-0ea4c22e6cc8?w=400&q=80' }
+            ];
+            guardarLocal(db);
+            window.location.href = window.location.href.split('?')[0] + '?modo=tienda';
         }
 
-        // Destellos de cursor
-        const colors = ['#00bfff', '#4dd2ff', '#80dfff']; 
-        document.addEventListener('mousemove', function(e) {
-            if (document.body.classList.contains('modal-open')) return; 
-            const sparkle = document.createElement('div');
-            sparkle.className = 'sparkle';
-            sparkle.style.left = e.clientX + 'px';
-            sparkle.style.top = e.clientY + 'px';
-            const randomColor = colors[Math.floor(Math.random() * colors.length)];
-            sparkle.style.backgroundColor = randomColor;
-            sparkle.style.boxShadow = `0 0 10px ${randomColor}, 0 0 20px #fff`;
-            document.body.appendChild(sparkle);
-            setTimeout(() => { sparkle.remove(); }, 800);
+        document.addEventListener('DOMContentLoaded', () => {
+            aplicarConfiguracion(); 
+            
+            if (isTiendaWeb) {
+                document.getElementById('erp-container').classList.add('hidden');
+                document.getElementById('pantalla-login').classList.add('hidden');
+                document.getElementById('public-catalog').classList.remove('hidden');
+                document.body.classList.add('modo-tienda-activa');
+                renderCats(); 
+                renderTiendaWeb();
+            }
+
+            if(esModoNube && firestoreDb) {
+                let fbTimeout = setTimeout(() => { 
+                    if(!firebaseLoaded) { 
+                        firebaseLoaded = true; 
+                        if(!isTiendaWeb) iniciarAppSegunRouting(); 
+                    } 
+                }, 4000);
+                
+                firestoreDb.collection("lite_erp").doc("tienda_base").onSnapshot(doc => {
+                    clearTimeout(fbTimeout);
+                    if(isUploading) return; 
+
+                    if(doc.exists) { 
+                        db = doc.data();
+                        verificarIntegridadDB(); 
+                        aplicarConfiguracion(); 
+                        actualizarUI();
+                        if(isTiendaWeb) {
+                            renderCats();
+                            renderTiendaWeb();
+                        }
+                    } else { 
+                        guardarBD(); 
+                    }
+                    
+                    if(!firebaseLoaded) { 
+                        firebaseLoaded = true; 
+                        iniciarAppSegunRouting(); 
+                    } 
+                }, err => { 
+                    clearTimeout(fbTimeout); 
+                    if(!firebaseLoaded) { 
+                        firebaseLoaded = true; 
+                        iniciarAppSegunRouting(); 
+                    } 
+                });
+            } else { 
+                iniciarAppSegunRouting(); 
+            }
         });
+
+        function iniciarAppSegunRouting() {
+            const overlay = document.getElementById('carga-overlay-global');
+            if(overlay) overlay.style.display = 'none';
+            
+            if (isTiendaWeb) {
+                document.getElementById('erp-container').classList.add('hidden');
+                document.getElementById('pantalla-login').classList.add('hidden');
+                document.getElementById('public-catalog').classList.remove('hidden');
+                document.body.classList.add('modo-tienda-activa');
+                renderCats(); 
+                renderTiendaWeb();
+            } else {
+                document.getElementById('public-catalog').classList.add('hidden');
+                document.getElementById('pantalla-login').classList.remove('hidden');
+                document.getElementById('pantalla-login').classList.add('flex');
+            }
+        }
+
+        function cambiarTema(tema, preventSave = false) {
+            document.documentElement.setAttribute('data-theme', tema);
+            document.querySelectorAll('.btn-theme').forEach(b => b.classList.remove('active'));
+            const btn = document.getElementById('btn-theme-' + tema); if(btn) btn.classList.add('active');
+            db.config.tema = tema; 
+            if(!preventSave) guardarBD();
+        }
+
+        function aplicarConfiguracion() {
+            const nombre = db.config.nombreEmpresa || 'Mi Tienda';
+            if(document.getElementById('conf-empresa-nombre')) document.getElementById('conf-empresa-nombre').value = nombre;
+            if(document.getElementById('conf-empresa-ws')) document.getElementById('conf-empresa-ws').value = db.config.whatsappTurnos || '';
+            if(document.getElementById('conf-empresa-pin')) document.getElementById('conf-empresa-pin').value = db.config.pinAdmin || '1234';
+            if(document.getElementById('store-name')) document.getElementById('store-name').innerText = nombre;
+            if(document.getElementById('login-store-name')) document.getElementById('login-store-name').innerText = nombre;
+            if(db.config.tema) { cambiarTema(db.config.tema, true); }
+            
+            if(db.config.logoBase64) {
+                if(document.getElementById('preview-logo')) document.getElementById('preview-logo').innerHTML = `<img src="${db.config.logoBase64}" class="w-full h-full object-cover">`;
+                if(document.getElementById('btn-borrar-logo')) document.getElementById('btn-borrar-logo').classList.remove('hidden');
+                
+                const pIcon = document.getElementById('public-logo-icon'), pImg = document.getElementById('public-logo-img');
+                if(pIcon && pImg) { pIcon.classList.add('hidden'); pImg.src = db.config.logoBase64; pImg.classList.remove('hidden'); }
+                const lIcon = document.getElementById('login-logo-icon'), lImg = document.getElementById('login-logo-img');
+                if(lIcon && lImg) { lIcon.classList.add('hidden'); lImg.src = db.config.logoBase64; lImg.classList.remove('hidden'); }
+                
+                actualizarFaviconDinamico(db.config.logoBase64);
+            } else {
+                if(document.getElementById('preview-logo')) document.getElementById('preview-logo').innerHTML = `<i class="fas fa-image text-muted text-xl"></i>`;
+                if(document.getElementById('btn-borrar-logo')) document.getElementById('btn-borrar-logo').classList.add('hidden');
+                
+                const pIcon = document.getElementById('public-logo-icon'), pImg = document.getElementById('public-logo-img');
+                if(pIcon && pImg) { pIcon.classList.remove('hidden'); pImg.src = ""; pImg.classList.add('hidden'); }
+                const lIcon = document.getElementById('login-logo-icon'), lImg = document.getElementById('login-logo-img');
+                if(lIcon && lImg) { lIcon.classList.remove('hidden'); lImg.src = ""; lImg.classList.add('hidden'); }
+            }
+        }
+
+        function actualizarFaviconDinamico(base64Img) {
+            let link = document.querySelector("link[rel*='icon']") || document.createElement('link');
+            link.type = 'image/x-icon';
+            link.rel = 'shortcut icon';
+            link.href = base64Img;
+            document.getElementsByTagName('head')[0].appendChild(link);
+        }
+
+        function guardarInfoEmpresa() { 
+            db.config.nombreEmpresa = document.getElementById('conf-empresa-nombre').value.trim() || 'Mi Tienda';
+            db.config.whatsappTurnos = document.getElementById('conf-empresa-ws').value.trim() || '';
+            
+            const nuevoPin = document.getElementById('conf-empresa-pin').value.trim();
+            if(nuevoPin && nuevoPin.length === 4) {
+                db.config.pinAdmin = nuevoPin;
+            } else if (nuevoPin) {
+                mostrarToast('El PIN debe tener 4 dígitos', 'bg-[#ef4444]');
+                return;
+            }
+
+            aplicarConfiguracion();
+            mostrarToast('Configuración guardada');
+            guardarBD(); 
+        }
+
+        async function subirLogo(e) {
+            const file = e.target.files[0]; if(!file) return;
+            document.getElementById('carga-overlay-global').style.display = 'flex';
+            document.getElementById('carga-overlay-msg').innerText = 'Subiendo logo...';
+            try {
+                const base64 = await comprimirImagenAsincrona(file, 250);
+                db.config.logoBase64 = base64;
+                aplicarConfiguracion();
+                mostrarToast('Logo actualizado', 'bg-[#10b981]');
+                guardarBD();
+            } catch(err) { 
+                mostrarToast('Error al procesar logo', 'bg-[#ef4444]'); 
+            } finally {
+                document.getElementById('carga-overlay-global').style.display = 'none';
+            }
+        }
+
+        function borrarLogo() {
+            if(confirm('¿Segura que querés eliminar el logo?')) {
+                db.config.logoBase64 = "";
+                aplicarConfiguracion();
+                mostrarToast('Logo eliminado');
+                guardarBD();
+            }
+        }
+
+        function renderCats() {
+            const c = document.getElementById('contenedor-categorias');
+            if(!c) return;
+            const cats = ['TODAS', ...new Set(db.productos.map(p => p.categoria || 'VARIOS'))];
+            c.innerHTML = cats.map(x => `<button onclick="selCat('${x}')" class="cat-chip ${x===catActiva?'active':''}">${x}</button>`).join('');
+        }
+        function selCat(c) { catActiva = c; renderCats(); renderTiendaWeb(); }
+
+        function renderTiendaWeb() {
+            const elSearch = document.getElementById('buscador-tienda');
+            const t = elSearch ? elSearch.value.toLowerCase() : '';
+            let arr = db.productos.filter(p => p.cantidad > 0);
+            if(catActiva !== 'TODAS') arr = arr.filter(p => (p.categoria||'VARIOS') === catActiva);
+            if(t) arr = arr.filter(p => (p.nombre||'').toLowerCase().includes(t) || (p.sku||'').toLowerCase().includes(t));
+
+            const grid = document.getElementById('grid-productos-tienda');
+            if(!grid) return;
+            grid.innerHTML = arr.length ? arr.map(p => {
+                const img = (p.imagenBase64 && p.imagenBase64.length > 50) ? p.imagenBase64 : 'https://via.placeholder.com/300/1e293b/8b949e?text=Tienda';
+                return `<div class="product-card">
+                            <img src="${img}" class="product-image" loading="lazy">
+                            <div class="p-4 flex flex-col flex-grow">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-[9px] bg-input border border-borderline text-accent px-2 py-0.5 rounded font-bold uppercase">${p.categoria||'VAR'}</span>
+                                    <span class="text-[9px] text-muted font-bold">${p.sku||''}</span>
+                                </div>
+                                <h4 class="text-sm font-bold text-main mb-3 line-clamp-2 leading-tight">${p.nombre}</h4>
+                                <div class="mt-auto border-t border-borderline pt-3 flex justify-between items-end">
+                                    <div><span class="text-[10px] font-bold text-muted block uppercase">Precio Final</span><span class="text-xl font-black text-accent">$${(p.precio||0).toLocaleString('es-AR')}</span></div>
+                                    <button onclick="addCar('${p.id}')" class="bg-accent text-accenttext w-10 h-10 rounded-xl shadow-sm flex items-center justify-center hover:opacity-80 transition"><i class="fas fa-cart-plus"></i></button>
+                                </div>
+                            </div>
+                        </div>`;
+            }).join('') : '<div class="col-span-full py-16 text-center text-muted font-bold text-sm">No hay productos en esta categoría.</div>';
+        }
+
+        function addCar(id) {
+            if ('vibrate' in navigator) navigator.vibrate(40);
+            const p = db.productos.find(x=>x.id===id); if(!p) return;
+            const e = carritoWeb.find(x=>x.id===id);
+            const stockMax = p.cantidad !== undefined ? p.cantidad : 999;
+            if(e) { if(e.cant < stockMax) e.cant++; else mostrarToast('Stock máximo'); } else carritoWeb.push({id:p.id, n:p.nombre, p:p.precio, cant:1});
+            updBadge(); mostrarToast('Agregado');
+        }
+        function updBadge() { const b = document.getElementById('cart-badge'); if(!b) return; const t = carritoWeb.reduce((s,i)=>s+i.cant,0); b.innerText=t; b.classList.toggle('hidden', t===0); }
+        function modCar(i, d) { carritoWeb[i].cant+=d; if(carritoWeb[i].cant<=0) carritoWeb.splice(i,1); updBadge(); abrirCarritoWeb(); }
+        function abrirCarritoWeb() {
+            const l = document.getElementById('lista-carrito-web'); let t=0;
+            l.innerHTML = carritoWeb.length ? carritoWeb.map((x, i) => {
+                const sub = x.cant * (x.p || 0); t+=sub;
+                return `<div class="flex justify-between items-center bg-input p-3 rounded-xl border border-borderline"><div class="flex-1 pr-2"><h4 class="text-xs font-bold text-main leading-tight">${x.n}</h4><span class="text-[10px] text-muted">${x.cant}x $${(x.p||0).toLocaleString('es-AR')} = <strong class="text-accent">$${sub.toLocaleString('es-AR')}</strong></span></div><div class="flex bg-card rounded-md border border-borderline"><button onclick="modCar(${i},-1)" class="w-6 h-6 font-bold text-main">-</button><span class="w-6 flex items-center justify-center text-[10px] font-bold text-main">${x.cant}</span><button onclick="modCar(${i},1)" class="w-6 h-6 font-bold text-main">+</button></div></div>`;
+            }).join('') : '<p class="text-center text-xs text-muted font-bold py-6">Carrito vacío</p>';
+            document.getElementById('total-carrito-web').innerText = '$'+t.toLocaleString('es-AR');
+            abrirModalUI('modal-carrito-web');
+        }
+
+        function finalizarCompraWeb() {
+            if(!carritoWeb.length) return;
+            const n=document.getElementById('web-cli-nombre').value, tel=document.getElementById('web-cli-tel').value, d=document.getElementById('web-cli-dir').value;
+            if(!n || !tel || !d) return mostrarToast('Completá los datos', 'bg-[#ef4444]');
+            let m=`Hola! Pedido ${db.config.nombreEmpresa}:\n\n`; let tot=0;
+            
+            carritoWeb.forEach(x=>{ 
+                let s = x.cant * (x.p || 0); tot+=s; 
+                m+=`▪ ${x.cant}x ${x.n} - $${s.toLocaleString('es-AR')}\n`; 
+                const pDB = db.productos.find(i=>i.id===x.id); 
+                if(pDB) pDB.cantidad -= x.cant; 
+            });
+            m+=`\n*TOTAL: $${tot.toLocaleString('es-AR')}*\n👤 ${n}\n📞 ${tel}\n📍 ${d}`;
+            
+            carritoWeb=[]; updBadge(); cerrarModal('modal-carrito-web'); renderTiendaWeb(); 
+            
+            const phone = db.config.whatsappTurnos;
+            if(phone) { window.location.href = `https://wa.me/${phone}?text=${encodeURIComponent(m)}`; } 
+            else { mostrarToast('Sin WhatsApp configurado', 'bg-[#f59e0b]'); }
+            
+            guardarBD().catch(()=>{}); 
+        }
+
+        function compartirTienda() {
+            const shareData = {
+                title: db.config.nombreEmpresa || 'Mi Tienda',
+                text: `Mirá nuestro catálogo online con stock en vivo de ${db.config.nombreEmpresa}:`,
+                url: window.location.href
+            };
+            if (navigator.share) {
+                navigator.share(shareData).catch(() => {});
+            } else {
+                navigator.clipboard.writeText(window.location.href);
+                mostrarToast('¡Link del catálogo copiado!');
+            }
+        }
+
+        function renderStock() {
+            const b = document.getElementById('lista-stock-tabla'); if(!b) return;
+            const s = document.getElementById('buscador-stock').value.toLowerCase();
+            let a = s ? db.productos.filter(p=>p.nombre.toLowerCase().includes(s)||p.sku.toLowerCase().includes(s)||p.categoria.toLowerCase().includes(s)) : db.productos;
+            b.innerHTML = a.map(p=>{
+                const i = (p.imagenBase64 && p.imagenBase64.length > 50) ? p.imagenBase64 : "";
+                const im = i ? `<img src="${i}" class="w-10 h-10 object-cover rounded bg-input border border-borderline">` : `<div class="w-10 h-10 rounded bg-input flex items-center justify-center text-muted border border-borderline"><i class="fas fa-image text-[10px]"></i></div>`;
+                return `<tr><td class="py-2 px-4"><label class="cursor-pointer block relative"><input type="file" accept="image/*" class="hidden" onchange="procesarImagenIndividual(event, '${p.id}')">${im}</label></td><td class="py-2 px-4 font-bold text-muted text-[11px]">${p.sku||''}</td><td class="py-2 px-4 font-bold text-accent text-[10px]">${p.categoria||'VAR'}</td><td class="py-2 px-4 font-bold text-main text-xs line-clamp-1">${p.nombre}</td><td class="py-2 px-4 text-center font-black ${p.cantidad <= 0 ? 'text-[#ef4444]' : 'text-main'} text-sm">${p.cantidad}</td><td class="py-2 px-4 text-right font-black text-[#10b981] text-xs">$${(p.precio||0).toLocaleString('es-AR')}</td><td class="py-2 px-4 text-center"><button onclick="editP('${p.id}')" class="text-accent mx-1"><i class="fas fa-edit"></i></button><button onclick="delP('${p.id}')" class="text-[#ef4444] mx-1"><i class="fas fa-trash"></i></button></td></tr>`;
+            }).join('');
+        }
+
+        function editP(id) {
+            let p=db.productos.find(x=>x.id===id); if(!p) return;
+            document.getElementById('stock-id').value=p.id; document.getElementById('stock-sku').value=p.sku||''; document.getElementById('stock-cat').value=p.categoria||''; document.getElementById('stock-nombre').value=p.nombre; document.getElementById('stock-precio').value=p.precio; document.getElementById('stock-cantidad').value=p.cantidad; document.getElementById('modal-stock-title').innerText='Editar'; abrirModalUI('modal-stock');
+        }
+        function abrirModalStock() { document.getElementById('stock-id').value=''; document.getElementById('stock-sku').value=''; document.getElementById('stock-cat').value=''; document.getElementById('stock-nombre').value=''; document.getElementById('stock-precio').value=''; document.getElementById('stock-cantidad').value='999'; document.getElementById('modal-stock-title').innerText='Nuevo'; abrirModalUI('modal-stock'); }
+        
+        function guardarStock() {
+            let id=document.getElementById('stock-id').value, s=document.getElementById('stock-sku').value, c=document.getElementById('stock-cat').value.toUpperCase()||'VARIOS', n=document.getElementById('stock-nombre').value, pr=parseFloat(document.getElementById('stock-precio').value)||0, cant=parseInt(document.getElementById('stock-cantidad').value)||0;
+            if(!n) return mostrarToast('Falta nombre');
+            
+            if(id) { 
+                let p=db.productos.find(x=>x.id===id); 
+                p.sku=s; p.categoria=c; p.nombre=n; p.precio=pr; p.cantidad=cant; 
+            } else { 
+                db.productos.push({id:'id'+Date.now(), sku:s, categoria:c, nombre:n, precio:pr, cantidad:cant, imagenBase64:''}); 
+            }
+            
+            cerrarModal('modal-stock'); renderStock(); renderCats(); mostrarToast('Guardado');
+            guardarBD(); 
+        }
+        
+        function delP(id) { 
+            if(confirm('¿Borrar producto?')) { 
+                db.productos = db.productos.filter(x => x.id !== id); 
+                renderStock(); renderCats();
+                guardarBD();
+            } 
+        }
+
+        function vaciarCatalogo() { 
+            if(confirm('⚠️ ¿Borrar TODOS los productos de la base de datos?')) { 
+                db.productos=[]; 
+                renderStock(); renderCats(); 
+                mostrarToast('Catálogo Vaciado', 'bg-[#ef4444]');
+                guardarBD();
+            } 
+        }
+
+        function aumentoMasivo() {
+            let pct = prompt("Modificación porcentual de precios:\n• Ingresá un número positivo para aumentar (Ej: 10 para +10%)\n• Ingresá un número negativo para bajar o corregir (Ej: -3 para -3%)");
+            if(pct !== null && pct.trim() !== "" && !isNaN(pct)) { 
+                let pNum = parseFloat(pct);
+                let m = 1 + (pNum / 100); 
+                db.productos.forEach(x => {
+                    if (x.precio) {
+                        x.precio = Math.round(x.precio * m);
+                    }
+                }); 
+                renderStock(); 
+                renderTiendaWeb(); 
+                mostrarToast(pNum >= 0 ? `Precios aumentados +${pNum}%` : `Precios rebajados ${pNum}%`, 'bg-[#f59e0b]'); 
+                guardarBD();
+            }
+        }
+
+        function importarExcel(e) {
+            let f = e.target.files[0]; if(!f) return;
+            document.getElementById('carga-overlay-global').style.display='flex';
+            document.getElementById('carga-overlay-msg').innerText = 'Procesando Excel...';
+            let r = new FileReader();
+            r.onload = function(evt) {
+                try {
+                    let d = new Uint8Array(evt.target.result); let wb = XLSX.read(d, {type:'array'}); let sheet = wb.Sheets[wb.SheetNames[0]]; let json = XLSX.utils.sheet_to_json(sheet, {header:1});
+                    let h = json[0].map(x=>String(x||'').toLowerCase().trim());
+                    let cs=h.findIndex(x=>x.includes('sku')||x.includes('cod')), cn=h.findIndex(x=>x.includes('nombre')||x.includes('producto')), cp=h.findIndex(x=>x.includes('precio')), ccat=h.findIndex(x=>x.includes('cat')), ccant=h.findIndex(x=>x.includes('stock'));
+                    if(cn===-1 || cp===-1) throw new Error("Falta Nombre o Precio en el Excel");
+                    for(let i=1; i<json.length; i++) {
+                        let row=json[i]; if(!row || !row[cn]) continue;
+                        let sku=cs!==-1?String(row[cs]||'').trim():'', n=String(row[cn]).trim(), pr=parseFloat(String(row[cp]).replace(',','.'))||0, cat=ccat!==-1?String(row[ccat]||'').toUpperCase().trim():'VARIOS', cant=ccant!==-1?parseInt(row[ccant])||0:999;
+                        let ex = db.productos.find(x=>(sku&&x.sku===sku) || (x.nombre||'').toLowerCase()===n.toLowerCase());
+                        if(ex) { ex.precio=pr; ex.cantidad=cant; if(cat) ex.categoria=cat; } else db.productos.push({id:'id'+Date.now()+i, sku, categoria:cat, nombre:n, precio:pr, cantidad:cant, imagenBase64:''});
+                    }
+                    renderStock(); renderCats();
+                    document.getElementById('carga-overlay-global').style.display='none'; 
+                    e.target.value=''; 
+                    mostrarToast("Excel Procesado");
+                    guardarBD();
+                } catch(err) { mostrarToast(err.message, 'bg-[#ef4444]'); document.getElementById('carga-overlay-global').style.display='none'; e.target.value=''; } 
+            }; r.readAsArrayBuffer(f);
+        }
+
+        function exportarExcel() {
+            if(!db.productos || db.productos.length === 0) return mostrarToast('El catálogo está vacío', 'bg-[#f59e0b]');
+            const dataToExport = db.productos.map(p => ({
+                SKU: p.sku || '', Categoría: p.categoria || 'VARIOS', Nombre: p.nombre || '', Precio: p.precio || 0, Stock: p.cantidad !== undefined ? p.cantidad : 999
+            }));
+            const ws = XLSX.utils.json_to_sheet(dataToExport); const wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, ws, "Catálogo");
+            XLSX.writeFile(wb, "Catalogo_Backup.xlsx");
+            mostrarToast('Excel descargado con éxito');
+        }
+
+        // ================= CATÁLOGO PDF: GRILLA UNIFICADA SIN PRECIOS =================
+        function generarCatalogoPDF() {
+            if(!db.productos || db.productos.length === 0) return mostrarToast('El catálogo está vacío', 'bg-[#f59e0b]');
+            
+            const previewContainer = document.getElementById('pdf-mayorista-preview');
+            const fechaActual = new Date().toLocaleDateString('es-AR');
+            
+            let htmlContent = `
+                <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #1e293b; max-width: 900px; margin: 0 auto; padding: 15px;">
+                    <!-- ENCABEZADO -->
+                    <div style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 2px solid #0f172a; padding-bottom: 10px; margin-bottom: 20px;">
+                        <div>
+                            <h1 style="margin: 0; font-size: 20px; font-weight: 800; text-transform: uppercase; color: #0f172a; letter-spacing: 1px;">Catálogo Mayorista</h1>
+                            <p style="margin: 3px 0 0 0; font-size: 10px; color: #64748b; font-weight: 600;">Actualizado al ${fechaActual} • Listo para reventa</p>
+                        </div>
+                    </div>
+                    
+                    <!-- GRILLA UNIFICADA DE PRODUCTOS -->
+                    <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+            `;
+
+            const productosValidos = db.productos.filter(p => p.cantidad > 0);
+
+            productosValidos.forEach(p => {
+                const img = (p.imagenBase64 && p.imagenBase64.length > 50) ? p.imagenBase64 : '';
+                const imgTag = img 
+                    ? `<img src="${img}" style="width: 100%; height: 120px; object-fit: contain; background: #ffffff; padding: 6px; border-bottom: 1px solid #e2e8f0;">` 
+                    : `<div style="width: 100%; height: 120px; background: #f1f5f9; border-bottom: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: center; font-size: 9px; color: #94a3b8; font-weight: bold;">Sin Imagen</div>`;
+                
+                htmlContent += `
+                    <div style="width: 23%; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; page-break-inside: avoid; margin-bottom: 10px;">
+                        <div>${imgTag}</div>
+                        <div style="padding: 10px; display: flex; flex-direction: column; flex-grow: 1;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                                <span style="font-size: 7px; background: #f1f5f9; border: 1px solid #e2e8f0; color: #0284c7; padding: 1px 4px; border-radius: 3px; font-weight: bold; text-transform: uppercase;">${p.categoria||'VAR'}</span>
+                                <span style="font-size: 7px; color: #64748b; font-weight: bold;">SKU: ${p.sku||'-'}</span>
+                            </div>
+                            <h4 style="font-size: 11px; font-weight: 700; color: #0f172a; margin: 0 0 10px 0; line-height: 1.2; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">${p.nombre}</h4>
+                        </div>
+                    </div>
+                `;
+            });
+
+            htmlContent += `
+                    </div>
+                    <div style="text-align: center; margin-top: 30px; font-size: 9px; color: #94a3b8; border-top: 1px dashed #cbd5e1; padding-top: 10px;">
+                        Catálogo exclusivo para distribuidores y revendedores.
+                    </div>
+                </div>
+            `;
+
+            previewContainer.innerHTML = htmlContent;
+            window.print();
+        }
+
+        async function procesarImagenIndividual(e, id) {
+            const file = e.target.files[0]; if(!file) return;
+            const p = db.productos.find(x => x.id === id); if(!p) return;
+            document.getElementById('carga-overlay-global').style.display = 'flex';
+            document.getElementById('carga-overlay-msg').innerText = 'Guardando foto...';
+            try { 
+                p.imagenBase64 = await comprimirImagenAsincrona(file); 
+                renderStock(); 
+                document.getElementById('carga-overlay-global').style.display = 'none'; 
+                mostrarToast('Foto subida', 'bg-[#10b981]');
+                guardarBD();
+            } catch (err) { document.getElementById('carga-overlay-global').style.display = 'none'; } 
+        }
+
+        async function procesarImagenesCatalogo(e) {
+            const files = Array.from(e.target.files); if(!files.length) return;
+            document.getElementById('carga-overlay-global').style.display = 'flex';
+            document.getElementById('carga-overlay-msg').innerText = 'Vinculando fotos...';
+            
+            let vinculadas = 0; const skuMap = new Map();
+            
+            db.productos.forEach(p => { 
+                if (p.sku) {
+                    const strSku = String(p.sku).trim().toLowerCase();
+                    skuMap.set(strSku, p);
+                    const numSku = strSku.replace(/[^0-9]/g, '');
+                    if(numSku) { skuMap.set(numSku, p); skuMap.set(parseInt(numSku, 10).toString(), p); }
+                }
+            });
+
+            for(let i=0; i < files.length; i++) {
+                const file = files[i]; 
+                let baseName = file.name.toLowerCase();
+                baseName = baseName.replace(/\.[a-z0-9]{3,4}$/g, '').replace(/\.[a-z0-9]{3,4}$/g, '').trim();
+                
+                let prod = skuMap.get(baseName);
+                if(!prod) {
+                    const soloNumeros = baseName.replace(/[^0-9]/g, '');
+                    if(soloNumeros) { prod = skuMap.get(soloNumeros) || skuMap.get(parseInt(soloNumeros, 10).toString()); }
+                }
+
+                if(prod) { 
+                    try { prod.imagenBase64 = await comprimirImagenAsincrona(file); vinculadas++; } catch(err){} 
+                }
+            }
+            
+            renderStock(); 
+            document.getElementById('carga-overlay-global').style.display = 'none'; 
+            document.getElementById('input-imagenes-catalogo').value = ''; 
+            mostrarToast(`${vinculadas} fotos vinculadas.`, 'bg-[#10b981]'); 
+            guardarBD();
+        }
+
+        function comprimirImagenAsincrona(file, maxSizeInput = null) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const img = new Image();
+                    img.onload = function() {
+                        const canvas = document.createElement('canvas'); const ctx = canvas.getContext('2d');
+                        const maxSize = maxSizeInput || 350; 
+                        let width = img.width; let height = img.height; 
+                        if(width > height) { if(width > maxSize) { height *= maxSize / width; width = maxSize; } } 
+                        else { if(height > maxSize) { width *= maxSize / height; height = maxSize; } }
+                        canvas.width = Math.round(width); canvas.height = Math.round(height);
+                        
+                        ctx.fillStyle = '#ffffff'; 
+                        ctx.fillRect(0, 0, canvas.width, canvas.height);
+                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                        
+                        resolve(canvas.toDataURL('image/jpeg', 0.65)); 
+                    };
+                    img.onerror = reject; img.src = event.target.result;
+                };
+                reader.onerror = reject; reader.readAsDataURL(file);
+            });
+        }
+
+        function abrirCatalogoEnNuevaPestana() { window.open(window.location.href.split('?')[0] + '?modo=tienda', '_blank'); }
+        function actualizarUI() { renderStock(); }
+        function abrirLoginAdmin() { document.getElementById('login-pin').value=''; document.getElementById('public-catalog').classList.add('hidden'); document.getElementById('pantalla-login').classList.remove('hidden'); document.getElementById('pantalla-login').classList.add('flex'); }
+        
+        function procesarLogin() { 
+            const pinValido = db.config.pinAdmin || '1234';
+            if(document.getElementById('login-pin').value === pinValido) { 
+                document.getElementById('pantalla-login').classList.add('hidden'); 
+                document.getElementById('erp-container').classList.remove('hidden'); 
+                document.getElementById('erp-container').classList.add('flex'); 
+                document.body.classList.remove('modo-tienda-activa'); 
+                actualizarUI(); 
+            } else {
+                mostrarToast('PIN Incorrecto', 'bg-[#ef4444]');
+            }
+        }
+
+        function procesarLogout() { document.getElementById('erp-container').classList.add('hidden'); document.getElementById('public-catalog').classList.remove('hidden'); document.body.classList.add('modo-tienda-activa'); renderTiendaWeb(); }
+        function switchTab(t, el) { document.querySelectorAll('.tab-content').forEach(x=>x.classList.add('hidden')); document.querySelectorAll('.tab-link').forEach(x=>x.classList.remove('active')); document.getElementById(t).classList.remove('hidden'); el.classList.add('active'); }
+        function abrirModalUI(id) { document.getElementById(id).classList.remove('hidden'); document.getElementById(id).classList.add('flex'); }
+        function cerrarModal(id) { document.getElementById(id).classList.add('hidden'); document.getElementById(id).classList.remove('flex'); }
+        function mostrarToast(m, c='bg-[#10b981]') { const co=document.getElementById('toast-container'), d=document.createElement('div'); d.className=`toast ${c} text-white text-xs`; d.innerHTML=m; co.appendChild(d); setTimeout(()=>{ d.style.animation='slideIn 0.3s reverse forwards'; setTimeout(()=>d.remove(),300); },3000); }
+        
+        let deferredPrompt = null;
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+        const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            if (!isStandalone) {
+                const banner = document.getElementById('pwa-install-banner');
+                if (banner) banner.classList.remove('hidden');
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if (isIOS && !isStandalone) {
+                const banner = document.getElementById('pwest-install-banner');
+                if (banner) {
+                    banner.classList.remove('hidden');
+                    document.getElementById('btn-pwa-install').onclick = () => abrirModalUI('modal-ios-install');
+                }
+            }
+        });
+
+        function ejecutarInstalacionPWA() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        document.getElementById('pwa-install-banner').classList.add('hidden');
+                    }
+                    deferredPrompt = null;
+                });
+            }
+        }
+
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js').catch(err => console.error('PWA SW Error:', err));
+            });
+        }
     </script>
 </body>
 </html>
