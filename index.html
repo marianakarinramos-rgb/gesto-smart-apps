@@ -244,6 +244,15 @@
             background-color: #00bfff;
             color: #050b14;
         }
+        
+        /* Estilo para la nota del PIN */
+        .pin-note {
+            font-size: 0.85em;
+            color: #8b949e;
+            text-align: center;
+            margin-top: -5px;
+            margin-bottom: 5px;
+        }
 
         /* --- MODAL VERTICAL ESTABILIZADO --- */
         body.modal-open {
@@ -380,6 +389,8 @@
                 </ul>
                 <div class="card-actions">
                     <a href="https://demo-retail-five.vercel.app" target="_blank" class="btn-interfaz btn-demo">🚀 Probar Demo en Vivo</a>
+                    <!-- INYECCIÓN UX: PIN A LA VISTA -->
+                    <div class="pin-note">🔑 PIN de acceso: 1234</div>
                     <button onclick="abrirModal('retail')" class="btn-interfaz">📸 Ver Interfaz</button>
                 </div>
             </div>
