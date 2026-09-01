@@ -5,17 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gesto Smart | La App de tu Negocio</title>
     
-    <!-- METADATOS SEO Y REDES SOCIALES (WHATSAPP, IG, LINKEDIN) -->
     <meta name="description" content="Elegí la App diseñada exactamente para tu rubro. Catálogos en vivo, gestión de stock, clientes y ventas sin fricción.">
     
-    <!-- Open Graph (WhatsApp, Facebook, LinkedIn) -->
     <meta property="og:title" content="Gesto Smart | La App de tu Negocio">
     <meta property="og:description" content="Elegí la App diseñada para tu rubro. Olvidate del Excel y gestioná sin fricción.">
     <meta property="og:image" content="https://mariana-gesto-smart.vercel.app/logo.jpg">
     <meta property="og:url" content="https://mariana-gesto-smart.vercel.app">
     <meta property="og:type" content="website">
     
-    <!-- Twitter Cards -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Gesto Smart | La App de tu Negocio">
     <meta name="twitter:description" content="Elegí la App diseñada para tu rubro. Olvidate del Excel y gestioná sin fricción.">
@@ -367,18 +364,16 @@
             <p class="subtitle">Elegí la App diseñada exactamente para tu rubro. Dejá de pelear con planillas de Excel y empezá a gestionar de verdad, sin fricción y manteniendo tus datos seguros.</p>
         </div>
 
-        <!-- BANNER DESTACADO EN VIOLETA CON BADGE INTERNO -->
         <div class="featured-banner">
             <div class="featured-tag">🚀 Lanzamiento Destacado</div>
             <h2>Catálogo Online con Stock en Vivo</h2>
             <p>La solución definitiva para comercios. Tus clientes lo instalan como app en su celular, ven el stock actualizado al instante y te hacen el pedido directo por WhatsApp con un solo clic.</p>
-            <a href="https://demo-web-two-woad.vercel.app" target="_blank" class="btn-featured">
+            <a href="https://gesto-smart-demo.vercel.app/?modo=tienda" target="_blank" class="btn-featured">
                 ✨ Probar Catálogo en Vivo
             </a>
         </div>
 
         <div class="cards-container">
-            <!-- Tarjeta Retail -->
             <div class="card card-retail">
                 <h3>Retail & PyMEs</h3>
                 <div class="card-desc">Control total de mostrador, sin exponer tus números.</div>
@@ -388,148 +383,4 @@
                     <li><strong>Módulo RRHH:</strong> Cálculo exacto de comisiones y márgenes reales.</li>
                 </ul>
                 <div class="card-actions">
-                    <a href="https://demo-retail-five.vercel.app" target="_blank" class="btn-interfaz btn-demo">🚀 Probar Demo en Vivo</a>
-                    <!-- INYECCIÓN UX: PIN A LA VISTA -->
-                    <div class="pin-note">🔑 PIN de acceso: 1234</div>
-                    <button onclick="abrirModal('retail')" class="btn-interfaz">📸 Ver Interfaz</button>
-                </div>
-            </div>
-            
-            <!-- Tarjeta Salones -->
-            <div class="card card-salon">
-                <h3>Estética & Servicios</h3>
-                <div class="card-desc">Historial clínico y caja diaria en un solo flujo.</div>
-                <ul>
-                    <li><strong>Fichero Inteligente:</strong> Guardá fórmulas, servicios e historial de cada cliente.</li>
-                    <li><strong>Stock Automático:</strong> Al cobrar el servicio, se descuentan los insumos usados al instante.</li>
-                    <li><strong>Métricas Clave:</strong> Alerta de clientes ausentes (+90 días) para reactivar ventas.</li>
-                </ul>
-                <div class="card-actions">
-                    <a href="https://demo-salon-ruby.vercel.app" target="_blank" class="btn-interfaz btn-demo" style="border-color:#ec4899; color:#ec4899;">🚀 Probar Demo en Vivo</a>
-                    <button onclick="abrirModal('salon')" class="btn-interfaz" style="color:#ec4899;">📸 Ver Interfaz</button>
-                </div>
-            </div>
-            
-            <!-- Tarjeta Web -->
-            <div class="card card-web">
-                <h3>E-commerce & Catálogos</h3>
-                <div class="card-desc">Sincronizá tu stock web sin ser programador.</div>
-                <ul>
-                    <li><strong>Cruce Automático:</strong> Subí tu Excel y la App cruza stock físico vs tienda online al instante.</li>
-                    <li><strong>Generador de Catálogos:</strong> Creá flyers listos para WhatsApp o Estados usando las fotos.</li>
-                    <li><strong>Cero Estrés:</strong> Olvidate de armar archivos CSV a mano.</li>
-                </ul>
-                <div class="card-actions">
-                    <a href="https://demo-web-two-woad.vercel.app" target="_blank" class="btn-interfaz btn-demo" style="border-color:#10b981; color:#10b981;">🚀 Probar Demo en Vivo</a>
-                    <button onclick="abrirModal('web')" class="btn-interfaz" style="color:#10b981;">📸 Ver Interfaz</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Sección de Contacto -->
-    <div class="contact-section">
-        <h2>¿Lista para profesionalizar tu gestión?</h2>
-        <p>Hablemos directo. Sin intermediarios, de emprendedora a emprendedor.</p>
-        <a href="https://wa.me/5491121586674" target="_blank" class="btn btn-wa">
-            💬 Escribime por WhatsApp
-        </a>
-        <a href="https://www.instagram.com/gesto.smart/" target="_blank" class="btn btn-ig">
-            📸 Seguime en @gesto.smart
-        </a>
-    </div>
-
-    <!-- MODAL VERTICAL -->
-    <div id="imageModal" class="modal-overlay" onclick="cerrarModalFondo(event)">
-        <div class="modal-content">
-            <span class="close-modal" onclick="cerrarModal()">×</span>
-            <div class="modal-header">
-                <div class="modal-title" id="modalTitle">Interfaz del Módulo</div>
-            </div>
-            <div id="modalBody" class="modal-body"></div>
-        </div>
-    </div>
-
-    <script>
-        const modulosData = {
-            'retail': { 
-                titulo: 'Módulo: Retail & PyMEs', 
-                items: [
-                    { titulo: '1. Base de Clientes', archivo: 'retail1.png' },
-                    { titulo: '2. Punto de Venta (Carrito)', archivo: 'retail2.png' },
-                    { titulo: '3. Gestión de Presupuestos Pendientes', archivo: 'retail3.png' },
-                    { titulo: '4. Panel de Remitos y Entregas', archivo: 'retail4.png' },
-                    { titulo: '5. Caja Diaria e Historial', archivo: 'retail5.png' },
-                    { titulo: '6. Gestión de Inventario y Stock', archivo: 'retail6.png' },
-                    { titulo: '7. Listas de Precios y Costos', archivo: 'retail7.png' },
-                    { titulo: '8. Tablero de Rentabilidad y Gastos Fijos', archivo: 'retail8.png' }
-                ]
-            },
-            'salon': { 
-                titulo: 'Módulo: Estética & Servicios', 
-                items: [
-                    { titulo: '1. Fichero de Clientes y Fórmulas', archivo: 'salon1.png' },
-                    { titulo: '2. Agenda Inteligente', archivo: 'salon2.png' },
-                    { titulo: '3. Caja Diaria (Integrada con Stock)', archivo: 'salon3.png' },
-                    { titulo: '4. Stock y Control de Insumos', archivo: 'salon4.png' },
-                    { titulo: '5. Balance y Rentabilidad Neta', archivo: 'salon5.png' },
-                    { titulo: '6. Generador de Textos para Redes', archivo: 'salon6.png' }
-                ]
-            },
-            'web': { 
-                titulo: 'Módulo: E-commerce, Catálogos & Sincronización Web', 
-                items: [
-                    { titulo: '1. Panel Central de Carga de Archivos', archivo: 'captura1.png' },
-                    { titulo: '2. Calculadora de Stock Real (Depósito vs Reservas)', archivo: 'captura2.png' },
-                    { titulo: '3. Generador de Catálogos Express y Flyers', archivo: 'captura3.png' },
-                    { titulo: '4. Catálogo Final en Formato PDF A4', archivo: 'captura4.png' },
-                    { titulo: '5. Flyer Exportado para WhatsApp / Redes', archivo: 'captura5.png' },
-                    { titulo: '6. Auditoría de Productos Faltantes por Publicar', archivo: 'captura6.png' }
-                ]
-            }
-        };
-
-        const modal = document.getElementById('imageModal');
-        const modalBody = document.getElementById('modalBody');
-        const modalTitle = document.getElementById('modalTitle');
-
-        function abrirModal(modulo) {
-            const data = modulosData[modulo];
-            modalTitle.innerText = data.titulo;
-            modalBody.innerHTML = data.items.map(item => `
-                <div class="modal-item">
-                    <span class="modal-item-title">${item.titulo}</span>
-                    <img src="${item.archivo}" alt="${item.titulo}" loading="lazy" onerror="this.src='https://via.placeholder.com/800x450/0d1117/8b949e?text=Cargando+Imagen+...'">
-                </div>
-            `).join('');
-            document.body.classList.add('modal-open'); 
-            modal.classList.add('active');
-            modalBody.scrollTop = 0; 
-        }
-
-        function cerrarModal() {
-            modal.classList.remove('active');
-            document.body.classList.remove('modal-open');
-        }
-
-        function cerrarModalFondo(e) {
-            if (e.target === modal) cerrarModal();
-        }
-
-        // Destellos de cursor
-        const colors = ['#00bfff', '#4dd2ff', '#80dfff']; 
-        document.addEventListener('mousemove', function(e) {
-            if (document.body.classList.contains('modal-open')) return; 
-            const sparkle = document.createElement('div');
-            sparkle.className = 'sparkle';
-            sparkle.style.left = e.clientX + 'px';
-            sparkle.style.top = e.clientY + 'px';
-            const randomColor = colors[Math.floor(Math.random() * colors.length)];
-            sparkle.style.backgroundColor = randomColor;
-            sparkle.style.boxShadow = `0 0 10px ${randomColor}, 0 0 20px #fff`;
-            document.body.appendChild(sparkle);
-            setTimeout(() => { sparkle.remove(); }, 800);
-        });
-    </script>
-</body>
-</html>
+                    <a href="https://demo-retail-five
