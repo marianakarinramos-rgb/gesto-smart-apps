@@ -3,360 +3,1445 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gesto Smart | La App de tu Negocio</title>
+    <title>Gesto Smart</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
     
-    <meta name="description" content="Elegí la App diseñada exactamente para tu rubro. Catálogos en vivo, gestión de stock, clientes y ventas sin fricción.">
-    <meta property="og:title" content="Gesto Smart | La App de tu Negocio">
-    <meta property="og:description" content="Elegí la App diseñada para tu rubro. Olvidate del Excel y gestioná sin fricción.">
-    <meta property="og:image" content="https://mariana-gesto-smart.vercel.app/logo.jpg">
-    <meta property="og:url" content="https://mariana-gesto-smart.vercel.app">
-    <meta property="og:type" content="website">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Gesto Smart | La App de tu Negocio">
-    <meta name="twitter:description" content="Elegí la App diseñada para tu rubro. Olvidate del Excel y gestioná sin fricción.">
-    <meta name="twitter:image" content="https://mariana-gesto-smart.vercel.app/logo.jpg">
+    <!-- Configuración del Motor de Temas para Tailwind -->
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              app: {
+                base: 'var(--bg-base)',
+                card: 'var(--bg-card)',
+                panel: 'var(--bg-panel)',
+                border: 'var(--border-color)',
+                text: 'var(--text-main)',
+                muted: 'var(--text-muted)',
+                primary: 'var(--primary-bg)',
+                hover: 'var(--primary-hover)',
+                textOn: 'var(--primary-text)',
+                icon: 'var(--primary-icon)',
+                light: 'var(--primary-light)'
+              }
+            }
+          }
+        }
+      }
+    </script>
 
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- html2canvas -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <!-- SheetJS (Librería Excel) -->
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js"></script>
+    
     <style>
+        /* Variables Globales de Temas (Marca Blanca) */
+        :root, :root[data-theme="sky"] {
+            --bg-base: #ffffff;
+            --bg-pattern: #e0f2fe;
+            --bg-card: #ffffff;
+            --bg-panel: #f8fafc;
+            --border-color: #e2e8f0;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --primary-bg: #bae6fd;
+            --primary-hover: #7dd3fc;
+            --primary-text: #0c4a6e;
+            --primary-icon: #0ea5e9;
+            --primary-light: #e0f2fe;
+        }
+
+        :root[data-theme="dark"] {
+            --bg-base: #050b14;
+            --bg-pattern: #1e293b;
+            --bg-card: #161b22;
+            --bg-panel: #0d1117;
+            --border-color: #30363d;
+            --text-main: #ffffff;
+            --text-muted: #8b949e;
+            --primary-bg: #00bfff;
+            --primary-hover: #4dd2ff;
+            --primary-text: #050b14;
+            --primary-icon: #00bfff;
+            --primary-light: rgba(0, 191, 255, 0.1);
+        }
+
+        :root[data-theme="rose"] {
+            --bg-base: #fffbfb; 
+            --bg-pattern: #fce7f3;
+            --bg-card: #ffffff;
+            --bg-panel: #fff1f2;
+            --border-color: #fecdd3;
+            --text-main: #4c0519;
+            --text-muted: #9f1239;
+            --primary-bg: #fecdd3;
+            --primary-hover: #fda4af;
+            --primary-text: #881337;
+            --primary-icon: #e11d48;
+            --primary-light: #fce7f3;
+        }
+
+        :root[data-theme="mint"] {
+            --bg-base: #f8faf9;
+            --bg-pattern: #d1fae5;
+            --bg-card: #ffffff;
+            --bg-panel: #ecfdf5;
+            --border-color: #a7f3d0;
+            --text-main: #064e3b;
+            --text-muted: #059669;
+            --primary-bg: #a7f3d0;
+            --primary-hover: #6ee7b7;
+            --primary-text: #064e3b;
+            --primary-icon: #10b981;
+            --primary-light: #d1fae5;
+        }
+
         * { box-sizing: border-box; }
+        
         body {
-            background-color: #050b14;
-            background-image: radial-gradient(circle, #1e293b 1.5px, transparent 1.5px);
+            background-color: var(--bg-base);
+            background-image: radial-gradient(circle, var(--bg-pattern) 1.5px, transparent 1.5px);
             background-size: 30px 30px;
-            color: #c9d1d9;
+            color: var(--text-main);
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            overflow-x: hidden;
+            overflow: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
-        .main-container {
-            width: 100%;
-            max-width: 1200px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding-top: 60px;
-            position: relative;
-            z-index: 10;
-        }
-        .header {
-            text-align: center;
-            padding: 0 20px 40px 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .logo {
-            width: 120px;
-            height: 120px;
-            border-radius: 20px;
-            box-shadow: 0 0 25px rgba(0, 191, 255, 0.4);
-            margin-bottom: 25px;
-            display: block; 
-            object-fit: cover;
-        }
-        .badge {
-            background-color: rgba(0, 191, 255, 0.1);
-            border: 1px solid #00bfff;
-            color: #00bfff;
-            padding: 8px 18px;
-            border-radius: 30px;
-            font-weight: 700;
-            font-size: 0.85em;
-            letter-spacing: 0.5px;
-            margin-bottom: 20px;
-        }
-        h1 {
-            font-size: 3.5em;
-            color: #ffffff;
-            margin: 0 0 15px 0;
-            line-height: 1.1;
-            font-weight: 800;
-        }
-        .highlight { color: #00bfff; }
-        .subtitle {
-            font-size: 1.25em;
-            color: #8b949e;
-            max-width: 650px;
-            margin: 0 auto 40px auto;
-            line-height: 1.6;
-        }
+
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
         
-        .featured-banner {
-            width: 100%;
-            max-width: 1025px;
-            margin: 0 20px 35px 20px;
-            background: linear-gradient(135deg, rgba(147, 51, 234, 0.18) 0%, rgba(22, 27, 34, 0.95) 100%);
-            border: 2px solid #a855f7;
-            border-radius: 20px;
-            padding: 40px 30px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            box-shadow: 0 15px 35px rgba(168, 85, 247, 0.2);
-            position: relative;
-        }
-        .featured-tag {
-            background-color: rgba(168, 85, 247, 0.2);
-            border: 1px solid #a855f7;
-            color: #d8b4fe;
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-weight: 700;
-            font-size: 0.75em;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            margin-bottom: 15px;
-        }
-        .featured-banner h2 {
-            color: #ffffff;
-            font-size: 2.2em;
-            margin-top: 0;
-            margin-bottom: 12px;
-        }
-        .featured-banner p {
-            color: #c9d1d9;
-            font-size: 1.1em;
-            max-width: 700px;
-            margin-bottom: 30px;
-            line-height: 1.6;
-        }
-        .btn-featured {
-            background-color: #a855f7;
-            color: #ffffff;
-            padding: 15px 35px;
-            border-radius: 12px;
-            font-weight: 800;
-            font-size: 1.1em;
-            text-decoration: none;
-            box-shadow: 0 4px 20px rgba(168, 85, 247, 0.4);
+        ::-webkit-scrollbar { width: 6px; height: 6px; } 
+        ::-webkit-scrollbar-track { background: var(--bg-panel); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+        
+        #toast-container { position: fixed; bottom: 15px; right: 15px; z-index: 9999; display: flex; flex-direction: column; gap: 8px; }
+        .toast { padding: 10px 20px; border-radius: 8px; font-weight: bold; box-shadow: 0 4px 15px rgba(0,0,0,0.1); animation: slideIn 0.3s forwards; font-size: 0.9rem; border: 1px solid var(--border-color); }
+        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        
+        .cargando-overlay { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.7); display: flex; align-items: center; justify-content: center; z-index: 20; border-radius: 12px; backdrop-filter: blur(4px); }
+        .cargando-spinner { width: 32px; height: 32px; border: 3px solid var(--bg-panel); border-top-color: var(--primary-icon); border-radius: 50%; animation: spin 0.7s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        
+        /* Auto-estilo para inputs anclado a las variables del tema */
+        input, select, textarea { 
+            background-color: var(--bg-panel) !important; 
+            border-color: var(--border-color) !important; 
+            color: var(--text-main) !important; 
             transition: all 0.2s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
         }
-        .btn-featured:hover { transform: scale(1.03); background-color: #9333ea; }
-
-        .cards-container {
-            display: flex;
-            gap: 40px;
-            justify-content: center;
-            flex-wrap: wrap;
-            padding: 0 20px;
-            width: 100%;
+        input:focus, select:focus, textarea:focus { 
+            outline: none !important; 
+            border-color: var(--primary-icon) !important; 
+            box-shadow: 0 0 5px var(--primary-bg) !important; 
+            background-color: var(--bg-card) !important; 
         }
-        .card {
-            background-color: rgba(22, 27, 34, 0.85);
-            backdrop-filter: blur(10px);
-            border: 1px solid #30363d;
-            border-radius: 16px;
-            padding: 30px;
-            width: 380px;
-            text-align: left;
-            transition: all 0.3s ease;
-            display: flex;
-            flex-direction: column;
-        }
-        .card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
-        }
-        .card h3 { color: #ffffff; font-size: 1.6em; margin-top: 0; margin-bottom: 5px; }
-        .card-desc {
-            font-size: 0.95em; color: #8b949e; font-style: italic; margin-bottom: 20px;
-            padding-bottom: 15px; border-bottom: 1px solid #30363d;
-        }
-        .card ul {
-            padding-left: 0; list-style-type: none; color: #c9d1d9; font-size: 1em;
-            line-height: 1.6; flex-grow: 1;
-        }
-        .card li { margin-bottom: 12px; position: relative; padding-left: 20px; }
-        .card li::before { content: "✓"; position: absolute; left: 0; font-weight: bold; }
-        .card-retail { border-top: 4px solid #3b82f6; } .card-retail li::before { color: #3b82f6; }
-        .card-salon { border-top: 4px solid #ec4899; } .card-salon li::before { color: #ec4899; }
         
-        .card-actions { display: flex; flex-direction: column; gap: 12px; margin-top: 25px; }
-        .btn-interfaz {
-            width: 100%; padding: 12px; background-color: #0d1117; border: 1px solid #30363d;
-            color: #00bfff; border-radius: 8px; font-weight: bold; font-size: 1.05em; cursor: pointer;
-            transition: all 0.2s ease; text-align: center; text-decoration: none; display: inline-block;
-        }
-        .btn-interfaz:hover { background-color: #30363d; color: #ffffff; }
-        .btn-demo { background-color: rgba(0, 191, 255, 0.15); border: 1px solid #00bfff; color: #ffffff; }
-        .btn-demo:hover { background-color: #00bfff; color: #050b14; }
-        .pin-note { font-size: 0.85em; color: #8b949e; text-align: center; margin-top: -5px; margin-bottom: 5px; }
+        table { border-collapse: separate; border-spacing: 0; width: 100%; }
+        thead th { background-color: var(--bg-panel); color: var(--text-muted); border-bottom: 2px solid var(--border-color); }
+        tbody tr { border-bottom: 1px solid var(--border-color); transition: background-color 0.2s; }
+        tbody tr:hover { background-color: var(--bg-panel); }
+        td { color: var(--text-main); }
 
-        body.modal-open { overflow: hidden; padding-right: 8px; }
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(5, 11, 20, 0.95);
-            z-index: 9999; display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none;
-            transition: opacity 0.3s ease; padding: 20px;
-        }
-        .modal-overlay.active { opacity: 1; pointer-events: auto; }
-        .modal-content {
-            width: 100%; max-width: 900px; max-height: 90vh; background: #161b22; border: 1px solid #30363d;
-            border-radius: 16px; padding: 25px; position: relative; display: flex; flex-direction: column;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.6);
-        }
-        .close-modal {
-            position: absolute; top: 15px; right: 20px; color: #8b949e; font-size: 28px; font-weight: bold;
-            cursor: pointer; transition: color 0.2s; line-height: 1; z-index: 10;
-        }
-        .close-modal:hover { color: #ef4444; }
-        .modal-header { margin-bottom: 15px; padding-bottom: 12px; border-bottom: 1px solid #30363d; flex-shrink: 0; }
-        .modal-title { color: #fff; font-size: 1.3em; font-weight: bold; }
-        .modal-body { overflow-y: scroll; padding-right: 15px; display: flex; flex-direction: column; gap: 20px; flex-grow: 1; }
-        .modal-body::-webkit-scrollbar { width: 8px; }
-        .modal-body::-webkit-scrollbar-track { background: #0d1117; border-radius: 4px; }
-        .modal-body::-webkit-scrollbar-thumb { background: #30363d; border-radius: 4px; }
-        .modal-body::-webkit-scrollbar-thumb:hover { background: #00bfff; }
-        .modal-item { display: flex; flex-direction: column; gap: 8px; background: #0d1117; border: 1px solid #30363d; border-radius: 10px; padding: 12px; }
-        .modal-item-title { color: #00bfff; font-size: 0.9em; font-weight: 600; }
-        .modal-item img { width: 100%; height: auto; min-height: 200px; border-radius: 6px; display: block; background-color: #161b22; }
-
-        .contact-section {
-            margin-top: 80px; text-align: center; padding: 60px 20px; background-color: #0d1117; border-top: 1px solid #30363d; width: 100%; position: relative; z-index: 10;
-        }
-        .contact-section h2 { color: #fff; font-size: 2.2em; margin-top: 0; margin-bottom: 10px; }
-        .contact-section p { color: #8b949e; font-size: 1.1em; margin-bottom: 35px; }
-        .btn {
-            display: inline-flex; align-items: center; justify-content: center; padding: 14px 30px; margin: 10px; border-radius: 50px; text-decoration: none; font-weight: bold; font-size: 1.1em; color: #ffffff; transition: transform 0.2s, opacity 0.2s;
-        }
-        .btn:hover { transform: scale(1.05); opacity: 0.9; }
-        .btn-wa { background-color: #25D366; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.2); }
-        .btn-ig { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); box-shadow: 0 4px 15px rgba(220, 39, 67, 0.2); }
+        body.app-locked .admin-only { display: none !important; }
         
-        @media (max-width: 768px) {
-            h1 { font-size: 2.5em; }
-            .card { width: 100%; max-width: 400px; }
-            .btn { width: 100%; max-width: 300px; display: flex; }
-            .modal-content { padding: 15px; }
-        }
-        .sparkle { position: fixed; pointer-events: none; width: 6px; height: 6px; border-radius: 50%; animation: fadeOut 0.8s forwards; z-index: 8000; }
-        @keyframes fadeOut { 0% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(0); } }
+        input[type="date"]::-webkit-calendar-picker-indicator, input[type="month"]::-webkit-calendar-picker-indicator, input[type="time"]::-webkit-calendar-picker-indicator { cursor: pointer; opacity: 0.5; transition: 0.2s; padding: 4px; }
+        input[type="date"]::-webkit-calendar-picker-indicator:hover, input[type="month"]::-webkit-calendar-picker-indicator:hover, input[type="time"]::-webkit-calendar-picker-indicator:hover { opacity: 1; transform: scale(1.1); }
+        
+        /* Corrección especial de contraste para iconos de calendario en Dark Mode */
+        :root[data-theme="dark"] input[type="date"]::-webkit-calendar-picker-indicator, :root[data-theme="dark"] input[type="month"]::-webkit-calendar-picker-indicator, :root[data-theme="dark"] input[type="time"]::-webkit-calendar-picker-indicator { filter: invert(1); }
+
+        .tab-link { padding-top: 6px !important; padding-bottom: 6px !important; margin-bottom: 2px !important; font-size: 0.8rem !important; }
+        .sidebar-section-title { margin-top: 8px !important; margin-bottom: 2px !important; }
+
+        /* Generadores Canvas */
+        .flyer-preview { width: 1080px; height: 1920px; position: fixed; top: 0; left: 0; z-index: -9999; background-color: #111; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; overflow: hidden; opacity: 0.01; pointer-events: none; }
+        .flyer-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; z-index: 1; opacity: 0.5; }
+        .flyer-content { z-index: 2; text-align: center; padding: 80px; background: rgba(5,11,20,0.8); border-radius: 40px; border: 2px solid rgba(0,191,255,0.3); backdrop-filter: blur(8px); width: 80%; }
+        .collage-preview { width: 1080px; height: 1080px; position: fixed; top: 0; left: 0; z-index: -9999; background-color: #ffffff; display: flex; flex-direction: column; overflow: hidden; opacity: 0.01; pointer-events: none; }
+        .collage-grid { flex-grow: 1; display: grid; gap: 15px; padding: 30px; background: #ffffff; }
+        .collage-watermark { text-align: center; padding-bottom: 30px; font-size: 32px; font-weight: 900; color: #1e293b; }
     </style>
 </head>
-<body>
-    <div class="main-container">
-        <div class="header">
-            <img src="logo.jpg" alt="Gesto Smart Logo" class="logo">
-            <div class="badge">⚡ PAGO ÚNICO. ACCESO RÁPIDO. ULTRA FÁCILES.</div>
-            <h1>La App de tu negocio<br><span class="highlight">no tiene que ser un dolor de cabeza.</span></h1>
-            <p class="subtitle">Elegí la App diseñada exactamente para tu rubro. Dejá de pelear con planillas de Excel y empezá a gestionar de verdad, sin fricción y manteniendo tus datos seguros.</p>
-        </div>
+<body class="h-screen flex flex-col md:flex-row font-sans text-sm">
 
-        <div class="featured-banner">
-            <div class="featured-tag">🚀 Lanzamiento Destacado</div>
-            <h2>Catálogo Online con Stock en Vivo</h2>
-            <p>La solución definitiva para comercios. Tus clientes lo instalan como app en su celular, ven el stock actualizado al instante y te hacen el pedido directo por WhatsApp con un solo clic.</p>
-            <a href="https://gesto-smart-demo.vercel.app/?modo=tienda" target="_blank" class="btn-featured">
-                ✨ Probar Catálogo en Vivo
-            </a>
+    <div id="pantalla-bloqueo" class="fixed inset-0 bg-black/80 z-[99999] hidden flex-col items-center justify-center p-4 backdrop-blur-md">
+        <div class="bg-app-card border border-app-border rounded-3xl p-8 max-w-sm w-full text-center shadow-2xl fade-in">
+            <div class="w-16 h-16 bg-app-light text-app-icon border border-app-primary rounded-full flex items-center justify-center mx-auto mb-4 text-2xl"><i class="fas fa-lock"></i></div>
+            <h2 class="text-2xl font-bold text-app-text mb-2">Sistema Bloqueado</h2>
+            <p class="text-sm text-app-muted mb-6">Ingresá tu PIN de seguridad.</p>
+            <input type="password" id="input-pin-ingreso" maxlength="6" placeholder="••••" class="w-full text-center text-4xl tracking-[0.5em] border border-app-border rounded-2xl py-4 mb-6 outline-none">
+            <button onclick="verificarPin()" class="w-full bg-app-primary text-app-textOn py-4 rounded-xl font-bold shadow-sm hover:bg-app-hover transition">Ingresar</button>
         </div>
+    </div>
 
-        <div class="cards-container">
-            <div class="card card-retail">
-                <h3>Retail & PyMEs</h3>
-                <div class="card-desc">Control total de mostrador, sin exponer tus números.</div>
-                <ul>
-                    <li><strong>Modo Dueño/Vendedor:</strong> Bloqueá el acceso a costos y rentabilidad con un PIN. Tus empleados solo ven la caja.</li>
-                    <li><strong>Punto de Venta ágil:</strong> Cobrá o armá presupuestos en 2 clics.</li>
-                    <li><strong>Módulo RRHH:</strong> Cálculo exacto de comisiones y márgenes reales.</li>
-                </ul>
-                <div class="card-actions">
-                    <a href="https://demo-retail-five.vercel.app" target="_blank" class="btn-interfaz btn-demo">🚀 Probar Demo en Vivo</a>
-                    <div class="pin-note">🔑 PIN de acceso: 1234</div>
-                    <button onclick="abrirModal('retail')" class="btn-interfaz">📸 Ver Interfaz</button>
-                </div>
-            </div>
+    <!-- HEADER SUPERIOR (mobile) -->
+    <div class="fixed top-0 left-0 right-0 z-30 md:hidden bg-app-card border-b border-app-border text-app-text px-4 py-2 flex items-center justify-between shadow-sm">
+        <span class="text-sm font-bold text-app-muted">Menú</span>
+        <button id="mobileSidebarToggle" class="text-app-icon text-xl" onclick="document.querySelector('aside').classList.toggle('hidden')"><i class="fas fa-bars"></i></button>
+    </div>
+
+    <!-- Sidebar Menu -->
+    <aside class="w-full md:w-[220px] bg-app-card border-r border-app-border flex flex-col shrink-0 shadow-lg z-20 md:min-h-screen pt-12 md:pt-4 hidden md:flex absolute md:relative inset-0">
+        <div class="p-3 space-y-2 flex-1 flex flex-col overflow-hidden">
             
-            <div class="card card-salon">
-                <h3>Estética & Servicios</h3>
-                <div class="card-desc">Historial clínico y caja diaria en un solo flujo.</div>
-                <ul>
-                    <li><strong>Fichero Inteligente:</strong> Guardá fórmulas, servicios e historial de cada cliente.</li>
-                    <li><strong>Stock Automático:</strong> Al cobrar el servicio, se descuentan los insumos usados al instante.</li>
-                    <li><strong>Métricas Clave:</strong> Alerta de clientes ausentes (+90 días) para reactivar ventas.</li>
-                </ul>
-                <div class="card-actions">
-                    <a href="https://demo-salon-ruby.vercel.app" target="_blank" class="btn-interfaz btn-demo" style="border-color:#ec4899; color:#ec4899;">🚀 Probar Demo en Vivo</a>
-                    <button onclick="abrirModal('salon')" class="btn-interfaz" style="color:#ec4899;">📸 Ver Interfaz</button>
+            <div class="bg-app-panel p-2 rounded-xl border border-app-border shadow-sm text-center">
+                <label class="cursor-pointer block mb-1 group relative w-max mx-auto">
+                    <img id="clientLogoPreview" src="https://via.placeholder.com/150/f1f5f9/64748b?text=Logo" class="w-10 h-10 object-cover rounded-lg border border-app-border group-hover:border-app-icon transition bg-app-card" alt="Logo">
+                    <div class="absolute inset-0 bg-black/50 rounded-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition"><span class="text-[8px] font-bold text-white uppercase">Subir</span></div>
+                    <!-- Se acepta PNG, JPG, WEBP -->
+                    <input type="file" id="clientLogoInput" accept="image/png, image/jpeg, image/jpg, image/webp" class="hidden" onchange="procesarLogoSidebar(event)">
+                </label>
+                <input type="text" id="nombreComercioSide" class="bg-transparent border-b border-app-border font-bold text-xs focus:ring-0 w-full text-center text-app-text px-1 outline-none pb-1 placeholder-app-muted" value="MI NEGOCIO" readonly>
+            </div>
+
+            <nav id="mobile-menu" class="flex flex-col flex-1 overflow-y-auto pr-1">
+                <div class="text-[9px] font-bold text-emerald-500 uppercase tracking-widest px-2 sidebar-section-title">Primeros Pasos</div>
+                <a href="#" onclick="switchTab('tab-manual', this)" class="tab-link active flex items-center px-3 text-app-textOn bg-app-primary font-bold rounded-lg transition mb-1 shadow-sm">
+                    <i class="fas fa-book-open w-5 text-app-textOn opacity-80"></i> Manual
+                </a>
+
+                <div class="text-[9px] font-bold text-app-muted uppercase tracking-widest px-2 sidebar-section-title">Gestión Principal</div>
+                <a href="#" onclick="switchTab('tab-clientas', this)" class="tab-link flex items-center px-3 text-app-muted hover:bg-app-panel hover:text-app-text rounded-lg font-medium transition border border-transparent hover:border-app-border">
+                    <i class="fas fa-users w-5"></i> Mis Clientes
+                </a>
+                <a href="#" onclick="switchTab('tab-agenda', this)" class="tab-link flex items-center px-3 text-app-muted hover:bg-app-panel hover:text-app-text rounded-lg font-medium transition border border-transparent hover:border-app-border">
+                    <i class="far fa-calendar-alt w-5"></i> Agenda
+                </a>
+                <a href="#" onclick="switchTab('tab-catalogo', this)" class="tab-link flex items-center px-3 text-app-muted hover:bg-app-panel hover:text-app-text rounded-lg font-medium transition border border-transparent hover:border-app-border">
+                    <i class="fas fa-store w-5"></i> Lista Precios
+                </a>
+                
+                <div class="text-[9px] font-bold text-app-muted uppercase tracking-widest px-2 sidebar-section-title">Finanzas y Stock</div>
+                <a href="#" onclick="switchTab('tab-caja', this)" class="tab-link flex items-center px-3 text-app-muted hover:bg-app-panel hover:text-app-text rounded-lg font-medium transition border border-transparent hover:border-app-border">
+                    <i class="fas fa-cash-register w-5"></i> Caja Diaria
+                </a>
+                <a href="#" onclick="switchTab('tab-stock', this)" class="tab-link flex items-center px-3 text-app-muted hover:bg-app-panel hover:text-app-text rounded-lg font-medium transition border border-transparent hover:border-app-border">
+                    <i class="fas fa-boxes w-5"></i> Stock
+                </a>
+                <a href="#" onclick="switchTab('tab-rentabilidad', this)" class="admin-only tab-link flex items-center px-3 text-app-muted hover:bg-app-panel hover:text-app-text rounded-lg font-medium transition border border-transparent hover:border-app-border">
+                    <i class="fas fa-chart-line w-5"></i> Rentabilidad
+                </a>
+
+                <div class="text-[9px] font-bold text-app-muted uppercase tracking-widest px-2 sidebar-section-title">Marketing</div>
+                <a href="#" onclick="switchTab('tab-redes', this)" class="tab-link flex items-center px-3 text-app-muted hover:bg-app-panel hover:text-app-text rounded-lg font-medium transition border border-transparent hover:border-app-border">
+                    <i class="fab fa-instagram w-5 text-[#a855f7]"></i> Reels / Redes
+                </a>
+
+                <div class="text-[9px] font-bold text-app-muted uppercase tracking-widest px-2 sidebar-section-title admin-only">Sistema</div>
+                <a href="#" onclick="switchTab('tab-config', this)" class="admin-only tab-link flex items-center px-3 text-app-muted hover:bg-app-panel hover:text-app-text rounded-lg font-medium transition border border-transparent hover:border-app-border">
+                    <i class="fas fa-cog w-5"></i> Configuración
+                </a>
+            </nav>
+
+            <div class="mt-1 pt-2 border-t border-app-border">
+                <button id="btn-lock" onclick="toggleLock()" class="w-full bg-app-panel border border-app-border hover:bg-app-border text-app-text py-1.5 rounded-lg font-bold transition flex items-center justify-center text-xs shadow-sm">
+                    <i class="fas fa-unlock mr-2 text-emerald-500"></i> Modo Admin
+                </button>
+            </div>
+        </div>
+    </aside>
+
+    <main class="flex-grow flex flex-col h-[calc(100vh-3rem)] md:h-screen relative overflow-y-auto">
+        <div id="toast-container"></div>
+
+        <div class="p-3 md:p-4 lg:p-6 max-w-[1400px] mx-auto w-full pt-12 md:pt-4">
+            
+            <div class="flex justify-end mb-4 w-full hidden md:flex">
+                <div class="flex items-center gap-3 bg-app-card/80 backdrop-blur px-3 py-1.5 rounded-xl border border-app-border shadow-sm">
+                    <div class="text-right">
+                        <span class="block text-sm font-bold text-app-text">Gesto <span class="text-app-icon">Smart</span></span>
+                    </div>
+                    <div class="w-8 h-8 rounded-lg bg-app-light border border-app-primary flex items-center justify-center text-app-icon text-base font-bold">G</div>
                 </div>
+            </div>
+
+            <!-- ================= TAB: MANUAL DE USUARIO ================= -->
+            <div id="tab-manual" class="tab-content fade-in">
+                <div class="mb-4">
+                    <h2 class="text-2xl font-bold text-app-text mb-1">Manual de Usuario</h2>
+                    <p class="text-app-muted text-sm">Guía operativa rápida para sacar el máximo provecho.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mb-4 auto-rows-fr">
+                    <!-- Tarjeta 1 -->
+                    <div class="bg-app-card p-4 rounded-2xl shadow-sm border border-app-border flex flex-col h-full">
+                        <div class="w-8 h-8 rounded-lg bg-app-light border border-app-primary text-app-icon flex items-center justify-center text-sm mb-2"><i class="fas fa-cog"></i></div>
+                        <h3 class="text-sm font-bold text-app-text mb-1">1. Identidad y Accesos</h3>
+                        <p class="text-[11px] text-app-muted mb-2 flex-grow">Tu negocio, tus reglas.</p>
+                        <ul class="space-y-1 text-[11px] text-app-text mt-auto opacity-80">
+                            <li><i class="fas fa-check text-emerald-500 mr-1"></i><strong>Logo, Tema y Nombre:</strong> Cambialos en Configuración.</li>
+                            <li><i class="fas fa-check text-emerald-500 mr-1"></i><strong>PIN de Seguridad:</strong> Activá el Modo Empleada para ocultar tu rentabilidad.</li>
+                        </ul>
+                    </div>
+                    <!-- Tarjeta 2 -->
+                    <div class="bg-app-card p-4 rounded-2xl shadow-sm border border-app-border flex flex-col h-full">
+                        <div class="w-8 h-8 rounded-lg bg-app-light border border-app-primary text-app-icon flex items-center justify-center text-sm mb-2"><i class="fas fa-users"></i></div>
+                        <h3 class="text-sm font-bold text-app-text mb-1">2. Gestión de Clientes</h3>
+                        <p class="text-[11px] text-app-muted mb-2 flex-grow">Historial simplificado y sin fricción.</p>
+                        <ul class="space-y-1 text-[11px] text-app-text mt-auto opacity-80">
+                            <li><i class="fas fa-check text-emerald-500 mr-1"></i><strong>Carga en 1 Clic:</strong> Creá la clienta y anotá lo que se hizo hoy en una sola pantalla.</li>
+                            <li><i class="fas fa-check text-emerald-500 mr-1"></i><strong>Ausentes:</strong> El sistema marca en rojo a quienes no vienen hace más de 90 días.</li>
+                        </ul>
+                    </div>
+                    <!-- Tarjeta 3 -->
+                    <div class="bg-app-card p-4 rounded-2xl shadow-sm border border-app-border flex flex-col h-full">
+                        <div class="w-8 h-8 rounded-lg bg-app-light border border-app-primary text-app-icon flex items-center justify-center text-sm mb-2"><i class="far fa-calendar-alt"></i></div>
+                        <h3 class="text-sm font-bold text-app-text mb-1">3. Agenda Interactiva</h3>
+                        <p class="text-[11px] text-app-muted mb-2 flex-grow">Turnos organizados visualmente.</p>
+                        <ul class="space-y-1 text-[11px] text-app-text mt-auto opacity-80">
+                            <li><i class="fas fa-check text-emerald-500 mr-1"></i><strong>Alta rápida:</strong> Hacé clic directamente en el botón del día deseado y la fecha se precarga.</li>
+                            <li><i class="fas fa-check text-emerald-500 mr-1"></i><strong>Días Hábiles:</strong> Excluye domingos y lunes por defecto.</li>
+                        </ul>
+                    </div>
+                    <!-- Tarjeta 4 -->
+                    <div class="bg-app-card p-4 rounded-2xl shadow-sm border border-app-border flex flex-col h-full">
+                        <div class="w-8 h-8 rounded-lg bg-purple-100 border border-purple-200 text-purple-600 flex items-center justify-center text-sm mb-2"><i class="fab fa-instagram"></i></div>
+                        <h3 class="text-sm font-bold text-app-text mb-1">4. Marketing Automático</h3>
+                        <p class="text-[11px] text-app-muted mb-2 flex-grow">Ahorrá tiempo creando contenido.</p>
+                        <ul class="space-y-1 text-[11px] text-app-text mt-auto opacity-80">
+                            <li><i class="fas fa-check text-emerald-500 mr-1"></i><strong>Flyers de Precios:</strong> Generalos con tu fondo y marca desde el Catálogo.</li>
+                            <li><i class="fas fa-check text-emerald-500 mr-1"></i><strong>Copy para Redes:</strong> Buscá a la clienta y te arma el texto para Instagram.</li>
+                        </ul>
+                    </div>
+                    <!-- Tarjeta 5 -->
+                    <div class="bg-app-card p-4 rounded-2xl shadow-sm border border-app-icon flex flex-col h-full lg:col-span-2 xl:col-span-3">
+                        <div class="w-8 h-8 rounded-lg bg-app-primary border border-app-hover text-app-textOn flex items-center justify-center text-sm mb-2"><i class="fas fa-cash-register"></i></div>
+                        <h3 class="text-sm font-bold text-app-text mb-1">5. Caja, Descuento Exacto y Excel</h3>
+                        <p class="text-[11px] text-app-muted mb-2 flex-grow">El motor principal de tu negocio, totalmente automatizado.</p>
+                        <ul class="space-y-1 text-[11px] text-app-text mt-auto opacity-80">
+                            <li><i class="fas fa-arrow-right text-app-icon mr-1"></i>Escribí el nombre de la clienta (sin importar mayúsculas) y traerá su fórmula de hoy.</li>
+                            <li><i class="fas fa-arrow-right text-app-icon mr-1"></i>Al cobrar, el sistema mostrará la fórmula en grande. Además, su algoritmo matemático extraerá los <strong>gramos exactos</strong> para fraccionar el pomo.</li>
+                            <li><i class="fas fa-arrow-right text-app-icon mr-1"></i><strong>Exportar Cierre:</strong> Descargá un Excel con el detalle "ticket por ticket" y el balance de cada día.</li>
+                        </ul>
+                    </div>
+                    <!-- Tarjeta 6 -->
+                    <div class="bg-app-card p-4 rounded-2xl shadow-sm border border-app-border flex flex-col h-full">
+                        <div class="w-8 h-8 rounded-lg bg-emerald-100 border border-emerald-200 text-emerald-600 flex items-center justify-center text-sm mb-2"><i class="fas fa-chart-line"></i></div>
+                        <h3 class="text-sm font-bold text-app-text mb-1">6. Finanzas y Stock</h3>
+                        <p class="text-[11px] text-app-muted mb-2 flex-grow">Métricas clave claras.</p>
+                        <ul class="space-y-1 text-[11px] text-app-text mt-auto opacity-80">
+                            <li><i class="fas fa-check text-emerald-500 mr-1"></i><strong>Stock:</strong> 1 Unidad = 60 grs. Se fracciona automáticamente.</li>
+                            <li><i class="fas fa-check text-emerald-500 mr-1"></i><strong>Balance Neta:</strong> Ingresos (Caja) - Gastos = Ganancia Limpia.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================= TAB: MIS CLIENTAS ================= -->
+            <div id="tab-clientas" class="tab-content hidden fade-in">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-4 gap-3">
+                    <div><h2 class="text-2xl font-bold text-app-text mb-1">Fichero de Clientes</h2><p class="text-app-muted text-xs">Historial clínico y contacto.</p></div>
+                    <div class="flex flex-col md:flex-row gap-2 w-full md:w-auto">
+                        <button onclick="exportarExcelCompleto()" class="hidden md:flex bg-app-card border border-app-border text-app-icon hover:bg-app-panel px-3 py-2 rounded-lg font-bold shadow-sm transition items-center text-xs">
+                            <i class="fas fa-download mr-1"></i> Respaldar Todo
+                        </button>
+                        <button onclick="abrirModalImportarExcel()" class="hidden md:flex bg-app-card border border-app-border text-app-text hover:bg-app-panel px-3 py-2 rounded-lg font-bold shadow-sm transition items-center text-xs">
+                            <i class="fas fa-file-excel mr-1 text-emerald-500"></i> Pegar Excel
+                        </button>
+                        <button onclick="vaciarDatosMasivos('clientas')" class="admin-only hidden md:flex bg-app-card border border-app-border text-rose-500 hover:bg-rose-50 px-3 py-2 rounded-lg font-bold shadow-sm transition items-center text-xs">
+                            <i class="fas fa-trash-alt mr-1"></i> Vaciar Clientes
+                        </button>
+                        <button onclick="abrirModalFicha()" class="w-full md:w-auto bg-app-primary text-app-textOn px-4 py-2 rounded-lg font-bold shadow-sm hover:bg-app-hover transition flex justify-center items-center text-sm">
+                            <i class="fas fa-user-plus mr-1"></i> Nuevo Cliente
+                        </button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-5">
+                    <div class="bg-app-card p-3 rounded-xl border border-app-border shadow-sm flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-full bg-app-light border border-app-primary text-app-icon flex items-center justify-center text-sm"><i class="fas fa-users"></i></div>
+                        <div><p class="text-[9px] font-bold text-app-muted uppercase tracking-widest">Total</p><h3 class="text-lg font-bold text-app-text leading-none" id="stat-total">0</h3></div>
+                    </div>
+                    <div class="bg-app-card p-3 rounded-xl border border-app-border shadow-sm flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-full bg-emerald-100 border border-emerald-200 text-emerald-600 flex items-center justify-center text-sm"><i class="fas fa-heartbeat"></i></div>
+                        <div><p class="text-[9px] font-bold text-app-muted uppercase tracking-widest">Activas(90d)</p><h3 class="text-lg font-bold text-app-text leading-none" id="stat-activas">0</h3></div>
+                    </div>
+                    <div class="bg-app-card p-3 rounded-xl border border-app-border shadow-sm flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-full bg-rose-100 border border-rose-200 text-rose-600 flex items-center justify-center text-sm"><i class="fas fa-user-clock"></i></div>
+                        <div><p class="text-[9px] font-bold text-app-muted uppercase tracking-widest">Ausentes</p><h3 class="text-lg font-bold text-app-text leading-none" id="stat-inactivas">0</h3></div>
+                    </div>
+                    <div class="bg-app-card p-3 rounded-xl border border-app-border shadow-sm flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-full bg-purple-100 border border-purple-200 text-purple-600 flex items-center justify-center text-sm"><i class="fas fa-sync-alt"></i></div>
+                        <div><p class="text-[9px] font-bold text-app-muted uppercase tracking-widest">Visitas Prom.</p><h3 class="text-lg font-bold text-app-text leading-none" id="stat-promedio">0</h3></div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col md:flex-row gap-3 mb-5">
+                    <div class="relative flex-grow bg-app-card rounded-xl shadow-sm border border-app-border flex items-center">
+                        <i class="fas fa-search absolute left-3 text-app-muted"></i>
+                        <input type="text" id="buscador-clientas" placeholder="Buscar por nombre o teléfono..." onkeyup="filtrarClientas()" class="w-full pl-9 pr-3 py-2 border-none bg-transparent outline-none">
+                    </div>
+                    <select id="filtro-orden-clientas" onchange="renderClientas()" class="bg-app-card border border-app-border rounded-xl px-3 py-2 shadow-sm font-bold text-sm min-w-[180px]">
+                        <option value="alfabetico">Alfabético (A-Z)</option>
+                        <option value="recientes">Última Visita</option>
+                    </select>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 pb-10" id="grid-clientas"></div>
+            </div>
+
+            <!-- ================= TAB: AGENDA ================= -->
+            <div id="tab-agenda" class="tab-content hidden fade-in">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 gap-3">
+                    <div><h2 class="text-2xl font-bold text-app-text mb-1">Agenda Semanal</h2><p class="text-app-muted text-xs">Organizá tus turnos.</p></div>
+                    <div class="flex flex-col md:flex-row items-center gap-3 w-full md:w-auto">
+                        <button onclick="habilitarMartes()" class="bg-app-light text-app-icon border border-app-primary font-bold px-3 py-1.5 rounded-lg text-xs w-full md:w-auto shadow-sm hover:bg-app-primary transition"><i class="fas fa-plus mr-1"></i> Martes Excepción</button>
+                        <div class="flex items-center gap-3 bg-app-card p-1.5 rounded-lg shadow-sm border border-app-border w-full md:w-auto justify-between">
+                            <button onclick="cambiarSemanaAgenda(-1)" class="w-8 h-8 flex items-center justify-center rounded bg-app-panel border border-app-border text-app-muted hover:bg-app-border"><i class="fas fa-chevron-left text-xs"></i></button>
+                            <span id="agenda-semana-label" class="font-bold text-app-text min-w-[130px] text-center text-xs">Semana Actual</span>
+                            <button onclick="cambiarSemanaAgenda(1)" class="w-8 h-8 flex items-center justify-center rounded bg-app-panel border border-app-border text-app-muted hover:bg-app-border"><i class="fas fa-chevron-right text-xs"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex gap-3 overflow-x-auto pb-4 hide-scrollbar snap-x" id="agenda-columnas"></div>
+            </div>
+
+            <!-- ================= TAB: CATÁLOGO ================= -->
+            <div id="tab-catalogo" class="tab-content hidden fade-in">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-4 gap-3">
+                    <div><h2 class="text-2xl font-bold text-app-text mb-1">Lista de Precios</h2><p class="text-app-muted text-xs">Precios y creador de Promos.</p></div>
+                    <div class="flex flex-col md:flex-row gap-2 w-full md:w-auto">
+                        <input type="file" id="flyer-bg-input" accept="image/*" class="hidden" onchange="cargarFondoFlyerGenerico(event)">
+                        <button onclick="document.getElementById('flyer-bg-input').click()" class="hidden md:flex bg-app-card border border-app-border text-app-icon hover:bg-app-panel px-3 py-2 rounded-lg font-bold shadow-sm transition items-center text-xs">
+                            <i class="fas fa-image mr-1"></i> Fondo Promo
+                        </button>
+                        <button onclick="abrirModalImportarExcelCatalogo()" class="hidden md:flex bg-app-card border border-app-border text-app-text hover:bg-app-panel px-3 py-2 rounded-lg font-bold shadow-sm transition items-center text-xs">
+                            <i class="fas fa-file-excel mr-1 text-emerald-500"></i> Cargar Lista
+                        </button>
+                        <button onclick="vaciarDatosMasivos('catalogo')" class="admin-only hidden md:flex bg-app-card border border-app-border text-rose-500 hover:bg-rose-50 px-3 py-2 rounded-lg font-bold shadow-sm transition items-center text-xs">
+                            <i class="fas fa-trash-alt mr-1"></i> Vaciar Catálogo
+                        </button>
+                        <button onclick="abrirModalServicio()" class="w-full md:w-auto bg-app-primary text-app-textOn px-4 py-2 rounded-lg font-bold shadow-sm transition flex justify-center items-center text-sm hover:bg-app-hover">
+                            <i class="fas fa-plus mr-1"></i> Servicio
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="relative bg-app-card rounded-xl shadow-sm border border-app-border flex items-center mb-5">
+                    <i class="fas fa-search absolute left-3 text-app-muted"></i>
+                    <input type="text" id="buscador-catalogo" placeholder="Buscar servicio por nombre..." onkeyup="renderCatalogo()" class="w-full pl-9 pr-3 py-2 border-none bg-transparent outline-none">
+                </div>
+
+                <div class="flex flex-col gap-2 pb-10" id="grid-catalogo"></div>
+            </div>
+
+            <!-- ================= TAB: CAJA DIARIA ================= -->
+            <div id="tab-caja" class="tab-content hidden fade-in">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-4 gap-3">
+                    <div><h2 class="text-2xl font-bold text-app-text mb-1">Caja Diaria</h2><p class="text-app-muted text-xs">Anotá cobros y gastos.</p></div>
+                    <div class="flex flex-col md:flex-row gap-2 w-full md:w-auto">
+                        <div class="w-full md:w-auto bg-app-card border border-app-border rounded-lg flex items-center px-2 py-1 shadow-sm">
+                            <i class="far fa-calendar-alt text-app-icon mr-2 text-xs"></i>
+                            <input type="date" id="fecha-caja" class="w-full border-none outline-none bg-transparent font-bold" onchange="renderCaja()">
+                        </div>
+                        <button onclick="exportarCajaExcel()" class="hidden md:flex bg-emerald-200 hover:bg-emerald-300 text-emerald-900 px-4 py-1.5 rounded-lg font-bold shadow-sm transition items-center text-xs">
+                            <i class="fas fa-download mr-2"></i> Exportar Cierre
+                        </button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-5">
+                    <div class="bg-app-card p-4 rounded-xl shadow-sm border border-app-border border-l-4 border-l-emerald-400 relative">
+                        <p class="text-[9px] font-bold text-app-muted uppercase tracking-widest mb-1">INGRESOS</p>
+                        <h3 class="text-2xl font-bold text-emerald-500 mb-1" id="caja-tot-ing">$ 0</h3>
+                        <p class="text-[10px] text-app-muted" id="caja-sub-ing">Efvo: $0 | MP/Trans: $0</p>
+                    </div>
+                    <div class="bg-app-card p-4 rounded-xl shadow-sm border border-app-border border-l-4 border-l-rose-400 relative">
+                        <p class="text-[9px] font-bold text-app-muted uppercase tracking-widest mb-1">EGRESOS</p>
+                        <h3 class="text-2xl font-bold text-rose-500 mb-1" id="caja-tot-gas">$ 0</h3>
+                        <p class="text-[10px] text-app-muted" id="caja-sub-gas">Efvo: $0 | MP/Trans: $0</p>
+                    </div>
+                    <div class="bg-app-primary p-4 rounded-xl shadow-sm relative text-app-textOn border border-app-hover">
+                        <p class="text-[9px] font-bold opacity-80 uppercase tracking-widest mb-1">CAJA FINAL A CONTAR (EFVO)</p>
+                        <h3 class="text-3xl font-black mb-1" id="caja-tot-fin">$ 0</h3>
+                    </div>
+                </div>
+
+                <!-- CARGA DE CAJA -->
+                <div class="bg-app-card p-3 rounded-xl shadow-sm border border-app-icon mb-5 flex flex-wrap md:flex-nowrap gap-2 items-center">
+                    <input type="text" id="mov-entidad" list="caja-clientas-list" placeholder="Cliente (Insensible a mayúsculas)" onchange="autoCompletarCaja()" class="w-full md:w-1/4 rounded-lg px-3 py-2 text-xs">
+                    <datalist id="caja-clientas-list"></datalist>
+                    
+                    <input type="text" id="mov-detalle" list="caja-servicios-list" placeholder="Fórmula (Ej: Color 7.4 60g)" class="w-full md:w-1/3 rounded-lg px-3 py-2 text-xs">
+                    <datalist id="caja-servicios-list"></datalist>
+                    
+                    <div class="flex gap-2 w-full md:w-auto">
+                        <select id="mov-metodo" class="w-1/2 md:w-28 rounded-lg px-2 py-2 text-xs">
+                            <option value="Efectivo">Efectivo</option>
+                            <option value="MercadoPago">MP / Trans</option>
+                        </select>
+                        <div class="relative w-1/2 md:w-28">
+                            <span class="absolute left-2 top-2 text-app-muted font-bold text-xs">$</span>
+                            <input type="number" id="mov-monto" placeholder="Monto" class="w-full rounded-lg pl-6 pr-2 py-2 text-xs text-emerald-600 font-bold">
+                        </div>
+                    </div>
+                    
+                    <div class="flex gap-2 w-full md:w-auto shrink-0">
+                        <button onclick="intentarCobro()" class="flex-1 bg-emerald-200 hover:bg-emerald-300 text-emerald-900 font-bold px-3 py-2 rounded-lg text-xs transition shadow-sm border border-emerald-300">+ Cobro</button>
+                        <button onclick="guardarMovimiento('gasto')" class="flex-1 bg-rose-200 hover:bg-rose-300 text-rose-900 font-bold px-3 py-2 rounded-lg text-xs transition shadow-sm border border-rose-300">- Gasto</button>
+                    </div>
+                </div>
+
+                <div class="bg-app-card rounded-xl shadow-sm border border-app-border overflow-x-auto">
+                    <table class="w-full text-left border-collapse min-w-[600px]">
+                        <thead>
+                            <tr class="text-[9px] font-bold uppercase tracking-widest">
+                                <th class="py-3 px-3 w-16">Tipo</th><th class="py-3 px-3 w-16">Hora</th><th class="py-3 px-3">Nombre</th><th class="py-3 px-3">Detalle</th><th class="py-3 px-3">Método</th><th class="py-3 px-3 text-right">Monto</th><th class="py-3 px-3 text-center w-12">Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody id="lista-caja-tabla" class="text-xs"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ================= TAB: CONTROL DE STOCK ================= -->
+            <div id="tab-stock" class="tab-content hidden fade-in">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-4 gap-3">
+                    <div><h2 class="text-2xl font-bold text-app-text mb-1">Control de Stock</h2><p class="text-app-muted text-xs">Inventario e insumos.</p></div>
+                    <div class="flex flex-col md:flex-row gap-2 w-full md:w-auto">
+                        <button onclick="abrirModalImportarExcelStock()" class="hidden md:flex bg-app-card border border-app-border text-app-text hover:bg-app-panel px-3 py-2 rounded-lg font-bold shadow-sm transition items-center text-xs">
+                            <i class="fas fa-file-excel mr-1 text-emerald-500"></i> Subir Excel
+                        </button>
+                        <button onclick="vaciarDatosMasivos('stock')" class="admin-only hidden md:flex bg-app-card border border-app-border text-rose-500 hover:bg-rose-50 px-3 py-2 rounded-lg font-bold shadow-sm transition items-center text-xs">
+                            <i class="fas fa-trash-alt mr-1"></i> Vaciar Stock
+                        </button>
+                        <button onclick="abrirModalStock()" class="w-full md:w-auto bg-app-primary text-app-textOn px-4 py-2 rounded-lg font-bold shadow-sm hover:bg-app-hover transition flex justify-center items-center text-sm">
+                            <i class="fas fa-plus mr-1"></i> Artículo
+                        </button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-5">
+                    <div class="bg-app-card p-3 rounded-xl border border-app-border shadow-sm flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-full bg-app-light border border-app-primary text-app-icon flex items-center justify-center text-sm"><i class="fas fa-boxes"></i></div>
+                        <div><p class="text-[9px] font-bold text-app-muted uppercase tracking-widest">Artículos</p><h3 class="text-lg font-bold text-app-text leading-none" id="stat-stock-items">0</h3></div>
+                    </div>
+                    <div class="bg-app-card p-3 rounded-xl border border-app-border shadow-sm flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-full bg-emerald-100 border border-emerald-200 text-emerald-600 flex items-center justify-center text-sm"><i class="fas fa-layer-group"></i></div>
+                        <div><p class="text-[9px] font-bold text-app-muted uppercase tracking-widest">Unidades</p><h3 class="text-lg font-bold text-app-text leading-none" id="stat-stock-unidades">0</h3></div>
+                    </div>
+                    <div class="bg-app-card p-3 rounded-xl border border-app-border shadow-sm flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-full bg-rose-100 border border-rose-200 text-rose-600 flex items-center justify-center text-sm"><i class="fas fa-exclamation-triangle"></i></div>
+                        <div><p class="text-[9px] font-bold text-app-muted uppercase tracking-widest">En Alerta</p><h3 class="text-lg font-bold text-app-text leading-none" id="stat-stock-alerta">0</h3></div>
+                    </div>
+                    <div class="bg-app-card p-3 rounded-xl border border-app-border shadow-sm flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-full bg-purple-100 border border-purple-200 text-purple-600 flex items-center justify-center text-sm"><i class="fas fa-dollar-sign"></i></div>
+                        <div><p class="text-[9px] font-bold text-app-muted uppercase tracking-widest">Capital</p><h3 class="text-lg font-bold text-app-text leading-none" id="stat-stock-capital">$0</h3></div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col md:flex-row gap-3 mb-5">
+                    <div class="relative flex-grow bg-app-card rounded-xl shadow-sm border border-app-border flex items-center">
+                        <i class="fas fa-search absolute left-3 text-app-muted"></i>
+                        <input type="text" id="buscador-stock" placeholder="Buscar producto por código o marca..." onkeyup="renderStock()" class="w-full pl-9 pr-3 py-2 border-none bg-transparent outline-none">
+                    </div>
+                    <select id="filtro-estado-stock" onchange="renderStock()" class="bg-app-card border border-app-border rounded-xl px-3 py-2 shadow-sm font-bold text-sm min-w-[180px]">
+                        <option value="todos">Todos los productos</option>
+                        <option value="alerta">Solo en Alerta</option>
+                    </select>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 pb-10" id="grid-stock"></div>
+            </div>
+
+            <!-- ================= TAB: RENTABILIDAD ================= -->
+            <div id="tab-rentabilidad" class="admin-only tab-content hidden fade-in">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-4 gap-3">
+                    <div><h2 class="text-2xl font-bold text-app-text mb-1">Rentabilidad</h2><p class="text-app-muted text-xs">Métricas financieras y ganancias.</p></div>
+                    <div class="bg-app-card border border-app-border rounded-xl flex items-center px-3 py-1 shadow-sm w-full md:w-auto">
+                        <i class="fas fa-filter text-app-icon mr-2 text-xs"></i>
+                        <input type="month" id="filtro-mes-rentabilidad" class="w-full border-none outline-none bg-transparent font-bold text-sm" onchange="renderRentabilidad()">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-3 mb-6">
+                    <div class="bg-app-card p-4 rounded-xl shadow-sm border border-app-border relative">
+                        <p class="text-[9px] font-bold text-app-muted uppercase tracking-widest mb-1">INGRESOS</p><h3 class="text-xl font-bold text-app-text" id="rent-ingresos">$ 0</h3>
+                    </div>
+                    <div class="bg-app-card p-4 rounded-xl shadow-sm border border-app-border relative">
+                        <p class="text-[9px] font-bold text-app-muted uppercase tracking-widest mb-1">GASTOS</p><h3 class="text-xl font-bold text-app-text" id="rent-gastos-tot">$ 0</h3>
+                    </div>
+                    <div id="rent-card-neta" class="bg-app-primary p-4 rounded-xl shadow-sm relative text-app-textOn border border-app-hover transition-colors">
+                        <p class="text-[9px] font-bold opacity-80 uppercase tracking-widest mb-1">NETA (LIMPIO)</p>
+                        <h3 class="text-2xl font-black" id="rent-neta">$ 0</h3>
+                        <p class="text-[9px] mt-0.5 font-bold" id="rent-margen">Margen: 0%</p>
+                    </div>
+                    <div class="bg-app-card p-4 rounded-xl shadow-sm border border-app-border relative">
+                        <p class="text-[9px] font-bold text-app-muted uppercase tracking-widest mb-1">TICKET PROMEDIO</p><h3 class="text-xl font-bold text-app-text" id="rent-ticket">$ 0</h3>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
+                    <div class="lg:col-span-2 bg-app-card rounded-2xl shadow-sm border border-app-border p-5">
+                        <h3 class="font-bold text-app-text mb-4 flex items-center text-sm"><i class="fas fa-chart-column text-app-icon mr-2"></i> Balance</h3>
+                        <div class="h-48 flex items-end justify-center gap-6 md:gap-10 pb-3 border-b border-app-border relative overflow-hidden">
+                            <div class="absolute w-full h-full flex flex-col justify-between z-0"><div class="border-t border-dashed border-app-border w-full h-0"></div><div class="border-t border-dashed border-app-border w-full h-0"></div><div class="border-t border-dashed border-app-border w-full h-0"></div></div>
+                            <div class="w-10 bg-emerald-300 rounded-t-lg z-10 transition-all duration-1000 ease-out flex flex-col justify-start items-center group relative" id="bar-ing" style="height: 0%;"><span class="absolute -top-5 text-[9px] font-bold text-app-muted opacity-100 md:opacity-0 md:group-hover:opacity-100" id="bar-ing-lbl">$0</span></div>
+                            <div class="w-10 bg-rose-300 rounded-t-lg z-10 transition-all duration-1000 ease-out flex flex-col justify-start items-center group relative" id="bar-gvar" style="height: 0%;"><span class="absolute -top-5 text-[9px] font-bold text-app-muted opacity-100 md:opacity-0 md:group-hover:opacity-100" id="bar-gvar-lbl">$0</span></div>
+                            <div class="w-10 bg-amber-300 rounded-t-lg z-10 transition-all duration-1000 ease-out flex flex-col justify-start items-center group relative" id="bar-gfijo" style="height: 0%;"><span class="absolute -top-5 text-[9px] font-bold text-app-muted opacity-100 md:opacity-0 md:group-hover:opacity-100" id="bar-gfijo-lbl">$0</span></div>
+                        </div>
+                        <div class="flex justify-center gap-4 mt-3 text-[9px] font-bold text-app-muted uppercase tracking-wider"><div class="flex items-center"><span class="w-2 h-2 rounded-full bg-emerald-300 mr-1"></span> Ingresos</div><div class="flex items-center"><span class="w-2 h-2 rounded-full bg-rose-300 mr-1"></span> Vars.</div><div class="flex items-center"><span class="w-2 h-2 rounded-full bg-amber-300 mr-1"></span> Fijos</div></div>
+                    </div>
+
+                    <div class="bg-app-panel border border-app-border rounded-2xl p-5 flex flex-col h-[320px]">
+                        <h3 class="font-bold text-app-text mb-3 flex items-center justify-between text-sm"><span><i class="fas fa-house text-app-muted mr-2"></i> Gastos Fijos</span><button onclick="vaciarDatosMasivos('gastos')" class="text-[10px] text-rose-500 hover:text-rose-600 font-normal border border-rose-200 px-2 py-1 rounded bg-rose-100"><i class="fas fa-trash"></i> Vaciar</button></h3>
+                        <div class="flex gap-2 mb-3 bg-app-card p-1.5 rounded-lg shadow-sm border border-app-border">
+                            <input type="text" id="gf-concepto" placeholder="Concepto" class="flex-grow w-1/2 rounded-md px-2 text-xs font-bold border-none">
+                            <input type="number" id="gf-monto" placeholder="$" class="w-20 rounded-md text-xs px-2 font-bold text-center border-none">
+                            <button onclick="guardarGastoFijo()" class="bg-app-primary text-app-textOn w-7 h-7 rounded font-bold hover:bg-app-hover transition flex-shrink-0 text-xs">+</button>
+                        </div>
+                        <div class="flex-grow overflow-y-auto space-y-1.5 pr-1" id="lista-gastos-fijos"></div>
+                        <div class="mt-3 pt-3 border-t border-app-border flex justify-between items-center"><span class="text-[9px] font-bold text-app-muted uppercase tracking-widest">Total Fijos</span><span class="font-black text-lg text-app-text" id="rent-total-fijos-lbl">$0</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================= TAB: MARKETING Y REDES ================= -->
+            <div id="tab-redes" class="tab-content hidden fade-in">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-4 gap-3">
+                    <div><h2 class="text-2xl font-bold text-app-text mb-1">Marketing y Redes</h2><p class="text-app-muted text-xs">Reels y Textos.</p></div>
+                </div>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+                    <div class="bg-app-card p-5 rounded-2xl shadow-sm border border-app-border">
+                        <h3 class="font-bold text-app-text text-base mb-3 flex items-center justify-between"><span><i class="fas fa-magic text-purple-500 mr-2"></i> Generador Textos</span><button onclick="generarCaption()" class="text-purple-500 hover:text-purple-600 text-xl transition transform hover:rotate-180"><i class="fas fa-dice"></i></button></h3>
+                        <label class="text-[9px] font-bold text-app-muted uppercase tracking-widest block mb-1">Buscá una clienta</label>
+                        <input type="text" id="redes-clienta-input" list="redes-clientas-list" placeholder="Ej: Mariana..." onchange="generarCaption()" class="w-full p-2.5 rounded-lg text-xs font-bold mb-3">
+                        <label class="text-[9px] font-bold text-app-muted uppercase tracking-widest block mb-1">Texto listo</label>
+                        <textarea id="redes-caption" class="w-full h-48 p-3 rounded-lg text-xs font-medium resize-none" placeholder="El texto generado aparecerá acá..."></textarea>
+                        <button onclick="copiarCaption()" class="w-full mt-3 bg-purple-200 hover:bg-purple-300 text-purple-900 font-bold py-2.5 rounded-lg transition shadow-sm border border-purple-300 flex items-center justify-center text-sm"><i class="far fa-copy mr-2"></i> Copiar Texto</button>
+                    </div>
+                    
+                    <div class="bg-app-panel p-5 rounded-2xl border border-app-border shadow-sm">
+                        <h3 class="font-bold text-app-text text-base mb-3"><i class="fas fa-video text-rose-500 mr-2"></i> Vista Previa (Reels)</h3>
+                        <div class="border-2 border-dashed border-app-border p-4 text-center rounded-xl bg-app-card relative hover:bg-app-panel cursor-pointer overflow-hidden flex flex-col items-center justify-center min-h-[120px] transition mb-3">
+                            <input type="file" id="media-input" accept="video/mp4,video/quicktime,image/*" multiple onchange="previewMedia(event)" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+                            <i class="fas fa-cloud-upload-alt text-app-muted text-2xl mb-1 relative z-0"></i><p class="text-xs text-app-text font-bold relative z-0">Subir fotos/videos</p>
+                        </div>
+                        <div id="media-preview-container" class="grid grid-cols-3 gap-2 max-h-48 overflow-y-auto pr-1"></div>
+                        <button id="btn-generar-collage" onclick="generarCollage()" class="w-full mt-3 bg-app-primary hover:bg-app-hover text-app-textOn font-bold py-2.5 rounded-lg transition shadow-sm border border-app-primary hidden items-center justify-center text-sm"><i class="fas fa-border-all mr-2"></i> Armar Collage</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================= TAB: CONFIGURACIÓN Y TEMA ================= -->
+            <div id="tab-config" class="admin-only tab-content hidden fade-in">
+                <div class="max-w-3xl mx-auto space-y-5">
+                    
+                    <div>
+                        <h2 class="text-xl font-bold text-app-text mb-1">Configuración y Seguridad</h2>
+                        <p class="text-app-muted text-xs">Adaptá el sistema a tu marca.</p>
+                    </div>
+
+                    <!-- SELECTOR DE TEMAS (MARCA BLANCA) -->
+                    <div class="bg-app-card p-5 rounded-xl border border-app-border shadow-sm">
+                        <label class="text-[10px] font-bold text-app-icon uppercase tracking-widest block mb-1"><i class="fas fa-palette mr-1"></i> Apariencia</label>
+                        <p class="text-[11px] text-app-muted mb-4">Elegí la paleta de colores de tu sistema.</p>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                            <button onclick="cambiarTema('sky')" class="py-3 rounded-lg font-bold text-xs border-2 transition border-[#bae6fd] bg-[#f8fafc] text-[#0ea5e9] hover:bg-[#e0f2fe] shadow-sm">Sky Pastel</button>
+                            <button onclick="cambiarTema('dark')" class="py-3 rounded-lg font-bold text-xs border-2 transition border-[#30363d] bg-[#0d1117] text-[#00bfff] hover:bg-[#161b22] shadow-sm">Dark Elegance</button>
+                            <button onclick="cambiarTema('rose')" class="py-3 rounded-lg font-bold text-xs border-2 transition border-[#fecdd3] bg-[#fff1f2] text-[#e11d48] hover:bg-[#fce7f3] shadow-sm">Rosé Glamour</button>
+                            <button onclick="cambiarTema('mint')" class="py-3 rounded-lg font-bold text-xs border-2 transition border-[#a7f3d0] bg-[#ecfdf5] text-[#10b981] hover:bg-[#d1fae5] shadow-sm">Mint Natural</button>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div class="bg-app-panel p-5 rounded-xl border border-app-border relative overflow-hidden shadow-sm h-full">
+                            <label class="text-[10px] font-bold text-app-icon uppercase tracking-widest block mb-1"><i class="fas fa-store mr-1"></i> Nombre de tu Negocio</label>
+                            <input type="text" id="conf-empresa-nombre" placeholder="Ej: Mi Salón" class="w-full p-2.5 rounded-lg text-xs font-bold mb-4">
+
+                            <div class="absolute top-0 right-0 w-1.5 h-full bg-rose-400"></div>
+                            <label class="text-[10px] font-bold text-rose-500 uppercase tracking-widest block mb-1"><i class="fas fa-lock mr-1"></i> Bloqueo de Pantalla</label>
+                            <p class="text-[11px] text-app-muted mb-3">PIN para ocultar rentabilidad al personal.</p>
+                            <input type="password" id="conf-pin" maxlength="6" placeholder="Ej: 1234 (Vacío = OFF)" class="w-full p-2.5 rounded-lg text-xs font-bold tracking-widest text-center">
+                            
+                            <button onclick="guardarConfiguracion()" class="w-full bg-app-primary text-app-textOn border border-app-hover py-2.5 rounded-lg font-bold shadow-sm hover:bg-app-hover transition mt-5 text-sm">Guardar Datos</button>
+                        </div>
+                        
+                        <div class="bg-app-card p-5 rounded-xl border border-emerald-200 shadow-sm flex flex-col justify-center h-full">
+                            <label class="text-[10px] font-bold text-emerald-500 uppercase tracking-widest block mb-1"><i class="fas fa-file-excel mr-1"></i> Exportar a Excel</label>
+                            <p class="text-[11px] text-app-muted mb-5">Descargá una copia de seguridad de absolutamente toda la información y base de clientes en un solo click.</p>
+                            <button onclick="exportarExcelCompleto()" class="w-full bg-emerald-200 text-emerald-900 border border-emerald-300 py-3 rounded-lg font-bold shadow-sm hover:bg-emerald-300 transition text-sm">Descargar Base Completa</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- ================= MODALES ================= -->
+    
+    <div id="modal-confirm" class="fixed inset-0 bg-black/60 hidden items-center justify-center z-[100] p-4 backdrop-blur-sm">
+        <div class="bg-app-card border border-app-border rounded-2xl w-full max-w-sm shadow-2xl overflow-hidden text-center p-6 fade-in">
+            <div class="w-12 h-12 bg-rose-100 text-rose-600 border border-rose-200 rounded-full flex items-center justify-center mx-auto mb-3 text-xl"><i class="fas fa-exclamation-triangle"></i></div>
+            <h3 class="text-lg font-bold text-app-text mb-1">¿Estás segura?</h3>
+            <p id="confirm-msg" class="text-xs text-app-muted mb-5 font-medium">Esta acción no se puede deshacer.</p>
+            <div class="flex gap-2">
+                <button onclick="cerrarModal('modal-confirm')" class="flex-1 bg-app-panel text-app-text border border-app-border py-2.5 rounded-lg font-bold hover:bg-app-border transition text-sm">Cancelar</button>
+                <button id="btn-confirmar-accion" class="flex-1 bg-rose-500 text-white border border-rose-600 py-2.5 rounded-lg font-bold hover:bg-rose-600 transition shadow-sm text-sm">Sí, confirmar</button>
             </div>
         </div>
     </div>
 
-    <div class="contact-section">
-        <h2>¿Lista para profesionalizar tu gestión?</h2>
-        <p>Hablemos directo. Sin intermediarios, de emprendedora a emprendedor.</p>
-        <a href="https://wa.me/5491121586674" target="_blank" class="btn btn-wa">💬 Escribime por WhatsApp</a>
-        <a href="https://www.instagram.com/gesto.smart/" target="_blank" class="btn btn-ig">📸 Seguime en @gesto.smart</a>
-    </div>
+    <!-- Modal Ficha Simplificado -->
+    <div id="modal-ficha" class="fixed inset-0 bg-black/60 hidden items-center justify-center z-50 p-4 backdrop-blur-sm">
+        <div class="bg-app-card border border-app-border rounded-2xl w-full max-w-2xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden fade-in">
+            <div class="p-4 border-b border-app-border bg-app-panel flex justify-between items-center">
+                <h3 class="text-lg font-bold text-app-text" id="titulo-modal-ficha">Ficha de Clienta</h3><button onclick="cerrarModal('modal-ficha')" class="text-app-muted hover:text-rose-500"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="p-4 overflow-y-auto flex-grow bg-app-card">
+                <input type="hidden" id="ficha-id">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-5">
+                    <div><label class="text-[9px] font-bold text-app-muted uppercase tracking-widest block mb-1">Nombre</label><input type="text" id="ficha-nombre" class="w-full p-2 rounded-lg text-xs font-bold"></div>
+                    <div><label class="text-[9px] font-bold text-app-muted uppercase tracking-widest block mb-1">WhatsApp</label><input type="text" id="ficha-tel" placeholder="Ej: 1166873454" class="w-full p-2 rounded-lg text-xs font-bold"></div>
+                </div>
+                
+                <div class="bg-app-light p-3 rounded-xl border border-app-primary mb-5 shadow-sm">
+                    <h4 class="font-bold text-app-textOn mb-2 text-[10px] uppercase flex items-center"><i class="fas fa-notes-medical mr-1"></i> Visita de Hoy</h4>
+                    <div class="space-y-2">
+                        <input type="text" id="visita-servicio" placeholder="Servicio (Ej: Color)" class="w-full p-2 rounded-lg text-xs font-bold">
+                        <textarea id="visita-formula" placeholder="Fórmula detallada (Ej: 7.11 (35 grs) y 8 (40 grs)...)" class="w-full p-2 rounded-lg h-16 resize-none text-xs font-bold"></textarea>
+                    </div>
+                </div>
 
-    <div id="imageModal" class="modal-overlay" onclick="cerrarModalFondo(event)">
-        <div class="modal-content">
-            <span class="close-modal" onclick="cerrarModal()">×</span>
-            <div class="modal-header"><div class="modal-title" id="modalTitle">Interfaz del Módulo</div></div>
-            <div id="modalBody" class="modal-body"></div>
+                <h4 class="font-bold text-app-text mb-2 text-[9px] uppercase tracking-widest">Historial Clínico Histórico</h4>
+                <!-- CÓDIGO CORREGIDO PARA QUE PERMITA HACER CLIC Y ELIMINAR VISITAS -->
+                <div id="historial-lista-solo-lectura" class="space-y-1.5 opacity-80"></div>
+            </div>
+            <div class="p-3 border-t border-app-border bg-app-panel flex justify-end gap-2">
+                <button onclick="cerrarModal('modal-ficha')" class="text-app-muted font-bold px-3 py-2 hover:bg-app-border rounded-lg hidden md:block border border-transparent transition text-xs">Cancelar</button>
+                <button onclick="guardarClientaYVisita()" class="w-full md:w-auto bg-emerald-200 border border-emerald-300 text-emerald-900 px-6 py-2 rounded-lg font-bold shadow-sm hover:bg-emerald-300 transition text-sm">Guardar Ficha Completa</button>
+            </div>
         </div>
     </div>
+
+    <!-- Modales Importar/Stock -->
+    <div id="modal-importar" class="fixed inset-0 bg-black/60 hidden items-center justify-center z-50 p-4 backdrop-blur-sm">
+        <div class="bg-app-card border border-app-border rounded-2xl w-full max-w-xl overflow-hidden shadow-2xl fade-in">
+            <div class="p-5 border-b border-app-border bg-app-panel flex justify-between items-center"><h3 class="text-lg font-bold text-app-text"><i class="fas fa-file-excel mr-2 text-emerald-500"></i> Pegar Clientas</h3><button onclick="cerrarModal('modal-importar')" class="text-app-muted hover:text-rose-500"><i class="fas fa-times"></i></button></div>
+            <!-- INYECCIÓN UX: BOTÓN DESCARGAR PLANTILLA CLIENTAS -->
+            <div class="px-5 pt-4 pb-1 flex justify-between items-center">
+                <p class="text-[10px] font-bold text-app-muted uppercase tracking-widest">Estructura requerida</p>
+                <button onclick="descargarPlantillaClientas()" class="text-[10px] bg-emerald-100 text-emerald-700 border border-emerald-200 px-3 py-1.5 rounded-lg hover:bg-emerald-200 transition font-bold shadow-sm"><i class="fas fa-download mr-1"></i> Bajar Excel Modelo</button>
+            </div>
+            <div class="px-5 pb-5 pt-2"><textarea id="texto-excel" class="w-full h-40 border-2 border-dashed border-app-border p-3 rounded-lg font-mono text-xs text-emerald-600 font-bold whitespace-pre" placeholder="Nombre | Teléfono | Fecha | Servicio | Fórmula"></textarea></div>
+            <div class="p-4 border-t border-app-border bg-app-panel flex justify-end"><button onclick="procesarPegadoExcel()" class="bg-emerald-200 border border-emerald-300 text-emerald-900 px-6 py-2 rounded-lg font-bold shadow-sm hover:bg-emerald-300 transition text-sm">Importar Datos</button></div>
+        </div>
+    </div>
+
+    <div id="modal-stock" class="fixed inset-0 bg-black/60 hidden items-center justify-center z-50 p-4 backdrop-blur-sm">
+        <div class="bg-app-card border border-app-border rounded-2xl w-full max-w-sm shadow-2xl overflow-hidden fade-in">
+            <div class="p-4 border-b border-app-border bg-app-panel flex justify-between items-center"><h3 class="text-lg font-bold text-app-text" id="titulo-modal-stock">Artículo</h3><button onclick="cerrarModal('modal-stock')" class="text-app-muted hover:text-rose-500"><i class="fas fa-times"></i></button></div>
+            <div class="p-4 space-y-3">
+                <input type="hidden" id="stock-id">
+                <div class="flex gap-2"><div class="w-1/3"><label class="text-[9px] font-bold text-app-muted uppercase block mb-0.5">Código</label><input type="text" id="stock-codigo" class="w-full p-2 rounded-lg text-xs font-bold"></div><div class="flex-1"><label class="text-[9px] font-bold text-app-muted uppercase block mb-0.5">Marca / Nombre</label><input type="text" id="stock-nombre" class="w-full p-2 rounded-lg text-xs font-bold"></div></div>
+                <div class="flex gap-2"><div class="flex-1"><label class="text-[9px] font-bold text-app-muted uppercase block mb-0.5">Costo $</label><input type="number" id="stock-costo" class="w-full p-2 rounded-lg text-xs font-bold"></div><div class="flex-1"><label class="text-[9px] font-bold text-app-muted uppercase block mb-0.5">Venta $</label><input type="number" id="stock-precio" class="w-full p-2 rounded-lg text-xs font-bold"></div></div>
+                <div class="flex gap-2"><div class="flex-1 bg-app-panel p-2 rounded-lg border border-app-border"><label class="text-[9px] font-bold text-app-muted uppercase block mb-0.5 text-center">Unidades Disp.</label><input type="number" step="0.5" id="stock-cantidad" class="w-full !bg-transparent !border-transparent text-xl text-center text-app-text font-bold outline-none !shadow-none"></div><div class="flex-1 bg-rose-50 p-2 rounded-lg border border-rose-200"><label class="text-[9px] font-bold text-rose-600 uppercase block mb-0.5 text-center">Alerta Min</label><input type="number" step="0.5" id="stock-minimo" class="w-full !bg-transparent !border-transparent text-xl text-center !text-rose-600 font-bold outline-none !shadow-none"></div></div>
+            </div>
+            <div class="p-3 border-t border-app-border bg-app-panel flex justify-end"><button onclick="guardarStock()" class="bg-app-primary text-app-textOn border border-app-hover px-6 py-2 rounded-lg font-bold shadow-sm hover:bg-app-hover transition w-full text-sm">Guardar</button></div>
+        </div>
+    </div>
+
+    <div id="modal-importar-stock" class="fixed inset-0 bg-black/60 hidden items-center justify-center z-50 p-4 backdrop-blur-sm">
+        <div class="bg-app-card border border-app-border rounded-2xl w-full max-w-xl overflow-hidden shadow-2xl fade-in">
+            <div class="p-5 border-b border-app-border bg-app-panel flex justify-between items-center"><h3 class="text-lg font-bold text-app-text"><i class="fas fa-file-excel mr-2 text-emerald-500"></i> Pegar Stock</h3><button onclick="cerrarModal('modal-importar-stock')" class="text-app-muted hover:text-rose-500"><i class="fas fa-times"></i></button></div>
+            <!-- INYECCIÓN UX: BOTÓN DESCARGAR PLANTILLA STOCK -->
+            <div class="px-5 pt-4 pb-1 flex justify-between items-center">
+                <p class="text-[10px] font-bold text-app-muted uppercase tracking-widest">Estructura requerida</p>
+                <button onclick="descargarPlantillaStock()" class="text-[10px] bg-emerald-100 text-emerald-700 border border-emerald-200 px-3 py-1.5 rounded-lg hover:bg-emerald-200 transition font-bold shadow-sm"><i class="fas fa-download mr-1"></i> Bajar Excel Modelo</button>
+            </div>
+            <div class="px-5 pb-5 pt-2"><textarea id="texto-excel-stock" class="w-full h-40 border-2 border-dashed border-app-border p-3 rounded-lg font-mono text-xs text-emerald-600 font-bold whitespace-pre" placeholder="Código | Nombre | Costo | Precio | Cant | Min"></textarea></div>
+            <div class="p-4 border-t border-app-border bg-app-panel flex justify-end"><button onclick="procesarPegadoStock()" class="bg-emerald-200 text-emerald-900 border border-emerald-300 px-6 py-2 rounded-lg font-bold shadow-sm hover:bg-emerald-300 transition text-sm">Importar</button></div>
+        </div>
+    </div>
+
+    <div id="modal-servicio" class="fixed inset-0 bg-black/60 hidden items-center justify-center z-50 p-4 backdrop-blur-sm">
+        <div class="bg-app-card border border-app-border rounded-2xl w-full max-w-sm shadow-2xl overflow-hidden fade-in">
+            <div class="p-4 border-b border-app-border bg-app-panel flex justify-between items-center"><h3 class="text-lg font-bold text-app-text" id="titulo-modal-servicio">Servicio</h3><button onclick="cerrarModal('modal-servicio')" class="text-app-muted hover:text-rose-500"><i class="fas fa-times"></i></button></div>
+            <div class="p-4 space-y-3">
+                <input type="hidden" id="servicio-id">
+                <div><label class="text-[9px] font-bold text-app-muted uppercase block mb-1">Nombre</label><input type="text" id="servicio-nombre" class="w-full p-2 rounded-lg text-xs font-bold"></div>
+                <div><label class="text-[9px] font-bold text-app-muted uppercase block mb-1">Precio $</label><input type="number" id="servicio-precio" class="w-full p-2 rounded-lg font-bold text-base !text-emerald-600"></div>
+            </div>
+            <div class="p-3 border-t border-app-border bg-app-panel flex justify-end"><button onclick="guardarServicio()" class="bg-app-primary text-app-textOn border border-app-hover px-5 py-2 w-full rounded-lg font-bold shadow-sm hover:bg-app-hover text-sm">Guardar</button></div>
+        </div>
+    </div>
+    
+    <div id="modal-importar-catalogo" class="fixed inset-0 bg-black/60 hidden items-center justify-center z-50 p-4 backdrop-blur-sm">
+        <div class="bg-app-card border border-app-border rounded-2xl w-full max-w-xl overflow-hidden shadow-2xl fade-in">
+            <div class="p-5 border-b border-app-border bg-app-panel flex justify-between items-center"><h3 class="text-lg font-bold text-app-text"><i class="fas fa-file-excel mr-2 text-emerald-500"></i> Pegar Precios</h3><button onclick="cerrarModal('modal-importar-catalogo')" class="text-app-muted hover:text-rose-500"><i class="fas fa-times"></i></button></div>
+            <!-- INYECCIÓN UX: BOTÓN DESCARGAR PLANTILLA CATÁLOGO -->
+            <div class="px-5 pt-4 pb-1 flex justify-between items-center">
+                <p class="text-[10px] font-bold text-app-muted uppercase tracking-widest">Estructura requerida</p>
+                <button onclick="descargarPlantillaCatalogo()" class="text-[10px] bg-emerald-100 text-emerald-700 border border-emerald-200 px-3 py-1.5 rounded-lg hover:bg-emerald-200 transition font-bold shadow-sm"><i class="fas fa-download mr-1"></i> Bajar Excel Modelo</button>
+            </div>
+            <div class="px-5 pb-5 pt-2"><textarea id="texto-excel-catalogo" class="w-full h-40 border-2 border-dashed border-app-border p-3 rounded-lg font-mono text-xs text-emerald-600 font-bold whitespace-pre" placeholder="Nombre | Precio"></textarea></div>
+            <div class="p-4 border-t border-app-border bg-app-panel flex justify-end"><button onclick="procesarPegadoCatalogo()" class="bg-emerald-200 text-emerald-900 border border-emerald-300 px-6 py-2 rounded-lg font-bold shadow-sm hover:bg-emerald-300 transition text-sm">Importar</button></div>
+        </div>
+    </div>
+
+    <!-- Modal Turno Simplificado -->
+    <div id="modal-turno" class="fixed inset-0 bg-black/60 hidden items-center justify-center z-50 p-4 backdrop-blur-sm">
+        <div class="bg-app-card border border-app-border rounded-2xl w-full max-w-sm shadow-2xl overflow-hidden fade-in">
+            <div class="p-4 border-b border-app-border bg-app-panel flex justify-between items-center"><h3 class="text-lg font-bold text-app-text" id="titulo-modal-turno">Turno</h3><button onclick="cerrarModal('modal-turno')" class="text-app-muted hover:text-rose-500"><i class="fas fa-times"></i></button></div>
+            <div class="p-4 space-y-3">
+                <input type="hidden" id="turno-id">
+                <div class="flex gap-2">
+                    <div class="flex-1"><label class="text-[9px] font-bold text-app-muted uppercase block mb-1">Fecha</label><input type="date" id="turno-fecha" class="w-full p-2 rounded-lg text-xs font-bold"></div>
+                    <div class="w-1/3"><label class="text-[9px] font-bold text-app-muted uppercase block mb-1">Hora</label><input type="time" id="turno-hora" class="w-full p-2 rounded-lg text-xs font-bold"></div>
+                </div>
+                <div><label class="text-[9px] font-bold text-app-muted uppercase block mb-1">Clienta</label><input type="text" id="turno-nombre" class="w-full p-2 rounded-lg text-xs font-bold"></div>
+                <div><label class="text-[9px] font-bold text-app-muted uppercase block mb-1">Servicio</label><input type="text" id="turno-servicio" class="w-full p-2 rounded-lg text-xs font-bold"></div>
+            </div>
+            <div class="p-3 border-t border-app-border bg-app-panel flex justify-end"><button onclick="guardarTurno()" class="bg-app-primary text-app-textOn border border-app-hover w-full py-2 rounded-lg font-bold shadow-sm hover:bg-app-hover text-sm">Agendar</button></div>
+        </div>
+    </div>
+
+    <!-- MODAL STOCK CÁLCULO INTELIGENTE GRAMOS (SOLUCIÓN UX + PARSER) -->
+    <div id="modal-cobro-stock" class="fixed inset-0 bg-black/60 hidden items-center justify-center z-[110] p-4 backdrop-blur-sm">
+        <div class="bg-app-card border border-app-border rounded-2xl w-full max-w-md shadow-2xl overflow-hidden fade-in">
+            <div class="p-4 border-b border-app-border bg-app-panel flex justify-between items-center">
+                <h3 class="text-lg font-bold text-app-text"><i class="fas fa-magic text-app-icon mr-2"></i>Descuento Automático</h3>
+                <button onclick="cerrarModal('modal-cobro-stock')" class="text-app-muted hover:text-rose-500"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="p-4">
+                <div class="bg-app-light border border-app-primary p-3 rounded-xl mb-4 shadow-sm text-center">
+                    <p class="text-[9px] text-app-icon font-bold uppercase tracking-widest mb-1">Fórmula Aplicada</p>
+                    <p class="text-sm text-app-textOn font-medium italic" id="cobro-formula-display"></p>
+                </div>
+                
+                <p class="text-[10px] text-app-muted mb-3 font-bold uppercase tracking-widest text-center">Lógica: 60 gramos = 1 Unidad entera.</p>
+                <div id="lista-cobro-stock" class="space-y-2 max-h-48 overflow-y-auto pr-1"></div>
+            </div>
+            <div class="p-3 border-t border-app-border bg-app-panel flex justify-end gap-2">
+                <button onclick="ejecutarCobroPendiente(); cerrarModal('modal-cobro-stock')" class="w-1/3 bg-app-card border border-app-border text-app-muted py-2 rounded-lg font-bold hover:bg-app-panel transition text-sm">Omitir</button>
+                <button onclick="confirmarCobroYStock()" class="w-2/3 bg-emerald-200 border border-emerald-300 text-emerald-900 py-2 rounded-lg font-bold shadow-sm hover:bg-emerald-300 transition text-sm">Descontar y Cobrar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Generadores -->
+    <div id="modal-flyer-resultado" class="fixed inset-0 bg-black/80 hidden items-center justify-center z-[100] p-4 flex-col backdrop-blur-md">
+        <h3 class="text-white text-2xl font-bold mb-4" id="titulo-modal-resultado">¡Imagen Lista!</h3>
+        <div class="bg-app-card p-1.5 rounded-xl border border-app-border max-h-[60vh] flex justify-center items-center overflow-hidden shadow-2xl fade-in"><img id="flyer-resultado-img" src="" class="max-h-full rounded-lg object-contain"></div>
+        <div class="flex gap-3 mt-6 w-full max-w-sm"><button onclick="cerrarModal('modal-flyer-resultado')" class="flex-1 bg-app-card border border-app-border text-app-muted py-2.5 rounded-lg font-bold hover:bg-app-panel transition text-sm shadow-sm">Cerrar</button><a id="btn-descargar-flyer" href="#" class="flex-1 bg-app-primary border border-app-primary text-app-textOn py-2.5 rounded-lg font-bold flex justify-center items-center shadow-sm hover:bg-app-hover transition text-sm"><i class="fas fa-download mr-1"></i> Descargar</a></div>
+    </div>
+
+    <div id="flyer-generator" class="flyer-preview"><div id="flyer-img" class="flyer-bg"></div><div class="flyer-content"><h1 id="flyer-marca" class="text-[40px] font-bold tracking-[0.2em] text-white uppercase leading-none drop-shadow-xl mb-16">MI NEGOCIO</h1><h2 id="flyer-titulo" class="text-[80px] font-bold mb-10 leading-tight text-white tracking-wide">Servicio</h2><div class="inline-block bg-[#bae6fd] text-[#0f172a] px-16 py-6 rounded-full border-4 border-white shadow-xl transform -rotate-2"><span class="text-[50px] font-medium mr-2">$</span><span id="flyer-precio" class="text-[100px] font-black tracking-tighter">0</span></div></div></div>
+    <div id="collage-generator" class="collage-preview"><div id="collage-grid" class="collage-grid"></div><div class="collage-watermark font-sans border-t border-app-border pt-6" id="collage-marca">MI NEGOCIO</div></div>
 
     <script>
-        const modulosData = {
-            'retail': { 
-                titulo: 'Módulo: Retail & PyMEs', 
-                items: [
-                    { titulo: '1. Base de Clientes', archivo: 'retail1.png' },
-                    { titulo: '2. Punto de Venta (Carrito)', archivo: 'retail2.png' },
-                    { titulo: '3. Gestión de Presupuestos Pendientes', archivo: 'retail3.png' },
-                    { titulo: '4. Panel de Remitos y Entregas', archivo: 'retail4.png' },
-                    { titulo: '5. Caja Diaria e Historial', archivo: 'retail5.png' },
-                    { titulo: '6. Gestión de Inventario y Stock', archivo: 'retail6.png' },
-                    { titulo: '7. Listas de Precios y Costos', archivo: 'retail7.png' },
-                    { titulo: '8. Tablero de Rentabilidad y Gastos Fijos', archivo: 'retail8.png' }
-                ]
-            },
-            'salon': { 
-                titulo: 'Módulo: Estética & Servicios', 
-                items: [
-                    { titulo: '1. Fichero de Clientes y Fórmulas', archivo: 'salon1.png' },
-                    { titulo: '2. Agenda Inteligente', archivo: 'salon2.png' },
-                    { titulo: '3. Caja Diaria (Integrada con Stock)', archivo: 'salon3.png' },
-                    { titulo: '4. Stock y Control de Insumos', archivo: 'salon4.png' },
-                    { titulo: '5. Balance y Rentabilidad Neta', archivo: 'salon5.png' },
-                    { titulo: '6. Generador de Textos para Redes', archivo: 'salon6.png' }
-                ]
-            }
-        };
-        const modal = document.getElementById('imageModal');
-        const modalBody = document.getElementById('modalBody');
-        const modalTitle = document.getElementById('modalTitle');
-        function abrirModal(modulo) {
-            const data = modulosData[modulo];
-            modalTitle.innerText = data.titulo;
-            modalBody.innerHTML = data.items.map(item => `
-                <div class="modal-item">
-                    <span class="modal-item-title">${item.titulo}</span>
-                    <img src="${item.archivo}" alt="${item.titulo}" loading="lazy" onerror="this.src='https://via.placeholder.com/800x450/0d1117/8b949e?text=Cargando+Imagen+...'">
-                </div>
-            `).join('');
-            document.body.classList.add('modal-open'); modal.classList.add('active'); modalBody.scrollTop = 0; 
+        let clientas = JSON.parse(localStorage.getItem('yes_clientas')) || [];
+        let caja = JSON.parse(localStorage.getItem('yes_caja')) || [];
+        let stock = JSON.parse(localStorage.getItem('yes_stock')) || [];
+        let servicios = JSON.parse(localStorage.getItem('yes_servicios')) || [];
+        let turnos = JSON.parse(localStorage.getItem('yes_turnos')) || [];
+        let gastosFijos = JSON.parse(localStorage.getItem('yes_gastos_fijos')) || [];
+        
+        // Lógica de Persistencia de Tema
+        let appConfig = JSON.parse(localStorage.getItem('yes_config')) || { pin: "", nombreEmpresa: 'Mi Salón', logoBase64: '', tema: 'sky' };
+        document.documentElement.setAttribute('data-theme', appConfig.tema || 'sky');
+
+        let fondoFlyerGlobal = localStorage.getItem('yes_fondo_flyer') || null;
+
+        function guardarBD() {
+            localStorage.setItem('yes_clientas', JSON.stringify(clientas));
+            localStorage.setItem('yes_caja', JSON.stringify(caja));
+            localStorage.setItem('yes_stock', JSON.stringify(stock));
+            localStorage.setItem('yes_servicios', JSON.stringify(servicios));
+            localStorage.setItem('yes_turnos', JSON.stringify(turnos));
+            localStorage.setItem('yes_gastos_fijos', JSON.stringify(gastosFijos));
         }
-        function cerrarModal() { modal.classList.remove('active'); document.body.classList.remove('modal-open'); }
-        function cerrarModalFondo(e) { if (e.target === modal) cerrarModal(); }
-        const colors = ['#00bfff', '#4dd2ff', '#80dfff']; 
-        document.addEventListener('mousemove', function(e) {
-            if (document.body.classList.contains('modal-open')) return; 
-            const sparkle = document.createElement('div');
-            sparkle.className = 'sparkle'; sparkle.style.left = e.clientX + 'px'; sparkle.style.top = e.clientY + 'px';
-            const randomColor = colors[Math.floor(Math.random() * colors.length)];
-            sparkle.style.backgroundColor = randomColor; sparkle.style.boxShadow = `0 0 10px ${randomColor}, 0 0 20px #fff`;
-            document.body.appendChild(sparkle); setTimeout(() => { sparkle.remove(); }, 800);
+
+        const generarId = () => Date.now().toString(36) + Math.random().toString(36).substr(2);
+        const escapeRegExp = (string) => string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        
+        const hoyString = () => new Date().toLocaleDateString('en-CA');
+        
+        let fechaAgendaGlobal = new Date(); 
+        let cobroPendiente = null; 
+        let martesHabilitado = false;
+        let rotadorCaption = 0;
+        let appLocked = false;
+
+        function cambiarTema(tema) {
+            document.documentElement.setAttribute('data-theme', tema);
+            appConfig.tema = tema;
+            localStorage.setItem('yes_config', JSON.stringify(appConfig));
+            mostrarToast("Tema actualizado", "bg-app-primary text-app-textOn");
+        }
+
+        function switchTab(tabId, el) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
+            document.querySelectorAll('.tab-link').forEach(link => {
+                link.classList.remove('active', 'text-app-textOn', 'bg-app-primary', 'font-bold', 'text-app-text', 'shadow-sm');
+                link.classList.add('text-app-muted', 'hover:bg-app-panel', 'hover:text-app-text', 'font-medium');
+                // Restaurar opacidad de icono
+                let icon = link.querySelector('i');
+                if(icon) icon.classList.remove('opacity-80');
+            });
+            document.getElementById(tabId).classList.remove('hidden');
+            if(el) { 
+                el.classList.remove('text-app-muted', 'hover:bg-app-panel', 'hover:text-app-text', 'font-medium'); 
+                if(tabId === 'tab-manual') {
+                    el.classList.add('active', 'text-app-textOn', 'bg-app-primary', 'font-bold', 'shadow-sm');
+                } else {
+                    el.classList.add('active', 'text-app-textOn', 'bg-app-primary', 'font-bold', 'shadow-sm'); 
+                }
+                let icon = el.querySelector('i');
+                if(icon) icon.classList.add('opacity-80');
+            }
+            if(window.innerWidth < 768) document.getElementById('mobile-menu').parentElement.classList.add('hidden');
+            actualizarUI();
+        }
+
+        function cerrarModal(id) { document.getElementById(id).classList.add('hidden'); document.getElementById(id).classList.remove('flex'); }
+        function abrirModalUI(id) { document.getElementById(id).classList.remove('hidden'); document.getElementById(id).classList.add('flex'); }
+        function mostrarToast(msg, color = 'bg-app-primary text-app-textOn') { const cont = document.getElementById('toast-container'); const div = document.createElement('div'); div.className = `toast ${color}`; div.innerHTML = msg; cont.appendChild(div); setTimeout(() => { div.style.animation = 'slideIn 0.3s reverse forwards'; setTimeout(()=>div.remove(),300); }, 3000); }
+
+        let accionPendiente = null;
+        function pedirConfirmacion(mensaje, callback) { document.getElementById('confirm-msg').innerText = mensaje; accionPendiente = callback; abrirModalUI('modal-confirm'); }
+        document.getElementById('btn-confirmar-accion').addEventListener('click', () => { if(accionPendiente) accionPendiente(); cerrarModal('modal-confirm'); });
+
+        function vaciarDatosMasivos(modulo) {
+            pedirConfirmacion(`⚠️ ¿Estás segura de borrar TODOS los datos de ${modulo.toUpperCase()}? Esta acción no se puede deshacer.`, () => {
+                if(modulo === 'caja') caja = []; if(modulo === 'stock') stock = []; if(modulo === 'catalogo') servicios = [];
+                if(modulo === 'clientas') clientas = []; if(modulo === 'gastos') gastosFijos = []; if(modulo === 'agenda') turnos = [];
+                guardarBD(); actualizarUI(); mostrarToast(`Datos eliminados`, 'bg-rose-200 text-rose-900');
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if(appConfig.pin && appConfig.pin.trim() !== "") { bloquearApp(); document.getElementById('pantalla-bloqueo').style.display = 'flex'; }
+            document.getElementById('fecha-caja').value = hoyString(); document.getElementById('filtro-mes-rentabilidad').value = hoyString().substring(0, 7);
+            let hoyObj = new Date(); let diaSem = hoyObj.getDay(); let offset = 0;
+            if (diaSem === 0) offset = 3; else if (diaSem === 1) offset = 2; else if (diaSem === 2) offset = 1; else offset = 3 - diaSem; 
+            fechaAgendaGlobal = new Date(hoyObj); fechaAgendaGlobal.setDate(hoyObj.getDate() + offset);
+            aplicarConfiguracion(); actualizarDatalists();
+            const tabM = document.querySelector('.tab-link[onclick*="tab-manual"]');
+            if(tabM) switchTab('tab-manual', tabM);
         });
+
+        // -------------------------------------------------------------
+        // FUNCIONES DE EXCEL
+        // -------------------------------------------------------------
+        
+        function exportarExcelCompleto() {
+            mostrarToast('Generando Base de Datos...', 'bg-app-primary text-app-textOn');
+            const wb = XLSX.utils.book_new();
+            
+            const cliData = clientas.map(c => ({ Nombre: c.nombre, Telefono: c.tel, Total_Visitas: c.visitas ? c.visitas.length : 0, Ultima_Visita: c.visitas && c.visitas.length ? [...c.visitas].sort((a,b)=>new Date(b.fecha)-new Date(a.fecha))[0].fecha : '-' }));
+            const wsCli = XLSX.utils.json_to_sheet(cliData); XLSX.utils.book_append_sheet(wb, wsCli, "Clientas");
+
+            const cajaData = caja.map(m => ({ Fecha: m.fecha, Hora: m.hora, Tipo: m.tipo.toUpperCase(), Concepto: m.concepto, Detalle: m.detalle, Metodo: m.metodo, Monto: m.monto }));
+            const wsCaja = XLSX.utils.json_to_sheet(cajaData); XLSX.utils.book_append_sheet(wb, wsCaja, "Historial_Movimientos");
+
+            const stockData = stock.map(s => ({ Codigo: s.codigo, Nombre_Marca: s.nombre, Costo: s.costo, Precio_Venta: s.precio, Cantidad_Disponible: s.cantidad, Alerta_Minima: s.minimo }));
+            const wsStock = XLSX.utils.json_to_sheet(stockData); XLSX.utils.book_append_sheet(wb, wsStock, "Stock_Actual");
+
+            XLSX.writeFile(wb, `GestoSmart_BackUp_${hoyString()}.xlsx`);
+            mostrarToast('¡Excel descargado!', 'bg-emerald-200 text-emerald-900');
+        }
+
+        function exportarCajaExcel() {
+            if(caja.length === 0) return mostrarToast('No hay datos en la caja para exportar.', 'bg-rose-200 text-rose-900');
+            mostrarToast('Generando Cierre de Caja...', 'bg-app-primary text-app-textOn');
+            
+            const wb = XLSX.utils.book_new();
+            
+            const detalleData = caja.sort((a,b) => new Date(b.fecha) - new Date(a.fecha)).map(m => ({
+                "Fecha": m.fecha, "Hora": m.hora || '-', "Tipo": m.tipo.toUpperCase(), "Cliente / Concepto": m.concepto, "Servicio / Fórmula": m.detalle || '-', "Método de Pago": m.metodo, "Ingreso ($)": m.tipo === 'ingreso' ? m.monto : 0, "Egreso ($)": m.tipo === 'gasto' ? m.monto : 0
+            }));
+            const wsDetalle = XLSX.utils.json_to_sheet(detalleData); XLSX.utils.book_append_sheet(wb, wsDetalle, "Detalle_Movimientos");
+
+            const resumenMap = {};
+            caja.forEach(m => {
+                if(!resumenMap[m.fecha]) resumenMap[m.fecha] = { Ingreso_Efvo: 0, Ingreso_MP: 0, Egresos: 0 };
+                if(m.tipo === 'ingreso') { if(m.metodo === 'Efectivo') resumenMap[m.fecha].Ingreso_Efvo += m.monto; else resumenMap[m.fecha].Ingreso_MP += m.monto; } else { resumenMap[m.fecha].Egresos += m.monto; }
+            });
+            
+            const resumenData = Object.keys(resumenMap).sort((a,b)=>new Date(b)-new Date(a)).map(fecha => {
+                const r = resumenMap[fecha]; const totalIngresos = r.Ingreso_Efvo + r.Ingreso_MP;
+                return { "Fecha del Cierre": fecha, "Ingresos Efectivo ($)": r.Ingreso_Efvo, "Ingresos MP/Transf ($)": r.Ingreso_MP, "Total Ingresos ($)": totalIngresos, "Total Gastos ($)": r.Egresos, "GANANCIA NETA ($)": totalIngresos - r.Egresos };
+            });
+            const wsResumen = XLSX.utils.json_to_sheet(resumenData); XLSX.utils.book_append_sheet(wb, wsResumen, "Cierres_Diarios");
+
+            const nombreNegocio = (appConfig.nombreEmpresa || 'Mi_Salon').replace(/\s+/g, '_');
+            XLSX.writeFile(wb, `Cierre_Caja_${nombreNegocio}_${hoyString()}.xlsx`);
+            mostrarToast('¡Excel de Caja descargado!', 'bg-emerald-200 text-emerald-900');
+        }
+
+        function actualizarDatalists() {
+            const dlC = document.getElementById('caja-clientas-list'); if(dlC) dlC.innerHTML = clientas.map(c => `<option value="${c.nombre}">`).join('');
+            const dlS = document.getElementById('caja-servicios-list'); if(dlS) dlS.innerHTML = servicios.map(s => `<option value="${s.nombre}">`).join('');
+            const dlR = document.getElementById('redes-clientas-list'); if(dlR) dlR.innerHTML = clientas.map(c => `<option value="${c.nombre}">`).join('');
+        }
+
+        function aplicarConfiguracion() {
+            const nombre = appConfig.nombreEmpresa || 'Mi Salón';
+            document.getElementById('nombreComercioSide').value = nombre;
+            if(document.getElementById('conf-empresa-nombre')) document.getElementById('conf-empresa-nombre').value = nombre;
+            const clientPreview = document.getElementById('clientLogoPreview');
+            if(appConfig.logoBase64) { clientPreview.src = appConfig.logoBase64; } else { clientPreview.src = 'https://via.placeholder.com/150/f8fafc/64748b?text=Mi+Logo'; }
+        }
+        function procesarLogoSidebar(e) { const file = e.target.files[0]; if(!file) return; const reader = new FileReader(); reader.onload = event => { appConfig.logoBase64 = event.target.result; localStorage.setItem('yes_config', JSON.stringify(appConfig)); aplicarConfiguracion(); }; reader.readAsDataURL(file); }
+        
+        function guardarConfiguracion() { 
+            appConfig.pin = document.getElementById('conf-pin').value.trim(); 
+            appConfig.nombreEmpresa = document.getElementById('conf-empresa-nombre').value.trim() || 'Mi Salón';
+            localStorage.setItem('yes_config', JSON.stringify(appConfig)); 
+            aplicarConfiguracion(); 
+            mostrarToast("Configuración guardada", "bg-emerald-200 text-emerald-900"); 
+            if(appConfig.pin) bloquearApp(); 
+        }
+
+        function verificarPin() { const val = document.getElementById('input-pin-ingreso').value; if(val === appConfig.pin) { document.getElementById('pantalla-bloqueo').style.display = 'none'; desbloquearApp(); mostrarToast("Modo Admin Desbloqueado", "bg-emerald-200 text-emerald-900"); actualizarUI(); } else { mostrarToast("PIN Incorrecto", "bg-rose-200 text-rose-900"); document.getElementById('input-pin-ingreso').value = ""; } }
+        function toggleLock() { if(appLocked) { document.getElementById('input-pin-ingreso').value = ''; document.getElementById('pantalla-bloqueo').style.display = 'flex'; } else { if(!appConfig.pin || appConfig.pin === '') return mostrarToast('Configurá un PIN en Configuración', 'bg-amber-200 text-amber-900'); bloquearApp(); mostrarToast('Modo Empleada Activado', 'bg-app-primary text-app-textOn'); } }
+        function bloquearApp() { appLocked = true; document.body.classList.add('app-locked'); document.getElementById('btn-lock').innerHTML = '<i class="fas fa-lock mr-2 text-rose-500"></i> Modo Empleada'; const tabActual = document.querySelector('.tab-content:not(.hidden)')?.id; if(['tab-rentabilidad', 'tab-config'].includes(tabActual)) { switchTab('tab-clientas', document.querySelector('.tab-link[onclick*="tab-clientas"]')); } else { actualizarUI(); } }
+        function desbloquearApp() { appLocked = false; document.body.classList.remove('app-locked'); document.getElementById('btn-lock').innerHTML = '<i class="fas fa-unlock mr-2 text-emerald-500"></i> Modo Admin'; actualizarUI(); }
+
+        function actualizarUI() {
+            try { renderClientas(); actualizarEstadisticas(); } catch(e) {} try { renderAgendaSemanal(); } catch(e) {} try { renderCatalogo(); } catch(e) {} try { renderStock(); } catch(e) {}
+            if(!appLocked) { try { renderCaja(); } catch(e) {} try { renderRentabilidad(); } catch(e) {} try { actualizarDropdownRedes(); } catch(e) {} }
+        }
+
+        // --- CLIENTAS ---
+        function formatearFechaAr(fechaStr) { if(!fechaStr) return ''; if(fechaStr.includes('/')) return fechaStr; const [y,m,d] = fechaStr.split('-'); return `${d}/${m}/${y}`; }
+
+        function renderClientas() {
+            const grid = document.getElementById('grid-clientas'); const filtro = document.getElementById('buscador-clientas').value.toLowerCase(); const orden = document.getElementById('filtro-orden-clientas').value;
+            let filtradas = clientas.filter(c => c.nombre.toLowerCase().includes(filtro) || (c.tel && c.tel.includes(filtro)));
+            if(orden === 'alfabetico') { filtradas.sort((a,b) => a.nombre.localeCompare(b.nombre)); } else { filtradas.sort((a,b) => { const ultA = a.visitas?.length ? new Date(a.visitas[a.visitas.length-1].fecha) : 0; const ultB = b.visitas?.length ? new Date(b.visitas[b.visitas.length-1].fecha) : 0; return ultB - ultA; }); }
+            
+            grid.innerHTML = filtradas.length ? filtradas.map(c => {
+                const totalV = c.visitas ? c.visitas.length : 0; let ultV = null; if(totalV > 0) { const sortedVisitas = [...c.visitas].sort((a,b) => new Date(a.fecha) - new Date(b.fecha)); ultV = sortedVisitas[sortedVisitas.length-1]; }
+                const fechaMostrar = ultV ? formatearFechaAr(ultV.fecha) : '-'; const formulaMostrar = ultV && ultV.formula ? ultV.formula : (ultV ? ultV.servicio : 'Sin historial');
+                const botonContacto = (c.tel && c.tel.trim() !== "") ? `<a href="https://wa.me/${c.tel.replace(/[^0-9]/g, '')}" target="_blank" onclick="event.stopPropagation();" class="block w-full text-center bg-emerald-100 text-emerald-700 border border-emerald-200 font-bold py-2 rounded-lg hover:bg-emerald-200 transition text-xs shadow-sm"><i class="fab fa-whatsapp text-sm align-middle mr-1"></i> WhatsApp</a>` : `<button onclick="event.stopPropagation(); editarClienta('${c.id}')" class="block w-full text-center bg-app-panel border border-app-border text-app-muted font-bold py-2 rounded-lg hover:bg-app-border transition text-xs"><i class="fas fa-phone-slash text-sm align-middle mr-1"></i> Cargar Celular</button>`;
+                return `
+                <div class="bg-app-card border border-app-border rounded-2xl p-4 shadow-sm relative group cursor-pointer hover:border-app-primary transition flex flex-col h-full" onclick="editarClienta('${c.id}')">
+                    <button onclick="event.stopPropagation(); borrarClienta('${c.id}')" class="absolute top-3 right-3 text-app-muted hover:text-rose-500 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition z-10"><i class="fas fa-trash"></i></button>
+                    <div class="flex justify-between items-start mb-3 pr-5"><h3 class="font-bold text-app-text text-base leading-tight truncate">${c.nombre}</h3><span class="bg-app-light text-app-icon border border-app-primary text-[9px] font-bold px-1.5 py-0.5 rounded">${totalV} V</span></div>
+                    <div class="flex-grow mb-3"><div class="flex justify-between items-center text-[9px] text-app-icon font-bold tracking-wider mb-1 uppercase"><span>Última Visita</span><span class="text-app-muted">${fechaMostrar}</span></div><p class="text-app-text opacity-80 font-medium text-xs leading-snug line-clamp-2">${formulaMostrar}</p></div>
+                    ${botonContacto}
+                </div>`;
+            }).join('') : '<div class="col-span-full text-center text-app-muted font-bold py-10">No hay clientas.</div>';
+        }
+
+        function filtrarClientas() { renderClientas(); }
+        
+        function abrirModalFicha() { 
+            document.getElementById('titulo-modal-ficha').innerText = 'Nueva Clienta'; 
+            document.getElementById('ficha-id').value = ''; 
+            document.getElementById('ficha-nombre').value = ''; 
+            document.getElementById('ficha-tel').value = ''; 
+            document.getElementById('visita-servicio').value = ''; 
+            document.getElementById('visita-formula').value = ''; 
+            document.getElementById('historial-lista-solo-lectura').innerHTML = '<p class="text-[10px] text-app-muted font-medium italic py-1">Sin historial previo.</p>';
+            abrirModalUI('modal-ficha'); 
+        }
+        
+        // MODIFICACIÓN UX: Botón de borrado dentro del historial
+        function editarClienta(id) { 
+            const c = clientas.find(x => x.id === id); 
+            document.getElementById('titulo-modal-ficha').innerText = 'Ficha: ' + c.nombre; 
+            document.getElementById('ficha-id').value = c.id; 
+            document.getElementById('ficha-nombre').value = c.nombre; 
+            document.getElementById('ficha-tel').value = c.tel; 
+            document.getElementById('visita-servicio').value = ''; 
+            document.getElementById('visita-formula').value = ''; 
+            
+            const cont = document.getElementById('historial-lista-solo-lectura');
+            if(c.visitas && c.visitas.length > 0) {
+                cont.innerHTML = [...c.visitas].sort((a,b)=>new Date(b.fecha.replace(/\//g,'-'))-new Date(a.fecha.replace(/\//g,'-'))).map(v => 
+                    `<div class="bg-app-card p-2 rounded-lg border border-app-border relative text-xs flex justify-between items-start">
+                        <div>
+                            <div class="font-bold text-app-text"><span class="bg-app-panel text-app-muted text-[9px] px-1 py-0.5 rounded mr-1 border border-app-border">${formatearFechaAr(v.fecha)}</span>${v.servicio}</div>
+                            ${v.formula ? `<div class="mt-0.5 text-app-text opacity-80 font-medium text-[10px] italic">${v.formula}</div>` : ''}
+                        </div>
+                        <button onclick="borrarVisita('${c.id}', '${v.id}')" class="text-rose-500 hover:text-rose-600 bg-app-panel border border-app-border w-6 h-6 rounded flex items-center justify-center ml-2 shrink-0"><i class="fas fa-trash text-[10px]"></i></button>
+                    </div>`
+                ).join('');
+            } else {
+                cont.innerHTML = '<p class="text-[10px] text-app-muted font-medium italic py-1">Sin historial previo.</p>';
+            }
+            abrirModalUI('modal-ficha'); 
+        }
+
+        // NUEVA FUNCIÓN: Permite borrar una visita específica si te equivocaste
+        function borrarVisita(clienteId, visitaId) {
+            pedirConfirmacion('¿Borrar esta visita del historial?', () => {
+                let c = clientas.find(x => x.id === clienteId);
+                if(c) {
+                    c.visitas = c.visitas.filter(v => v.id !== visitaId);
+                    guardarBD();
+                    editarClienta(clienteId); // Recarga el modal al instante
+                    renderClientas(); // Actualiza la grilla de fondo
+                    actualizarEstadisticas();
+                    mostrarToast('Visita eliminada', 'bg-emerald-200 text-emerald-900');
+                }
+            });
+        }
+        
+        function guardarClientaYVisita() { 
+            const nom = document.getElementById('ficha-nombre').value.trim(); 
+            if(!nom) return mostrarToast('El nombre es obligatorio', 'bg-rose-200 text-rose-900'); 
+            
+            const id = document.getElementById('ficha-id').value || generarId();
+            let cObj = clientas.find(x => x.id === id);
+            
+            if (!cObj) {
+                cObj = { id: id, nombre: nom, tel: document.getElementById('ficha-tel').value, visitas: [] };
+                clientas.push(cObj);
+            } else {
+                cObj.nombre = nom;
+                cObj.tel = document.getElementById('ficha-tel').value;
+            }
+
+            const serv = document.getElementById('visita-servicio').value.trim();
+            const form = document.getElementById('visita-formula').value.trim();
+            const fechaHoy = hoyString();
+
+            if (serv !== "") {
+                let visitaHoy = cObj.visitas.find(v => v.fecha === fechaHoy);
+                if(visitaHoy) {
+                    visitaHoy.servicio = serv;
+                    visitaHoy.formula = form;
+                } else {
+                    cObj.visitas.push({ id: generarId(), fecha: fechaHoy, servicio: serv, formula: form });
+                }
+            }
+
+            guardarBD(); cerrarModal('modal-ficha'); renderClientas(); actualizarEstadisticas(); actualizarDatalists(); mostrarToast('Ficha guardada', 'bg-emerald-200 text-emerald-900'); 
+        }
+
+        function borrarClienta(id) { pedirConfirmacion('¿Borrar clienta?', () => { clientas = clientas.filter(x=>x.id!==id); guardarBD(); renderClientas(); actualizarEstadisticas(); actualizarDatalists(); }); }
+        
+        function actualizarEstadisticas() { const total = clientas.length; let activas = 0; let inactivas = 0; let totalV = 0; const hoy = new Date(); const limiteDias = 90 * 24 * 60 * 60 * 1000; clientas.forEach(c => { if(c.visitas && c.visitas.length > 0) { totalV += c.visitas.length; const sorted = [...c.visitas].sort((a,b)=>new Date(b.fecha)-new Date(a.fecha)); let fechaUltimaStr = sorted[0].fecha; let partes = fechaUltimaStr.split(fechaUltimaStr.includes('-') ? '-' : '/'); let ultV = partes.length === 3 ? (fechaUltimaStr.includes('-') ? new Date(partes[0], partes[1]-1, partes[2]) : new Date(partes[2], partes[1]-1, partes[0])) : new Date(fechaUltimaStr); if((hoy - ultV) <= limiteDias) activas++; else inactivas++; } else { inactivas++; } }); document.getElementById('stat-total').innerText = total; document.getElementById('stat-activas').innerText = activas; document.getElementById('stat-inactivas').innerText = inactivas; document.getElementById('stat-promedio').innerText = total > 0 ? (totalV / total).toFixed(1) : 0; }
+        
+        function abrirModalImportarExcel() { document.getElementById('texto-excel').value = ''; abrirModalUI('modal-importar'); }
+        function procesarPegadoExcel() { const texto = document.getElementById('texto-excel').value.trim(); if(!texto) return; const filas = texto.split('\n'); let lastNombre = ""; let importadas = 0; filas.forEach(filaStr => { const cols = filaStr.split('\t').map(c => c.trim()); if(cols.length < 3) return; let nombre = cols[0].replace(/\s+/g, ' '); if(nombre === "" && lastNombre !== "") nombre = lastNombre; else if(nombre !== "") lastNombre = nombre; if(!nombre || nombre.toLowerCase() === "nombre") return; const tel = cols[1] || ""; let fechaStr = cols[2] || hoyString(); if(fechaStr.includes('/')) { const p = fechaStr.split('/'); if(p.length===3) fechaStr = `${p[2].length===2?'20'+p[2]:p[2]}-${p[1].padStart(2,'0')}-${p[0].padStart(2,'0')}`; } const servicio = cols[3] || "Visita"; const formula = cols[4] || ""; let cObj = clientas.find(c => c.nombre.trim().toLowerCase() === nombre.toLowerCase()); if(!cObj) { cObj = { id: generarId(), nombre: nombre, tel: tel, visitas: [] }; clientas.push(cObj); } else if(tel && !cObj.tel) cObj.tel = tel; const existe = cObj.visitas.find(v => v.fecha === fechaStr && v.servicio === servicio && v.formula === formula); if(!existe) { cObj.visitas.push({ id: generarId(), fecha: fechaStr, servicio: servicio, formula: formula }); importadas++; } }); guardarBD(); cerrarModal('modal-importar'); renderClientas(); actualizarEstadisticas(); actualizarDatalists(); mostrarToast(`${importadas} visitas cargadas.`, 'bg-emerald-200 text-emerald-900'); }
+
+        // --- AGENDA SEMANAL ---
+        function habilitarMartes() { martesHabilitado = !martesHabilitado; renderAgendaSemanal(); }
+        function cambiarSemanaAgenda(semanas) { fechaAgendaGlobal.setDate(fechaAgendaGlobal.getDate() + (semanas * 7)); renderAgendaSemanal(); }
+        
+        function abrirModalTurnoDesdeFecha(fechaStr) {
+            document.getElementById('titulo-modal-turno').innerText = 'Nuevo Turno'; 
+            document.getElementById('turno-id').value = ''; 
+            document.getElementById('turno-fecha').value = fechaStr; 
+            document.getElementById('turno-hora').value = '10:00'; 
+            document.getElementById('turno-nombre').value = ''; 
+            document.getElementById('turno-servicio').value = ''; 
+            abrirModalUI('modal-turno');
+        }
+
+        function renderAgendaSemanal() {
+            const container = document.getElementById('agenda-columnas'); let html = ''; const diasNombres = ['DOMINGO', 'LUNES', 'MARTES', 'MIÉRCOLES', 'JUEVES', 'VIERNES', 'SÁBADO'];
+            document.getElementById('agenda-semana-label').innerText = `Semana ${fechaAgendaGlobal.getDate()}/${fechaAgendaGlobal.getMonth()+1}`;
+            let diaInicio = martesHabilitado ? 2 : 3; let iteraciones = martesHabilitado ? 5 : 4;
+            for(let i = 0; i < iteraciones; i++) {
+                let offset = (diaInicio - fechaAgendaGlobal.getDay() + 7) % 7; let currDay = new Date(fechaAgendaGlobal); currDay.setDate(fechaAgendaGlobal.getDate() + offset + i);
+                let dateStr = currDay.toLocaleDateString('en-CA'); let displayDate = currDay.toLocaleDateString('es-AR', {day: '2-digit', month: '2-digit'}); let diaNum = currDay.getDay(); 
+                let turnosDia = turnos.filter(t => t.fecha === dateStr).sort((a,b) => a.hora.localeCompare(b.hora));
+                html += `
+                <div class="bg-app-card rounded-xl shadow-sm border border-app-border min-w-[200px] flex-shrink-0 flex flex-col h-[400px] overflow-hidden snap-center">
+                    <div class="bg-app-panel py-2 text-center border-b border-app-border">
+                        <p class="font-bold text-app-muted text-[9px] uppercase tracking-widest">${diasNombres[diaNum]}</p>
+                        <p class="text-[11px] text-app-text font-bold">${displayDate}</p>
+                    </div>
+                    <button onclick="abrirModalTurnoDesdeFecha('${dateStr}')" class="w-full text-center py-2 bg-app-card hover:bg-app-panel text-emerald-500 font-bold text-[10px] transition border-b border-app-border"><i class="fas fa-plus mr-1"></i> TURNO ACÁ</button>
+                    <div class="flex-grow overflow-y-auto p-2 space-y-1.5">
+                        ${turnosDia.length ? turnosDia.map(t => `
+                        <div class="p-2 border-l-4 border-l-app-primary bg-app-panel rounded-lg relative group cursor-pointer hover:border-app-icon transition border border-app-border" onclick="editarTurno('${t.id}')">
+                            <button onclick="event.stopPropagation(); borrarTurno('${t.id}')" class="absolute top-1 right-1 text-app-muted hover:text-rose-500 opacity-100 md:opacity-0 md:group-hover:opacity-100"><i class="fas fa-trash text-[10px]"></i></button>
+                            <span class="font-bold text-app-text text-xs block">${t.hora}</span>
+                            <p class="font-bold text-[11px] text-app-text opacity-90 leading-tight">${t.nombre}</p>
+                            <p class="text-[9px] text-app-icon font-bold line-clamp-1">${t.servicio}</p>
+                        </div>`).join('') : '<div class="h-full flex items-center justify-center"><p class="text-[10px] text-app-muted italic font-bold">Libre</p></div>'}
+                    </div>
+                </div>`;
+            }
+            container.innerHTML = html;
+        }
+        function editarTurno(id) { const t = turnos.find(x => x.id === id); document.getElementById('titulo-modal-turno').innerText = 'Editar Turno'; document.getElementById('turno-id').value = t.id; document.getElementById('turno-fecha').value = t.fecha; document.getElementById('turno-hora').value = t.hora; document.getElementById('turno-nombre').value = t.nombre; document.getElementById('turno-servicio').value = t.servicio; abrirModalUI('modal-turno'); }
+        function guardarTurno() { const nom = document.getElementById('turno-nombre').value.trim(); if(!nom) return mostrarToast('Escribí el nombre', 'bg-rose-200 text-rose-900'); const fechaStr = document.getElementById('turno-fecha').value; const data = { id: document.getElementById('turno-id').value || generarId(), fecha: fechaStr, hora: document.getElementById('turno-hora').value, nombre: nom, servicio: document.getElementById('turno-servicio').value }; const idx = turnos.findIndex(t => t.id === data.id); if(idx > -1) turnos[idx] = data; else turnos.push(data); guardarBD(); cerrarModal('modal-turno'); renderAgendaSemanal(); mostrarToast('Turno agendado', 'bg-emerald-200 text-emerald-900'); }
+        function borrarTurno(id) { pedirConfirmacion('¿Eliminar turno?', () => { turnos = turnos.filter(t => t.id !== id); guardarBD(); renderAgendaSemanal(); }); }
+
+        // --- CAJA DIARIA ---
+        function renderCaja() {
+            if(appLocked) return; const fecha = document.getElementById('fecha-caja').value; const movs = caja.filter(m => m.fecha === fecha); let iEfv = 0, iVir = 0, gEfv = 0, gVir = 0;
+            document.getElementById('lista-caja-tabla').innerHTML = movs.length ? movs.map(m => {
+                const isIng = m.tipo === 'ingreso'; isIng ? (m.metodo === 'Efectivo' ? iEfv += m.monto : iVir += m.monto) : (m.metodo === 'Efectivo' ? gEfv += m.monto : gVir += m.monto);
+                const colorTexto = isIng ? 'text-emerald-600' : 'text-rose-600'; const colorBadge = isIng ? 'bg-emerald-100 text-emerald-700 border border-emerald-200' : 'bg-rose-100 text-rose-700 border border-rose-200'; const icon = m.metodo === 'Efectivo' ? '<i class="fas fa-money-bill-wave text-emerald-500 mr-1"></i> Efvo' : '<i class="fas fa-mobile-screen text-app-icon mr-1"></i> MP';
+                return `<tr class="hover:bg-app-panel transition border-b border-app-border">
+                    <td class="py-2 px-3"><span class="${colorBadge} text-[9px] font-bold px-1.5 py-0.5 rounded uppercase">${m.tipo}</span></td>
+                    <td class="py-2 px-3 text-[10px] text-app-muted font-bold">${m.hora || '-'}</td>
+                    <td class="py-2 px-3 font-bold text-app-text text-xs">${m.concepto}</td>
+                    <td class="py-2 px-3 text-app-text opacity-80 font-medium text-[10px]">${m.detalle || '-'}</td>
+                    <td class="py-2 px-3 text-[10px] font-bold text-app-muted whitespace-nowrap">${icon}</td>
+                    <td class="py-2 px-3 font-bold ${colorTexto} text-right text-sm whitespace-nowrap">${isIng?'+':'-'}$${m.monto.toLocaleString('es-AR')}</td>
+                    <td class="py-2 px-3 text-center"><button onclick="borrarMovimiento('${m.id}')" class="text-rose-500 hover:text-rose-600 bg-app-card border border-app-border p-1.5 rounded mx-1 shadow-sm"><i class="fas fa-trash text-[10px]"></i></button></td>
+                </tr>`;
+            }).join('') : '<tr><td colspan="7" class="py-8 text-center text-app-muted font-bold text-xs border-b border-app-border">No hay movimientos registrados.</td></tr>';
+            
+            document.getElementById('caja-tot-ing').innerText = '$ ' + (iEfv + iVir).toLocaleString('es-AR'); document.getElementById('caja-sub-ing').innerText = `Efvo: $${iEfv.toLocaleString()} | MP: $${iVir.toLocaleString()}`;
+            document.getElementById('caja-tot-gas').innerText = '$ ' + (gEfv + gVir).toLocaleString('es-AR'); document.getElementById('caja-sub-gas').innerText = `Efvo: $${gEfv.toLocaleString()} | MP: $${gVir.toLocaleString()}`;
+            document.getElementById('caja-tot-fin').innerText = '$ ' + (iEfv - gEfv).toLocaleString('es-AR');
+        }
+        
+        function autoCompletarCaja() { 
+            const nom = document.getElementById('mov-entidad').value.trim().toLowerCase(); 
+            const c = clientas.find(x => x.nombre.toLowerCase() === nom); 
+            if(c && c.visitas && c.visitas.length > 0) { 
+                const fechaCaja = document.getElementById('fecha-caja').value; 
+                let vMatch = c.visitas.find(v => v.fecha === fechaCaja || v.fecha === formatearFechaAr(fechaCaja)); 
+                if(!vMatch) {
+                    const sorted = [...c.visitas].sort((a,b)=>new Date(b.fecha.replace(/\//g,'-'))-new Date(a.fecha.replace(/\//g,'-')));
+                    vMatch = sorted[0];
+                }
+                if(vMatch) { 
+                    document.getElementById('mov-detalle').value = `${vMatch.servicio}${vMatch.formula ? ' ' + vMatch.formula : ''}`;
+                } 
+            } 
+        }
+        
+        function intentarCobro() {
+            const nom = document.getElementById('mov-entidad').value; 
+            const det = document.getElementById('mov-detalle').value; 
+            const mon = parseFloat(document.getElementById('mov-monto').value); 
+            const met = document.getElementById('mov-metodo').value;
+            if(!nom || !mon) return mostrarToast('Faltan el nombre o el monto', 'bg-rose-200 text-rose-900');
+            
+            let matchesMap = new Map();
+            if(det) { 
+                let detLow = det.toLowerCase();
+                stock.forEach(s => { 
+                    const codeLow = s.codigo ? s.codigo.toLowerCase() : null;
+                    const nombreLow = s.nombre ? s.nombre.toLowerCase() : null;
+                    
+                    let matchIndex = -1;
+                    
+                    if (codeLow) {
+                        let regexCode;
+                        if (/^\d+([.,]\d+)?$/.test(codeLow)) {
+                            let partes = codeLow.split(/[.,]/);
+                            let entero = partes[0];
+                            let decimal = partes[1] || "";
+                            let regStr = decimal === "" ? `${entero}(?:[.,]0+)?` : `${entero}[.,]${decimal}0*`;
+                            regexCode = new RegExp(`(?:^|[^\\d.,])${regStr}(?=$|[^\\d.,])`, 'i');
+                        } else {
+                            regexCode = new RegExp(`\\b${escapeRegExp(codeLow)}\\b`, 'i');
+                        }
+                        let match = detLow.match(regexCode);
+                        if(match) matchIndex = match.index; 
+                    }
+
+                    if (matchIndex === -1 && nombreLow && nombreLow.length > 2) {
+                         if(detLow.includes(nombreLow)) matchIndex = detLow.indexOf(nombreLow);
+                    }
+
+                    if (matchIndex > -1) { 
+                        const regexGramos = /(\d+(?:\.\d+)?)\s*(?:grs|gr|g|gramos)\b/g;
+                        let match;
+                        let closestGrams = 0;
+                        let minDistance = Infinity;
+                        while ((match = regexGramos.exec(detLow)) !== null) {
+                            let dist = Math.abs(match.index - matchIndex);
+                            if (dist < minDistance && dist < 45) { 
+                                minDistance = dist;
+                                closestGrams = parseFloat(match[1]);
+                            }
+                        }
+                        matchesMap.set(s.id, { ...s, autoGramos: closestGrams });
+                    } 
+                }); 
+            }
+            
+            let matches = Array.from(matchesMap.values());
+            cobroPendiente = { tipo: 'ingreso', concepto: nom, detalle: det, monto: mon, metodo: met };
+            
+            if(matches.length > 0) {
+                document.getElementById('cobro-formula-display').innerText = det;
+                document.getElementById('lista-cobro-stock').innerHTML = matches.map(s => `
+                    <div class="flex justify-between items-center bg-app-card p-2.5 rounded-lg border border-app-border shadow-sm">
+                        <div>
+                            <span class="text-[9px] font-bold bg-app-panel px-1.5 py-0.5 rounded text-app-muted border border-app-border">COD: ${s.codigo || '-'}</span>
+                            <p class="font-bold text-app-text text-xs mt-1">${s.nombre}</p>
+                            <p class="text-[9px] text-app-icon uppercase tracking-widest mt-0.5 font-bold">Disp: <b class="${s.cantidad <= s.minimo ? 'text-rose-500' : 'text-app-text'}">${s.cantidad.toFixed(2).replace(/\.00$/, '')}</b> uni</p>
+                        </div>
+                        <div class="flex flex-col items-end gap-1">
+                            <span class="text-[9px] font-bold text-emerald-600 uppercase">Gramos a descontar:</span>
+                            <div class="relative">
+                                <input type="number" step="1" min="0" value="${s.autoGramos}" id="desc-stock-gr-${s.id}" class="w-20 border border-app-border rounded-lg p-1.5 pr-5 text-center font-bold outline-none focus:border-emerald-500 bg-app-panel text-emerald-600 text-sm shadow-inner">
+                                <span class="absolute right-2 top-1.5 text-[9px] text-app-muted">gr</span>
+                            </div>
+                        </div>
+                    </div>`).join('');
+                abrirModalUI('modal-cobro-stock');
+            } else { 
+                ejecutarCobroPendiente(); 
+            }
+        }
+
+        function confirmarCobroYStock() { 
+            let descontado = false;
+            document.querySelectorAll('[id^="desc-stock-gr-"]').forEach(inp => { 
+                const id = inp.id.replace('desc-stock-gr-', ''); 
+                const gramos = parseFloat(inp.value) || 0; 
+                if(gramos > 0) { 
+                    const unidadesADescontar = gramos / 60;
+                    let s = stock.find(x => x.id === id); 
+                    if(s) { s.cantidad = Math.max(0, s.cantidad - unidadesADescontar); descontado = true; }
+                } 
+            }); 
+            guardarBD(); renderStock(); cerrarModal('modal-cobro-stock'); ejecutarCobroPendiente(); 
+            if(descontado) mostrarToast('Stock fraccionado descontado', 'bg-emerald-200 text-emerald-900'); 
+        }
+        
+        function ejecutarCobroPendiente() { if(!cobroPendiente) return; const now = new Date(); const timeStr = `${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`; caja.push({ id: generarId(), fecha: document.getElementById('fecha-caja').value, hora: timeStr, tipo: cobroPendiente.tipo, concepto: cobroPendiente.concepto, detalle: cobroPendiente.detalle, monto: cobroPendiente.monto, metodo: cobroPendiente.metodo }); guardarBD(); document.getElementById('mov-entidad').value = ''; document.getElementById('mov-detalle').value = ''; document.getElementById('mov-monto').value = ''; renderCaja(); mostrarToast('Cobro guardado', 'bg-emerald-200 text-emerald-900'); cobroPendiente = null; }
+        function guardarMovimiento(tipo) { const nom = document.getElementById('mov-entidad').value; const det = document.getElementById('mov-detalle').value; const mon = parseFloat(document.getElementById('mov-monto').value); const met = document.getElementById('mov-metodo').value; if(!nom || !mon) return; const now = new Date(); const timeStr = `${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`; caja.push({ id: generarId(), fecha: document.getElementById('fecha-caja').value, hora: timeStr, tipo: tipo, concepto: nom, detalle: det, monto: mon, metodo: met }); guardarBD(); document.getElementById('mov-entidad').value = ''; document.getElementById('mov-detalle').value = ''; document.getElementById('mov-monto').value = ''; renderCaja(); mostrarToast('Gasto guardado', 'bg-rose-200 text-rose-900'); }
+        function borrarMovimiento(id) { pedirConfirmacion('¿Eliminar registro de caja?', () => { caja = caja.filter(x=>x.id!==id); guardarBD(); renderCaja(); }); }
+
+        // --- STOCK ---
+        function actualizarEstadisticasStock() { if(appLocked) return; if(!document.getElementById('stat-stock-items')) return; const totalItems = stock.length; let totalUnidades = 0; let enAlerta = 0; let capital = 0; stock.forEach(s => { totalUnidades += s.cantidad; if(s.cantidad <= s.minimo) enAlerta++; capital += (s.costo * s.cantidad); }); document.getElementById('stat-stock-items').innerText = totalItems; document.getElementById('stat-stock-unidades').innerText = totalUnidades.toFixed(1).replace(/\.0$/, ''); document.getElementById('stat-stock-alerta').innerText = enAlerta; document.getElementById('stat-stock-capital').innerText = '$' + capital.toLocaleString('es-AR', {maximumFractionDigits:0}); }
+        function renderStock() {
+            if(appLocked) return; const grid = document.getElementById('grid-stock'); const filtro = document.getElementById('buscador-stock') ? document.getElementById('buscador-stock').value.toLowerCase() : ''; const estado = document.getElementById('filtro-estado-stock') ? document.getElementById('filtro-estado-stock').value : 'todos';
+            let filtrados = stock.filter(s => { const matchTexto = (s.nombre && s.nombre.toLowerCase().includes(filtro)) || (s.codigo && s.codigo.toLowerCase().includes(filtro)); const matchEstado = estado === 'todos' || (estado === 'alerta' && s.cantidad <= s.minimo); return matchTexto && matchEstado; });
+            grid.innerHTML = filtrados.length ? filtrados.map(s => {
+                const critico = s.cantidad <= s.minimo;
+                return `
+                <div class="bg-app-card border ${critico ? 'border-rose-400 shadow-[0_0_10px_rgba(2fb,113,133,0.2)]' : 'border-app-border'} rounded-xl p-4 relative group transition flex flex-col h-full shadow-sm">
+                    ${critico ? '<span class="absolute -top-2 -right-2 bg-rose-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full shadow">COMPRAR</span>' : ''}
+                    <div class="flex justify-between items-start mb-2 pr-4">
+                        <div><span class="text-[9px] bg-app-light text-app-icon px-1.5 py-0.5 rounded font-bold border border-app-primary">${s.codigo||'S/C'}</span><h4 class="font-bold text-app-text text-sm mt-1 line-clamp-2">${s.nombre}</h4></div>
+                        <div class="absolute top-3 right-3 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition z-10 flex gap-2">
+                            <button onclick="editarStock('${s.id}')" class="text-app-muted hover:text-app-icon"><i class="fas fa-edit text-xs"></i></button>
+                            <button onclick="borrarStock('${s.id}')" class="text-app-muted hover:text-rose-500"><i class="fas fa-trash text-xs"></i></button>
+                        </div>
+                    </div>
+                    <div class="flex gap-2 text-[9px] font-bold text-app-muted uppercase tracking-widest mb-3 border-b border-app-border pb-2 mt-auto"><span>Costo: $${s.costo||0}</span> | <span class="text-app-icon">Vta: $${s.precio||0}</span></div>
+                    <div class="flex items-center justify-between">
+                        <div class="text-center"><p class="text-[9px] text-app-muted uppercase font-bold tracking-wider">Unidades</p><span class="font-black text-2xl ${critico?'text-rose-500':'text-app-text'} leading-none">${s.cantidad.toFixed(2).replace(/\.00$/, '')}</span></div>
+                        <div class="flex flex-col gap-1 bg-app-panel p-1 rounded-lg border border-app-border w-14">
+                            <button onclick="ajustarStock('${s.id}', 1)" class="w-full h-6 bg-app-card rounded shadow-sm text-emerald-500 font-bold hover:bg-app-border text-xs border border-app-border">+</button>
+                            <button onclick="ajustarStock('${s.id}', -0.25)" class="w-full h-6 bg-app-card rounded shadow-sm text-amber-500 font-bold hover:bg-app-border text-[10px] border border-app-border">-¼</button>
+                            <button onclick="ajustarStock('${s.id}', -0.5)" class="w-full h-6 bg-app-card rounded shadow-sm text-rose-500 font-bold hover:bg-app-border text-[10px] border border-app-border">-½</button>
+                        </div>
+                    </div>
+                </div>`
+            }).join('') : '<div class="col-span-full text-center text-app-muted font-bold py-10">No hay productos.</div>';
+            actualizarEstadisticasStock();
+        }
+        function abrirModalStock() { document.getElementById('titulo-modal-stock').innerText = 'Nuevo Artículo'; document.getElementById('stock-id').value = ''; document.getElementById('stock-codigo').value = ''; document.getElementById('stock-nombre').value = ''; document.getElementById('stock-costo').value = ''; document.getElementById('stock-precio').value = ''; document.getElementById('stock-cantidad').value = '1'; document.getElementById('stock-minimo').value = '1'; abrirModalUI('modal-stock'); }
+        function editarStock(id) { const s = stock.find(x => x.id === id); if(!s) return; document.getElementById('titulo-modal-stock').innerText = 'Editar Artículo'; document.getElementById('stock-id').value = s.id; document.getElementById('stock-codigo').value = s.codigo || ''; document.getElementById('stock-nombre').value = s.nombre; document.getElementById('stock-costo').value = s.costo || 0; document.getElementById('stock-precio').value = s.precio || 0; document.getElementById('stock-cantidad').value = s.cantidad; document.getElementById('stock-minimo').value = s.minimo || 1; abrirModalUI('modal-stock'); }
+        function guardarStock() { const nom = document.getElementById('stock-nombre').value.trim(); if(!nom) return; const data = { id: document.getElementById('stock-id').value || generarId(), codigo: document.getElementById('stock-codigo').value.trim(), nombre: nom, costo: parseFloat(document.getElementById('stock-costo').value)||0, precio: parseFloat(document.getElementById('stock-precio').value)||0, cantidad: parseFloat(document.getElementById('stock-cantidad').value)||0, minimo: parseFloat(document.getElementById('stock-minimo').value)||0 }; const idx = stock.findIndex(x=>x.id === data.id); if(idx>-1) stock[idx]=data; else stock.push(data); guardarBD(); cerrarModal('modal-stock'); renderStock(); }
+        function ajustarStock(id, cant) { let s = stock.find(x=>x.id===id); if(s) { s.cantidad = Math.max(0, s.cantidad + cant); guardarBD(); renderStock(); } }
+        function borrarStock(id) { pedirConfirmacion('¿Borrar producto?', () => {stock = stock.filter(x=>x.id!==id); guardarBD(); renderStock();}); }
+        function abrirModalImportarExcelStock() { document.getElementById('texto-excel-stock').value = ''; abrirModalUI('modal-importar-stock'); }
+        function procesarPegadoStock() { const filas = document.getElementById('texto-excel-stock').value.trim().split('\n'); filas.forEach(f => { const cols = f.split('\t').map(c=>c.trim()); if(cols.length < 2 || cols[1].toLowerCase() === "nombre") return; let cod = cols[0] || ""; let nom = cols[1]; let cost = parseFloat(cols[2])||0; let prec = parseFloat(cols[3])||0; let cant = parseFloat(cols[4])||0; let min = parseFloat(cols[5])||1; let existente = stock.find(s => (cod !== "" && s.codigo === cod) || s.nombre.toLowerCase() === nom.toLowerCase()); if(existente) { existente.costo = cost; existente.precio = prec; existente.cantidad = cant; existente.minimo = min; if(!existente.codigo && cod) existente.codigo = cod; } else { stock.push({ id: generarId(), codigo: cod, nombre: nom, costo: cost, precio: prec, cantidad: cant, minimo: min }); } }); guardarBD(); cerrarModal('modal-importar-stock'); renderStock(); mostrarToast(`Stock actualizado.`, 'bg-emerald-200 text-emerald-900'); }
+
+        // --- CATÁLOGO ---
+        function renderCatalogo() {
+            const grid = document.getElementById('grid-catalogo'); const filtro = document.getElementById('buscador-catalogo') ? document.getElementById('buscador-catalogo').value.toLowerCase() : ''; const filtrados = servicios.filter(s => s.nombre.toLowerCase().includes(filtro));
+            grid.innerHTML = filtrados.length ? filtrados.map(s => `
+                <div class="bg-app-card rounded-xl shadow-sm border border-app-border p-3 flex flex-col md:flex-row items-center gap-3 hover:border-app-primary transition">
+                    <div class="relative w-12 h-12 rounded-lg bg-app-panel flex items-center justify-center text-app-muted flex-shrink-0 overflow-hidden border border-app-border group cursor-pointer" onclick="document.getElementById('foto-rapida-${s.id}').click()">
+                        ${s.foto ? `<img src="${s.foto}" class="w-full h-full object-cover">` : `<i class="fas fa-camera text-lg"></i>`}
+                        <div class="absolute inset-0 bg-black/40 hidden group-hover:flex items-center justify-center transition"><i class="fas fa-upload text-white text-xs"></i></div>
+                        <input type="file" id="foto-rapida-${s.id}" class="hidden" accept="image/*" onchange="subirFotoDirecta(event, '${s.id}')">
+                    </div>
+                    <div class="flex-grow min-w-0 text-center md:text-left"><h3 class="font-bold text-app-text text-sm">${s.nombre}</h3><p class="text-base text-app-icon font-black leading-none mt-0.5">$${s.precio.toLocaleString('es-AR')}</p></div>
+                    <div class="flex gap-2 w-full md:w-auto justify-center md:justify-end items-center">
+                        <button onclick="generarFlyer('${s.nombre.replace(/'/g,"\\'").replace(/"/g,"&quot;")}', ${s.precio}, '${s.foto||''}')" class="bg-app-light border border-app-primary text-app-icon px-3 py-1.5 rounded-lg text-[10px] font-bold flex items-center hover:bg-app-primary transition shadow-sm flex-grow md:flex-grow-0 justify-center"><i class="fab fa-instagram mr-1"></i> Promo</button>
+                        <button onclick="editarServicio('${s.id}')" class="text-app-muted hover:text-app-icon w-7 h-7 flex items-center justify-center transition bg-app-panel rounded-lg border border-app-border"><i class="fas fa-pen text-xs"></i></button>
+                        <button onclick="borrarServicio('${s.id}')" class="text-app-muted hover:text-rose-500 w-7 h-7 flex items-center justify-center transition bg-app-panel rounded-lg border border-app-border"><i class="fas fa-trash text-xs"></i></button>
+                    </div>
+                </div>`).join('') : '<div class="col-span-full text-center text-app-muted font-bold py-10">No se encontraron servicios.</div>';
+        }
+        function subirFotoDirecta(e, id) { const file = e.target.files[0]; if(!file) return; const reader = new FileReader(); reader.onload = event => { const img = new Image(); img.onload = () => { const canvas = document.createElement('canvas'); const MAX = 600; let width = img.width; let height = img.height; if (width > height) { if (width > MAX) { height *= MAX / width; width = MAX; } } else { if (height > MAX) { width *= MAX / height; height = MAX; } } canvas.width = width; canvas.height = height; const ctx = canvas.getContext('2d'); ctx.drawImage(img, 0, 0, width, height); const dataUrl = canvas.toDataURL('image/jpeg', 0.7); let s = servicios.find(x => x.id === id); if(s) { s.foto = dataUrl; guardarBD(); renderCatalogo(); mostrarToast("Foto actualizada", "bg-emerald-200 text-emerald-900"); } }; img.src = event.target.result; }; reader.readAsDataURL(file); }
+        function abrirModalServicio() { document.getElementById('titulo-modal-servicio').innerText = 'Nuevo Servicio'; document.getElementById('servicio-id').value = ''; document.getElementById('servicio-nombre').value = ''; document.getElementById('servicio-precio').value = ''; abrirModalUI('modal-servicio'); }
+        function editarServicio(id) { const s = servicios.find(x => x.id === id); document.getElementById('titulo-modal-servicio').innerText = 'Editar Servicio'; document.getElementById('servicio-id').value = s.id; document.getElementById('servicio-nombre').value = s.nombre; document.getElementById('servicio-precio').value = s.precio; abrirModalUI('modal-servicio'); }
+        function guardarServicio() { const nom = document.getElementById('servicio-nombre').value.trim(); if(!nom) return; const data = { id: document.getElementById('servicio-id').value || generarId(), nombre: nom, precio: parseFloat(document.getElementById('servicio-precio').value)||0, foto: "" }; const idx = servicios.findIndex(x => x.id === data.id); if(idx > -1) { data.foto = servicios[idx].foto; servicios[idx] = data; } else servicios.push(data); guardarBD(); cerrarModal('modal-servicio'); renderCatalogo(); actualizarDatalists(); }
+        function borrarServicio(id) { pedirConfirmacion('¿Borrar servicio?', () => { servicios = servicios.filter(x=>x.id!==id); guardarBD(); renderCatalogo(); actualizarDatalists(); }); }
+        function abrirModalImportarExcelCatalogo() { document.getElementById('texto-excel-catalogo').value = ''; abrirModalUI('modal-importar-catalogo'); }
+        function procesarPegadoCatalogo() { const filas = document.getElementById('texto-excel-catalogo').value.trim().split('\n'); filas.forEach(f => { const cols = f.split('\t').map(c=>c.trim()); if(cols.length < 2 || cols[0].toLowerCase() === "nombre") return; let nom = cols[0]; let prec = parseFloat(cols[1].replace(/[^0-9.-]+/g,""))||0; let existente = servicios.find(s => s.nombre.toLowerCase() === nom.toLowerCase()); if(existente) { existente.precio = prec; } else { servicios.push({ id: generarId(), nombre: nom, precio: prec, foto: "" }); } }); guardarBD(); cerrarModal('modal-importar-catalogo'); renderCatalogo(); actualizarDatalists(); mostrarToast(`Precios actualizados.`, 'bg-emerald-200 text-emerald-900'); }
+        function cargarFondoFlyerGenerico(e) { const file = e.target.files[0]; if(!file) return; const reader = new FileReader(); reader.onload = event => { fondoFlyerGlobal = event.target.result; localStorage.setItem('yes_fondo_flyer', fondoFlyerGlobal); mostrarToast("Fondo actualizado", "bg-app-primary text-app-textOn"); }; reader.readAsDataURL(file); }
+        function generarFlyer(nom, pre, fotoParticular = '') { mostrarToast("Creando Flyer...", "bg-app-primary text-app-textOn"); const nombreEmpresa = appConfig.nombreEmpresa || 'MI SALÓN'; document.getElementById('flyer-marca').innerText = nombreEmpresa.toUpperCase(); document.getElementById('flyer-titulo').innerText = nom; document.getElementById('flyer-precio').innerText = pre.toLocaleString('es-AR'); let fondoUsar = fotoParticular !== '' ? fotoParticular : fondoFlyerGlobal; document.getElementById('flyer-img').style.backgroundImage = fondoUsar ? `url(${fondoUsar})` : 'none'; const flyerElement = document.getElementById('flyer-generator'); flyerElement.style.opacity = '1'; setTimeout(() => { html2canvas(flyerElement, { scale: 1, useCORS: true, allowTaint: true, backgroundColor: '#050b14', scrollY: -window.scrollY }).then(canvas => { canvas.toBlob(function(blob) { const url = URL.createObjectURL(blob); document.getElementById('flyer-resultado-img').src = url; document.getElementById('btn-descargar-flyer').href = url; document.getElementById('btn-descargar-flyer').download = `Promo_${nom.replace(/\s+/g,'_')}.jpg`; flyerElement.style.opacity = '0.01'; document.getElementById('titulo-modal-resultado').innerText = '¡Flyer Listo!'; abrirModalUI('modal-flyer-resultado'); }, 'image/jpeg', 0.9); }).catch(err => { flyerElement.style.opacity = '0.01'; mostrarToast("Error", "bg-rose-200 text-rose-900"); }); }, 300); }
+
+        // --- RENTABILIDAD ---
+        function renderRentabilidad() {
+            if(appLocked) return; const mesStr = document.getElementById('filtro-mes-rentabilidad').value; if(!mesStr) return;
+            let ingTot = 0, gasVarTot = 0; caja.forEach(m => { if(m.fecha.startsWith(mesStr)) { if(m.tipo === 'ingreso') { ingTot += m.monto; } if(m.tipo === 'gasto') gasVarTot += m.monto; } });
+            const fijosMes = gastosFijos.filter(g => g.mes === mesStr); const gasFijoTot = fijosMes.reduce((acc, g) => acc + g.monto, 0);
+            const neta = ingTot - gasVarTot - gasFijoTot; const margen = ingTot > 0 ? ((neta / ingTot) * 100).toFixed(1) : 0;
+            document.getElementById('rent-ingresos').innerText = '$ ' + ingTot.toLocaleString('es-AR', {maximumFractionDigits:0}); document.getElementById('rent-gastos-tot').innerText = '$ ' + (gasVarTot + gasFijoTot).toLocaleString('es-AR', {maximumFractionDigits:0}); document.getElementById('rent-neta').innerText = '$ ' + neta.toLocaleString('es-AR', {maximumFractionDigits:0}); document.getElementById('rent-margen').innerText = `Margen: ${margen}%`; 
+            const cantServicios = caja.filter(m => m.fecha.startsWith(mesStr) && m.tipo === 'ingreso').length;
+            document.getElementById('rent-ticket').innerText = '$ ' + Math.round(cantServicios > 0 ? (ingTot/cantServicios) : 0).toLocaleString('es-AR');
+            const cNeta = document.getElementById('rent-card-neta'); if(neta >= 0) { cNeta.className = 'bg-app-primary p-4 rounded-xl shadow-sm relative text-app-textOn border border-app-hover transition-colors'; } else { cNeta.className = 'bg-rose-100 p-4 rounded-xl shadow-sm relative text-rose-700 border border-rose-300 transition-colors'; }
+            let maxVal = Math.max(ingTot, gasVarTot, gasFijoTot); if(maxVal === 0) maxVal = 1; 
+            setTimeout(() => { document.getElementById('bar-ing').style.height = `${(ingTot/maxVal)*100}%`; document.getElementById('bar-ing-lbl').innerText = '$'+(ingTot/1000).toFixed(0)+'k'; document.getElementById('bar-gvar').style.height = `${(gasVarTot/maxVal)*100}%`; document.getElementById('bar-gvar-lbl').innerText = '$'+(gasVarTot/1000).toFixed(0)+'k'; document.getElementById('bar-gfijo').style.height = `${(gasFijoTot/maxVal)*100}%`; document.getElementById('bar-gfijo-lbl').innerText = '$'+(gasFijoTot/1000).toFixed(0)+'k'; }, 100);
+            document.getElementById('lista-gastos-fijos').innerHTML = fijosMes.length ? fijosMes.map(g => `<div class="flex justify-between items-center p-2 bg-app-card border border-app-border rounded-lg shadow-sm"><span class="font-bold text-app-text text-xs">${g.concepto}</span><div class="flex gap-3 items-center"><span class="text-app-muted font-bold text-xs">$${g.monto.toLocaleString()}</span><button onclick="borrarGastoFijo('${g.id}')" class="text-rose-500 hover:text-rose-600"><i class="fas fa-trash text-[10px]"></i></button></div></div>`).join('') : '<p class="text-[10px] text-app-muted font-bold text-center mt-4">Sin gastos fijos.</p>';
+            document.getElementById('rent-total-fijos-lbl').innerText = '$ ' + gasFijoTot.toLocaleString('es-AR', {maximumFractionDigits:0});
+        }
+        function guardarGastoFijo() { const con = document.getElementById('gf-concepto').value.trim(); const mon = parseFloat(document.getElementById('gf-monto').value); const mes = document.getElementById('filtro-mes-rentabilidad').value; if(!con || !mon) return; gastosFijos.push({ id: generarId(), mes: mes, concepto: con, monto: mon }); guardarBD(); document.getElementById('gf-concepto').value = ''; document.getElementById('gf-monto').value = ''; renderRentabilidad(); }
+        function borrarGastoFijo(id) { gastosFijos = gastosFijos.filter(x=>x.id!==id); guardarBD(); renderRentabilidad(); }
+
+        // --- MARKETING Y REDES ---
+        let collageImagesUrls = [];
+        function actualizarDropdownRedes() { document.getElementById('redes-caption').value = ""; document.getElementById('media-preview-container').innerHTML = ""; document.getElementById('media-input').value = ""; document.getElementById('redes-clienta-input').value = ""; collageImagesUrls = []; document.getElementById('btn-generar-collage').classList.add('hidden'); document.getElementById('btn-generar-collage').classList.remove('flex'); rotadorCaption = 0; }
+        
+        function generarCaption() {
+            const nombreBuscado = document.getElementById('redes-clienta-input').value.trim().toLowerCase(); 
+            if(!nombreBuscado) return document.getElementById('redes-caption').value = "";
+            const c = clientas.find(x => x.nombre.toLowerCase() === nombreBuscado); 
+            if(!c || !c.visitas || c.visitas.length === 0) return;
+            const ultimaVisita = c.visitas.sort((a,b) => new Date(b.fecha.includes('/') ? b.fecha.split('/').reverse().join('-') : b.fecha) - new Date(a.fecha.includes('/') ? a.fecha.split('/').reverse().join('-') : a.fecha))[0];
+            let hashtagServicio = (ultimaVisita.servicio || "CambioDeLook").replace(/\s+/g, "").replace(/[^a-zA-Z0-9]/g, ''); let nombreClienta = c.nombre.split(' ')[0]; let servicio = ultimaVisita.servicio || 'servicio'; const nombreEmpresa = (appConfig.nombreEmpresa || 'Mi Salón').replace(/\s+/g, '');
+            const plantillas = [
+                `✨ ¡Miren este cambio increíble para ${nombreClienta}! 😍\n\nRealizamos un ${servicio} súper personalizado para darle vida, brillo y muchísimo movimiento a su cabello.\n\n¿Vos también querés un cambio así, reina? Agenda tu turno por WhatsApp al link en nuestra bio! 📲\n\n📍 Te esperamos en el Salón.\n\n#Peluqueria #CambioDeLook #${nombreEmpresa} #Estilista #Balayage #${hashtagServicio} #Colorimetria`,
+                `🔥 El poder de un buen ${servicio} 🔥\n\n${nombreClienta} nos visitó buscando renovar su estilo y miren lo diosa que quedó. ¡El brillo de ese pelo lo dice todo!\n\nAmamos realzar la belleza de cada una de ustedes. Cuidamos tu salud capilar para que el resultado sea siempre un 10/10. 💇‍♀️✨\n\n👉 Turnos disponibles en el link de la bio.\n\n#Peluqueria #CambioDeLook #${nombreEmpresa} #Estilista #Balayage #${hashtagServicio} #Colorimetria`,
+                `De cabello apagado a melena de revista en una sesión ✨\n\nHoy tuvimos el placer de atender a ${nombreClienta} y trabajar este hermoso ${servicio}. Nada nos hace más felices que ver sus sonrisas frente al espejo cuando ven el resultado final. 🥰\n\nGuardá este post para tu próxima visita y mostranos qué look te querés hacer.\n\n📲 Reservas por DM o Link en Bio.\n\n#Peluqueria #CambioDeLook #${nombreEmpresa} #Estilista #Balayage #${hashtagServicio} #Colorimetria`
+            ];
+            rotadorCaption = (rotadorCaption + 1) % plantillas.length; document.getElementById('redes-caption').value = plantillas[rotadorCaption];
+        }
+        function copiarCaption() { const texto = document.getElementById('redes-caption').value; if(!texto) return; navigator.clipboard.writeText(texto).then(() => { mostrarToast("¡Texto copiado! Listo para Instagram ✨", "bg-emerald-200 text-emerald-900"); }).catch(err => { const textArea = document.createElement("textarea"); textArea.value = texto; document.body.appendChild(textArea); textArea.select(); document.execCommand("Copy"); textArea.remove(); mostrarToast("¡Texto copiado!", "bg-emerald-200 text-emerald-900"); }); }
+        function previewMedia(event) { const files = event.target.files; if(!files || files.length === 0) return; const container = document.getElementById('media-preview-container'); Array.from(files).forEach(file => { const url = URL.createObjectURL(file); const isVideo = file.type.startsWith('video/'); const idUnico = 'media-' + generarId(); if(!isVideo) collageImagesUrls.push({ id: idUnico, url: url }); const wrapper = document.createElement('div'); wrapper.id = idUnico; wrapper.className = "relative rounded-lg overflow-hidden border border-app-border shadow-sm bg-app-panel h-20 w-20 mx-auto flex items-center justify-center group aspect-square"; let contentHTML = isVideo ? `<video src="${url}" class="w-full h-full object-cover opacity-80" autoplay muted loop></video><i class="fas fa-play-circle absolute text-app-text text-xl drop-shadow-md"></i>` : `<img src="${url}" class="w-full h-full object-cover">`; wrapper.innerHTML = `${contentHTML}<button onclick="eliminarMedia('${idUnico}')" class="absolute top-1 right-1 bg-rose-500 text-white w-5 h-5 rounded-full flex items-center justify-center opacity-100 md:opacity-0 md:group-hover:opacity-100 transition shadow-md"><i class="fas fa-times text-[10px]"></i></button>`; container.appendChild(wrapper); }); actualizarBotonCollage(); }
+        function eliminarMedia(id) { document.getElementById(id).remove(); collageImagesUrls = collageImagesUrls.filter(img => img.id !== id); actualizarBotonCollage(); }
+        function actualizarBotonCollage() { const btnCollage = document.getElementById('btn-generar-collage'); if(collageImagesUrls.length > 0) { btnCollage.classList.remove('hidden'); btnCollage.classList.add('flex'); } else { btnCollage.classList.add('hidden'); btnCollage.classList.remove('flex'); } }
+        function generarCollage() { if(collageImagesUrls.length === 0) return; mostrarToast("Armando Collage...", "bg-app-primary text-app-textOn"); const grid = document.getElementById('collage-grid'); grid.innerHTML = ""; const count = collageImagesUrls.length; if(count === 1) grid.style.gridTemplateColumns = "1fr"; else if(count === 2 || count === 4) grid.style.gridTemplateColumns = "1fr 1fr"; else grid.style.gridTemplateColumns = "1fr 1fr 1fr"; const nombreEmpresa = appConfig.nombreEmpresa || 'MI SALÓN'; document.getElementById('collage-marca').innerText = nombreEmpresa.toUpperCase(); collageImagesUrls.slice(0, 6).forEach(imgData => { const div = document.createElement('div'); div.style.backgroundImage = `url(${imgData.url})`; div.style.backgroundSize = 'cover'; div.style.backgroundPosition = 'center'; div.style.width = '100%'; div.style.height = '100%'; div.style.borderRadius = '20px'; div.style.border = '2px solid var(--border-color)'; grid.appendChild(div); }); const collageElement = document.getElementById('collage-generator'); collageElement.style.opacity = '1'; setTimeout(() => { html2canvas(collageElement, { scale: 1, useCORS: true, allowTaint: true, backgroundColor: '#ffffff', scrollY: -window.scrollY }).then(canvas => { canvas.toBlob(function(blob) { const url = URL.createObjectURL(blob); document.getElementById('flyer-resultado-img').src = url; document.getElementById('btn-descargar-flyer').href = url; document.getElementById('btn-descargar-flyer').download = `Collage_${hoyString()}.jpg`; collageElement.style.opacity = '0.01'; document.getElementById('titulo-modal-resultado').innerText = '¡Collage Listo!'; abrirModalUI('modal-flyer-resultado'); }, 'image/jpeg', 0.9); }).catch(err => { collageElement.style.opacity = '0.01'; mostrarToast("Error", "bg-rose-200 text-rose-900"); }); }, 600); }
+
+        // --- PLANTILLAS EXCEL PARA IMPORTACIÓN ---
+        function descargarPlantillaClientas() {
+            const wb = XLSX.utils.book_new();
+            const ws = XLSX.utils.json_to_sheet([{ Nombre: "Ejemplo Maria", Telefono: "1155443322", Fecha: hoyString(), Servicio: "Color", Formula: "7.1 a 20 vol" }]);
+            XLSX.utils.book_append_sheet(wb, ws, "Plantilla_Clientas");
+            XLSX.writeFile(wb, "Modelo_Clientas_GestoSmart.xlsx");
+            mostrarToast("Plantilla descargada", "bg-emerald-200 text-emerald-900");
+        }
+        function descargarPlantillaStock() {
+            const wb = XLSX.utils.book_new();
+            const ws = XLSX.utils.json_to_sheet([{ Codigo: "1001", Nombre: "Shampoo Neutro 1L", Costo: 3500, Precio: 6000, Cantidad: 12, Minimo: 3 }]);
+            XLSX.utils.book_append_sheet(wb, ws, "Plantilla_Stock");
+            XLSX.writeFile(wb, "Modelo_Stock_GestoSmart.xlsx");
+            mostrarToast("Plantilla descargada", "bg-emerald-200 text-emerald-900");
+        }
+        function descargarPlantillaCatalogo() {
+            const wb = XLSX.utils.book_new();
+            const ws = XLSX.utils.json_to_sheet([{ Nombre: "Corte Femenino", Precio: 8500 }]);
+            XLSX.utils.book_append_sheet(wb, ws, "Plantilla_Precios");
+            XLSX.writeFile(wb, "Modelo_Precios_GestoSmart.xlsx");
+            mostrarToast("Plantilla descargada", "bg-emerald-200 text-emerald-900");
+        }
     </script>
 </body>
 </html>
