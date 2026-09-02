@@ -88,8 +88,8 @@
         
         .featured-banner {
             width: 100%;
-            max-width: 1025px;
-            margin: 0 20px 35px 20px;
+            max-width: 1060px;
+            margin: 0 20px 40px 20px;
             background: linear-gradient(135deg, rgba(147, 51, 234, 0.18) 0%, rgba(22, 27, 34, 0.95) 100%);
             border: 2px solid #a855f7;
             border-radius: 20px;
@@ -144,7 +144,7 @@
 
         .cards-container {
             display: flex;
-            gap: 40px;
+            gap: 25px;
             justify-content: center;
             flex-wrap: wrap;
             padding: 0 20px;
@@ -156,7 +156,7 @@
             border: 1px solid #30363d;
             border-radius: 16px;
             padding: 30px;
-            width: 380px;
+            width: 340px;
             text-align: left;
             transition: all 0.3s ease;
             display: flex;
@@ -166,24 +166,26 @@
             transform: translateY(-8px);
             box-shadow: 0 10px 20px rgba(0,0,0,0.5);
         }
-        .card h3 { color: #ffffff; font-size: 1.6em; margin-top: 0; margin-bottom: 5px; }
+        .card h3 { color: #ffffff; font-size: 1.4em; margin-top: 0; margin-bottom: 5px; }
         .card-desc {
-            font-size: 0.95em; color: #8b949e; font-style: italic; margin-bottom: 20px;
+            font-size: 0.9em; color: #8b949e; font-style: italic; margin-bottom: 20px;
             padding-bottom: 15px; border-bottom: 1px solid #30363d;
         }
         .card ul {
-            padding-left: 0; list-style-type: none; color: #c9d1d9; font-size: 1em;
-            line-height: 1.6; flex-grow: 1;
+            padding-left: 0; list-style-type: none; color: #c9d1d9; font-size: 0.95em;
+            line-height: 1.5; flex-grow: 1;
         }
         .card li { margin-bottom: 12px; position: relative; padding-left: 20px; }
         .card li::before { content: "✓"; position: absolute; left: 0; font-weight: bold; }
+        
         .card-retail { border-top: 4px solid #3b82f6; } .card-retail li::before { color: #3b82f6; }
         .card-salon { border-top: 4px solid #ec4899; } .card-salon li::before { color: #ec4899; }
+        .card-catalogo { border-top: 4px solid #10b981; } .card-catalogo li::before { color: #10b981; }
         
-        .card-actions { display: flex; flex-direction: column; gap: 12px; margin-top: 25px; }
+        .card-actions { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
         .btn-interfaz {
-            width: 100%; padding: 12px; background-color: #0d1117; border: 1px solid #30363d;
-            color: #00bfff; border-radius: 8px; font-weight: bold; font-size: 1.05em; cursor: pointer;
+            width: 100%; padding: 10px; background-color: #0d1117; border: 1px solid #30363d;
+            color: #00bfff; border-radius: 8px; font-weight: bold; cursor: pointer;
             transition: all 0.2s ease; text-align: center; text-decoration: none; display: inline-block;
         }
         .btn-interfaz:hover { background-color: #30363d; color: #ffffff; }
@@ -290,6 +292,21 @@
                     <button onclick="abrirModal('salon')" class="btn-interfaz" style="color:#ec4899;">📸 Ver Interfaz</button>
                 </div>
             </div>
+
+            <!-- Tarjeta Catálogo Online / E-commerce sin comisiones -->
+            <div class="card card-catalogo">
+                <h3>Catálogo Web sin Comisiones</h3>
+                <div class="card-desc">Tu propia tienda online, sin pagar abonos mensuales ni porcentajes por venta.</div>
+                <ul>
+                    <li><strong>Cero Comisiones:</strong> Vendé todo lo que quieras sin que nadie te saque un porcentaje de tu ganancia.</li>
+                    <li><strong>Pedidos al WhatsApp:</strong> El cliente arma su carrito y te manda el pedido cerrado directo a tu WhatsApp con un clic.</li>
+                    <li><strong>Pago Único:</strong> Comprás la app una sola vez y es tuya para siempre, sin sorpresas ni alquileres de sitios web.</li>
+                </ul>
+                <div class="card-actions">
+                    <a href="https://gesto-smart-demo.vercel.app/?modo=tienda" target="_blank" class="btn-interfaz btn-demo" style="border-color:#10b981; color:#10b981;">🚀 Probar Catálogo en Vivo</a>
+                    <button onclick="abrirModal('web')" class="btn-interfaz" style="color:#10b981;">📸 Ver Interfaz</button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -332,6 +349,14 @@
                     { titulo: '4. Stock y Control de Insumos', archivo: 'salon4.png' },
                     { titulo: '5. Balance y Rentabilidad Neta', archivo: 'salon5.png' },
                     { titulo: '6. Generador de Textos para Redes', archivo: 'salon6.png' }
+                ]
+            },
+            'web': { 
+                titulo: 'Módulo: Catálogo Web sin Comisiones', 
+                items: [
+                    { titulo: '1. Vista de Tienda para el Cliente Final', archivo: 'captura1.png' },
+                    { titulo: '2. Carrito de Compras Integrado', archivo: 'captura2.png' },
+                    { titulo: '3. Envío de Pedido Directo a WhatsApp', archivo: 'captura3.png' }
                 ]
             }
         };
