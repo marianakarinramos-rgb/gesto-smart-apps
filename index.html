@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gesto Smart | La App de tu Negocio</title>
     
-    <!-- METADATOS SEO Y REDES SOCIALES -->
     <meta name="description" content="Elegí la App diseñada exactamente para tu rubro. Catálogos en vivo, gestión de stock, clientes y ventas sin fricción.">
     <meta property="og:title" content="Gesto Smart | La App de tu Negocio">
     <meta property="og:description" content="Elegí la App diseñada para tu rubro. Olvidate del Excel y gestioná sin fricción.">
@@ -86,62 +85,6 @@
             line-height: 1.6;
         }
         
-        .featured-banner {
-            width: 100%;
-            max-width: 1060px;
-            margin: 0 20px 40px 20px;
-            background: linear-gradient(135deg, rgba(147, 51, 234, 0.18) 0%, rgba(22, 27, 34, 0.95) 100%);
-            border: 2px solid #a855f7;
-            border-radius: 20px;
-            padding: 40px 30px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            box-shadow: 0 15px 35px rgba(168, 85, 247, 0.2);
-            position: relative;
-        }
-        .featured-tag {
-            background-color: rgba(168, 85, 247, 0.2);
-            border: 1px solid #a855f7;
-            color: #d8b4fe;
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-weight: 700;
-            font-size: 0.75em;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            margin-bottom: 15px;
-        }
-        .featured-banner h2 {
-            color: #ffffff;
-            font-size: 2.2em;
-            margin-top: 0;
-            margin-bottom: 12px;
-        }
-        .featured-banner p {
-            color: #c9d1d9;
-            font-size: 1.1em;
-            max-width: 700px;
-            margin-bottom: 30px;
-            line-height: 1.6;
-        }
-        .btn-featured {
-            background-color: #a855f7;
-            color: #ffffff;
-            padding: 15px 35px;
-            border-radius: 12px;
-            font-weight: 800;
-            font-size: 1.1em;
-            text-decoration: none;
-            box-shadow: 0 4px 20px rgba(168, 85, 247, 0.4);
-            transition: all 0.2s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .btn-featured:hover { transform: scale(1.03); background-color: #9333ea; }
-
         .cards-container {
             display: flex;
             gap: 25px;
@@ -156,7 +99,7 @@
             border: 1px solid #30363d;
             border-radius: 16px;
             padding: 30px;
-            width: 340px;
+            width: 360px;
             text-align: left;
             transition: all 0.3s ease;
             display: flex;
@@ -178,9 +121,9 @@
         .card li { margin-bottom: 12px; position: relative; padding-left: 20px; }
         .card li::before { content: "✓"; position: absolute; left: 0; font-weight: bold; }
         
+        .card-catalogo { border-top: 4px solid #10b981; } .card-catalogo li::before { color: #10b981; }
         .card-retail { border-top: 4px solid #3b82f6; } .card-retail li::before { color: #3b82f6; }
         .card-salon { border-top: 4px solid #ec4899; } .card-salon li::before { color: #ec4899; }
-        .card-catalogo { border-top: 4px solid #10b981; } .card-catalogo li::before { color: #10b981; }
         
         .card-actions { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
         .btn-interfaz {
@@ -252,17 +195,21 @@
             <p class="subtitle">Elegí la App diseñada exactamente para tu rubro. Dejá de pelear con planillas de Excel y empezá a gestionar de verdad, sin fricción y manteniendo tus datos seguros.</p>
         </div>
 
-        <div class="featured-banner">
-            <div class="featured-tag">🚀 Lanzamiento Destacado</div>
-            <h2>Catálogo Online con Stock en Vivo</h2>
-            <p>La solución definitiva para comercios. Tus clientes lo instalan como app en su celular, ven el stock actualizado al instante y te hacen el pedido directo por WhatsApp con un solo clic.</p>
-            <a href="https://gesto-smart-demo.vercel.app/?modo=tienda" target="_blank" class="btn-featured">
-                ✨ Probar Catálogo en Vivo
-            </a>
-        </div>
-
         <div class="cards-container">
-            <!-- Tarjeta Retail -->
+            <div class="card card-catalogo">
+                <h3>Catálogo Web sin Comisiones</h3>
+                <div class="card-desc">Tu propia tienda online, sin pagar abonos mensuales ni porcentajes por venta.</div>
+                <ul>
+                    <li><strong>Cero Comisiones:</strong> Vendé todo lo que quieras sin que nadie se quede con un porcentaje de tu ganancia.</li>
+                    <li><strong>Pedidos al WhatsApp:</strong> El cliente arma su carrito y te manda el pedido cerrado directo a tu WhatsApp con un clic.</li>
+                    <li><strong>Pago Único:</strong> Comprás la app una sola vez y es tuya para siempre, sin sorpresas ni alquileres de sitios web.</li>
+                </ul>
+                <div class="card-actions">
+                    <a href="https://gesto-smart-demo.vercel.app/?modo=tienda" target="_blank" class="btn-interfaz btn-demo" style="border-color:#10b981; color:#10b981;">🚀 Probar Catálogo en Vivo</a>
+                    <button onclick="abrirModal('web')" class="btn-interfaz" style="color:#10b981;">📸 Ver Interfaz</button>
+                </div>
+            </div>
+
             <div class="card card-retail">
                 <h3>Retail & PyMEs</h3>
                 <div class="card-desc">Control total de mostrador, sin exponer tus números.</div>
@@ -278,7 +225,6 @@
                 </div>
             </div>
             
-            <!-- Tarjeta Salones -->
             <div class="card card-salon">
                 <h3>Estética & Servicios</h3>
                 <div class="card-desc">Historial clínico y caja diaria en un solo flujo.</div>
@@ -290,21 +236,6 @@
                 <div class="card-actions">
                     <a href="https://demo-salon-ruby.vercel.app" target="_blank" class="btn-interfaz btn-demo" style="border-color:#ec4899; color:#ec4899;">🚀 Probar Demo en Vivo</a>
                     <button onclick="abrirModal('salon')" class="btn-interfaz" style="color:#ec4899;">📸 Ver Interfaz</button>
-                </div>
-            </div>
-
-            <!-- Tarjeta Catálogo Online / E-commerce sin comisiones -->
-            <div class="card card-catalogo">
-                <h3>Catálogo Web sin Comisiones</h3>
-                <div class="card-desc">Tu propia tienda online, sin pagar abonos mensuales ni porcentajes por venta.</div>
-                <ul>
-                    <li><strong>Cero Comisiones:</strong> Vendé todo lo que quieras sin que nadie te saque un porcentaje de tu ganancia.</li>
-                    <li><strong>Pedidos al WhatsApp:</strong> El cliente arma su carrito y te manda el pedido cerrado directo a tu WhatsApp con un clic.</li>
-                    <li><strong>Pago Único:</strong> Comprás la app una sola vez y es tuya para siempre, sin sorpresas ni alquileres de sitios web.</li>
-                </ul>
-                <div class="card-actions">
-                    <a href="https://gesto-smart-demo.vercel.app/?modo=tienda" target="_blank" class="btn-interfaz btn-demo" style="border-color:#10b981; color:#10b981;">🚀 Probar Catálogo en Vivo</a>
-                    <button onclick="abrirModal('web')" class="btn-interfaz" style="color:#10b981;">📸 Ver Interfaz</button>
                 </div>
             </div>
         </div>
@@ -327,6 +258,14 @@
 
     <script>
         const modulosData = {
+            'web': { 
+                titulo: 'Módulo: Catálogo Web sin Comisiones', 
+                items: [
+                    { titulo: '1. Vista de Tienda para el Cliente Final', archivo: 'captura1.png' },
+                    { titulo: '2. Carrito de Compras Integrado', archivo: 'captura2.png' },
+                    { titulo: '3. Envío de Pedido Directo a WhatsApp', archivo: 'captura3.png' }
+                ]
+            },
             'retail': { 
                 titulo: 'Módulo: Retail & PyMEs', 
                 items: [
@@ -349,14 +288,6 @@
                     { titulo: '4. Stock y Control de Insumos', archivo: 'salon4.png' },
                     { titulo: '5. Balance y Rentabilidad Neta', archivo: 'salon5.png' },
                     { titulo: '6. Generador de Textos para Redes', archivo: 'salon6.png' }
-                ]
-            },
-            'web': { 
-                titulo: 'Módulo: Catálogo Web sin Comisiones', 
-                items: [
-                    { titulo: '1. Vista de Tienda para el Cliente Final', archivo: 'captura1.png' },
-                    { titulo: '2. Carrito de Compras Integrado', archivo: 'captura2.png' },
-                    { titulo: '3. Envío de Pedido Directo a WhatsApp', archivo: 'captura3.png' }
                 ]
             }
         };
