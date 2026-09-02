@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gesto Smart | La App de tu Negocio</title>
     
+    <!-- METADATOS SEO Y REDES SOCIALES -->
     <meta name="description" content="Elegí la App diseñada exactamente para tu rubro. Catálogos en vivo, gestión de stock, clientes y ventas sin fricción.">
     <meta property="og:title" content="Gesto Smart | La App de tu Negocio">
     <meta property="og:description" content="Elegí la App diseñada para tu rubro. Olvidate del Excel y gestioná sin fricción.">
@@ -86,12 +87,13 @@
         }
         
         .cards-container {
-            display: flex;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
             gap: 25px;
             justify-content: center;
-            flex-wrap: wrap;
             padding: 0 20px;
             width: 100%;
+            max-width: 1100px;
         }
         .card {
             background-color: rgba(22, 27, 34, 0.85);
@@ -99,11 +101,11 @@
             border: 1px solid #30363d;
             border-radius: 16px;
             padding: 30px;
-            width: 360px;
             text-align: left;
             transition: all 0.3s ease;
             display: flex;
             flex-direction: column;
+            height: 100%;
         }
         .card:hover {
             transform: translateY(-8px);
@@ -116,53 +118,36 @@
         }
         .card ul {
             padding-left: 0; list-style-type: none; color: #c9d1d9; font-size: 0.95em;
-            line-height: 1.5; flex-grow: 1;
+            line-height: 1.5; flex-grow: 1; margin-bottom: 0;
         }
         .card li { margin-bottom: 12px; position: relative; padding-left: 20px; }
         .card li::before { content: "✓"; position: absolute; left: 0; font-weight: bold; }
         
         .card-catalogo { border-top: 4px solid #10b981; } .card-catalogo li::before { color: #10b981; }
+        .card-express { border-top: 4px solid #f59e0b; } .card-express li::before { color: #f59e0b; }
         .card-retail { border-top: 4px solid #3b82f6; } .card-retail li::before { color: #3b82f6; }
         .card-salon { border-top: 4px solid #ec4899; } .card-salon li::before { color: #ec4899; }
         
-        .card-actions { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
-        .btn-interfaz {
-            width: 100%; padding: 10px; background-color: #0d1117; border: 1px solid #30363d;
-            color: #00bfff; border-radius: 8px; font-weight: bold; cursor: pointer;
-            transition: all 0.2s ease; text-align: center; text-decoration: none; display: inline-block;
+        .card-actions { display: flex; flex-direction: column; gap: 8px; margin-top: 25px; }
+        
+        .btn-demo {
+            width: 100%; padding: 14px; border-radius: 10px; font-weight: bold; font-size: 1.05em; 
+            cursor: pointer; transition: all 0.2s ease; text-align: center; text-decoration: none; 
+            display: inline-block; color: #ffffff;
         }
-        .btn-interfaz:hover { background-color: #30363d; color: #ffffff; }
-        .btn-demo { background-color: rgba(0, 191, 255, 0.15); border: 1px solid #00bfff; color: #ffffff; }
-        .btn-demo:hover { background-color: #00bfff; color: #050b14; }
-        .pin-note { font-size: 0.85em; color: #8b949e; text-align: center; margin-top: -5px; margin-bottom: 5px; }
+        .btn-demo-web { background-color: rgba(16, 185, 129, 0.15); border: 2px solid #10b981; }
+        .btn-demo-web:hover { background-color: #10b981; color: #050b14; }
+        
+        .btn-demo-express { background-color: rgba(245, 158, 11, 0.15); border: 2px solid #f59e0b; }
+        .btn-demo-express:hover { background-color: #f59e0b; color: #050b14; }
+        
+        .btn-demo-retail { background-color: rgba(59, 130, 246, 0.15); border: 2px solid #3b82f6; }
+        .btn-demo-retail:hover { background-color: #3b82f6; color: #050b14; }
+        
+        .btn-demo-salon { background-color: rgba(236, 72, 153, 0.15); border: 2px solid #ec4899; }
+        .btn-demo-salon:hover { background-color: #ec4899; color: #050b14; }
 
-        body.modal-open { overflow: hidden; padding-right: 8px; }
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(5, 11, 20, 0.95);
-            z-index: 9999; display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none;
-            transition: opacity 0.3s ease; padding: 20px;
-        }
-        .modal-overlay.active { opacity: 1; pointer-events: auto; }
-        .modal-content {
-            width: 100%; max-width: 900px; max-height: 90vh; background: #161b22; border: 1px solid #30363d;
-            border-radius: 16px; padding: 25px; position: relative; display: flex; flex-direction: column;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.6);
-        }
-        .close-modal {
-            position: absolute; top: 15px; right: 20px; color: #8b949e; font-size: 28px; font-weight: bold;
-            cursor: pointer; transition: color 0.2s; line-height: 1; z-index: 10;
-        }
-        .close-modal:hover { color: #ef4444; }
-        .modal-header { margin-bottom: 15px; padding-bottom: 12px; border-bottom: 1px solid #30363d; flex-shrink: 0; }
-        .modal-title { color: #fff; font-size: 1.3em; font-weight: bold; }
-        .modal-body { overflow-y: scroll; padding-right: 15px; display: flex; flex-direction: column; gap: 20px; flex-grow: 1; }
-        .modal-body::-webkit-scrollbar { width: 8px; }
-        .modal-body::-webkit-scrollbar-track { background: #0d1117; border-radius: 4px; }
-        .modal-body::-webkit-scrollbar-thumb { background: #30363d; border-radius: 4px; }
-        .modal-body::-webkit-scrollbar-thumb:hover { background: #00bfff; }
-        .modal-item { display: flex; flex-direction: column; gap: 8px; background: #0d1117; border: 1px solid #30363d; border-radius: 10px; padding: 12px; }
-        .modal-item-title { color: #00bfff; font-size: 0.9em; font-weight: 600; }
-        .modal-item img { width: 100%; height: auto; min-height: 200px; border-radius: 6px; display: block; background-color: #161b22; }
+        .pin-note { font-size: 0.85em; color: #8b949e; text-align: center; margin-top: 5px; font-weight: 600; }
 
         .contact-section {
             margin-top: 80px; text-align: center; padding: 60px 20px; background-color: #0d1117; border-top: 1px solid #30363d; width: 100%; position: relative; z-index: 10;
@@ -178,10 +163,11 @@
         
         @media (max-width: 768px) {
             h1 { font-size: 2.5em; }
-            .card { width: 100%; max-width: 400px; }
+            .cards-container { grid-template-columns: 1fr; }
             .btn { width: 100%; max-width: 300px; display: flex; }
-            .modal-content { padding: 15px; }
         }
+        
+        /* Efecto de destellos con el mouse */
         .sparkle { position: fixed; pointer-events: none; width: 6px; height: 6px; border-radius: 50%; animation: fadeOut 0.8s forwards; z-index: 8000; }
         @keyframes fadeOut { 0% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(0); } }
     </style>
@@ -189,53 +175,68 @@
 <body>
     <div class="main-container">
         <div class="header">
-            <img src="logo.jpg" alt="Gesto Smart Logo" class="logo">
+            <img src="logo.jpg" alt="Gesto Smart Logo" class="logo" onerror="this.src='https://via.placeholder.com/120/1e293b/00bfff?text=GS'">
             <div class="badge">⚡ PAGO ÚNICO. ACCESO RÁPIDO. ULTRA FÁCILES.</div>
             <h1>La App de tu negocio<br><span class="highlight">no tiene que ser un dolor de cabeza.</span></h1>
             <p class="subtitle">Elegí la App diseñada exactamente para tu rubro. Dejá de pelear con planillas de Excel y empezá a gestionar de verdad, sin fricción y manteniendo tus datos seguros.</p>
         </div>
 
         <div class="cards-container">
+            <!-- Tarjeta 1: Catálogo Web -->
             <div class="card card-catalogo">
-                <h3>Catálogo Web sin Comisiones</h3>
-                <div class="card-desc">Tu propia tienda online, sin pagar abonos mensuales ni porcentajes por venta.</div>
+                <h3>Catálogo Web con Fotos</h3>
+                <div class="card-desc">Tu propia tienda online visual, sin pagar abonos mensuales ni porcentajes por venta.</div>
                 <ul>
-                    <li><strong>Cero Comisiones:</strong> Vendé todo lo que quieras sin que nadie se quede con un porcentaje de tu ganancia.</li>
-                    <li><strong>Pedidos al WhatsApp:</strong> El cliente arma su carrito y te manda el pedido cerrado directo a tu WhatsApp con un clic.</li>
-                    <li><strong>Pago Único:</strong> Comprás la app una sola vez y es tuya para siempre, sin sorpresas ni alquileres de sitios web.</li>
+                    <li><strong>Cero Comisiones:</strong> Vendé todo lo que quieras 100% libre de comisiones.</li>
+                    <li><strong>Pedidos al WhatsApp:</strong> El cliente arma su carrito y te llega el pedido directo.</li>
+                    <li><strong>Pago Único:</strong> Es tuya para siempre.</li>
                 </ul>
-                <div class="card-actions">
-                    <a href="https://gesto-smart-demo.vercel.app/?modo=tienda" target="_blank" class="btn-interfaz btn-demo" style="border-color:#10b981; color:#10b981;">🚀 Probar Catálogo en Vivo</a>
-                    <button onclick="abrirModal('web')" class="btn-interfaz" style="color:#10b981;">📸 Ver Interfaz</button>
+                <div class="card-actions mt-auto">
+                    <a href="https://gesto-smart-demo.vercel.app/?modo=tienda" target="_blank" class="btn-demo btn-demo-web">🚀 Probar Demo</a>
                 </div>
             </div>
 
+            <!-- Tarjeta 2: Catálogo Express (Mayorista) -->
+            <div class="card card-express">
+                <h3>Catálogo Express (B2B)</h3>
+                <div class="card-desc">Ideal para mayoristas y distribuidoras. Listas de precios rápidas, sin fotos y carga masiva.</div>
+                <ul>
+                    <li><strong>Velocidad pura:</strong> Interfaz minimalista lista para cargar cientos de productos.</li>
+                    <li><strong>Calculador de Bultos:</strong> Cargás el kilo y te saca el precio del bulto cerrado automático.</li>
+                    <li><strong>Actualización por Excel:</strong> Subí tu lista y aumentá precios en un clic.</li>
+                </ul>
+                <div class="card-actions mt-auto">
+                    <a href="https://demo-catalogo-express.vercel.app/?modo=tienda" target="_blank" class="btn-demo btn-demo-express">🚀 Probar Demo Express</a>
+                </div>
+            </div>
+
+            <!-- Tarjeta 3: Retail & PyMEs -->
             <div class="card card-retail">
                 <h3>Retail & PyMEs</h3>
                 <div class="card-desc">Control total de mostrador, sin exponer tus números.</div>
                 <ul>
-                    <li><strong>Modo Dueño/Vendedor:</strong> Bloqueá el acceso a costos y rentabilidad con un PIN. Tus empleados solo ven la caja.</li>
-                    <li><strong>Punto de Venta ágil:</strong> Cobrá o armá presupuestos en 2 clics.</li>
+                    <li><strong>Modo Dueño/Vendedor:</strong> Bloqueá costos y rentabilidad con un PIN.</li>
+                    <li><strong>Punto de Venta ágil:</strong> Cobrá o armá presupuestos rápido.</li>
                     <li><strong>Módulo RRHH:</strong> Cálculo exacto de comisiones y márgenes reales.</li>
                 </ul>
-                <div class="card-actions">
-                    <a href="https://demo-retail-five.vercel.app" target="_blank" class="btn-interfaz btn-demo">🚀 Probar Demo en Vivo</a>
-                    <div class="pin-note">🔑 PIN de acceso: 1234</div>
-                    <button onclick="abrirModal('retail')" class="btn-interfaz">📸 Ver Interfaz</button>
+                <div class="card-actions mt-auto">
+                    <a href="https://demo-retail-five.vercel.app" target="_blank" class="btn-demo btn-demo-retail">🚀 Probar Demo en Vivo</a>
+                    <div class="pin-note">🔑 PIN Admin: 1234</div>
                 </div>
             </div>
             
+            <!-- Tarjeta 4: Salones -->
             <div class="card card-salon">
                 <h3>Estética & Servicios</h3>
                 <div class="card-desc">Historial clínico y caja diaria en un solo flujo.</div>
                 <ul>
-                    <li><strong>Fichero Inteligente:</strong> Guardá fórmulas, servicios e historial de cada cliente.</li>
-                    <li><strong>Stock Automático:</strong> Al cobrar el servicio, se descuentan los insumos usados al instante.</li>
-                    <li><strong>Métricas Clave:</strong> Alerta de clientes ausentes (+90 días) para reactivar ventas.</li>
+                    <li><strong>Fichero Inteligente:</strong> Guardá fórmulas, servicios e historial por cliente.</li>
+                    <li><strong>Stock Automático:</strong> Fraccionamiento inteligente por gramos/usos.</li>
+                    <li><strong>Métricas Clave:</strong> Alerta de clientes ausentes (+90 días).</li>
                 </ul>
-                <div class="card-actions">
-                    <a href="https://demo-salon-ruby.vercel.app" target="_blank" class="btn-interfaz btn-demo" style="border-color:#ec4899; color:#ec4899;">🚀 Probar Demo en Vivo</a>
-                    <button onclick="abrirModal('salon')" class="btn-interfaz" style="color:#ec4899;">📸 Ver Interfaz</button>
+                <div class="card-actions mt-auto">
+                    <a href="https://demo-salon-ruby.vercel.app" target="_blank" class="btn-demo btn-demo-salon">🚀 Probar Demo en Vivo</a>
+                    <div class="pin-note">🔑 PIN Admin: 1234</div>
                 </div>
             </div>
         </div>
@@ -248,73 +249,19 @@
         <a href="https://www.instagram.com/gesto.smart/" target="_blank" class="btn btn-ig">📸 Seguime en @gesto.smart</a>
     </div>
 
-    <div id="imageModal" class="modal-overlay" onclick="cerrarModalFondo(event)">
-        <div class="modal-content">
-            <span class="close-modal" onclick="cerrarModal()">×</span>
-            <div class="modal-header"><div class="modal-title" id="modalTitle">Interfaz del Módulo</div></div>
-            <div id="modalBody" class="modal-body"></div>
-        </div>
-    </div>
-
     <script>
-        const modulosData = {
-            'web': { 
-                titulo: 'Módulo: Catálogo Web sin Comisiones', 
-                items: [
-                    { titulo: '1. Vista de Tienda para el Cliente Final', archivo: 'captura1.png' },
-                    { titulo: '2. Carrito de Compras Integrado', archivo: 'captura2.png' },
-                    { titulo: '3. Envío de Pedido Directo a WhatsApp', archivo: 'captura3.png' }
-                ]
-            },
-            'retail': { 
-                titulo: 'Módulo: Retail & PyMEs', 
-                items: [
-                    { titulo: '1. Base de Clientes', archivo: 'retail1.png' },
-                    { titulo: '2. Punto de Venta (Carrito)', archivo: 'retail2.png' },
-                    { titulo: '3. Gestión de Presupuestos Pendientes', archivo: 'retail3.png' },
-                    { titulo: '4. Panel de Remitos y Entregas', archivo: 'retail4.png' },
-                    { titulo: '5. Caja Diaria e Historial', archivo: 'retail5.png' },
-                    { titulo: '6. Gestión de Inventario y Stock', archivo: 'retail6.png' },
-                    { titulo: '7. Listas de Precios y Costos', archivo: 'retail7.png' },
-                    { titulo: '8. Tablero de Rentabilidad y Gastos Fijos', archivo: 'retail8.png' }
-                ]
-            },
-            'salon': { 
-                titulo: 'Módulo: Estética & Servicios', 
-                items: [
-                    { titulo: '1. Fichero de Clientes y Fórmulas', archivo: 'salon1.png' },
-                    { titulo: '2. Agenda Inteligente', archivo: 'salon2.png' },
-                    { titulo: '3. Caja Diaria (Integrada con Stock)', archivo: 'salon3.png' },
-                    { titulo: '4. Stock y Control de Insumos', archivo: 'salon4.png' },
-                    { titulo: '5. Balance y Rentabilidad Neta', archivo: 'salon5.png' },
-                    { titulo: '6. Generador de Textos para Redes', archivo: 'salon6.png' }
-                ]
-            }
-        };
-        const modal = document.getElementById('imageModal');
-        const modalBody = document.getElementById('modalBody');
-        const modalTitle = document.getElementById('modalTitle');
-        function abrirModal(modulo) {
-            const data = modulosData[modulo];
-            modalTitle.innerText = data.titulo;
-            modalBody.innerHTML = data.items.map(item => `
-                <div class="modal-item">
-                    <span class="modal-item-title">${item.titulo}</span>
-                    <img src="${item.archivo}" alt="${item.titulo}" loading="lazy" onerror="this.src='https://via.placeholder.com/800x450/0d1117/8b949e?text=Cargando+Imagen+...'">
-                </div>
-            `).join('');
-            document.body.classList.add('modal-open'); modal.classList.add('active'); modalBody.scrollTop = 0; 
-        }
-        function cerrarModal() { modal.classList.remove('active'); document.body.classList.remove('modal-open'); }
-        function cerrarModalFondo(e) { if (e.target === modal) cerrarModal(); }
+        // Efecto visual de destellos (Mouse Trail)
         const colors = ['#00bfff', '#4dd2ff', '#80dfff']; 
         document.addEventListener('mousemove', function(e) {
-            if (document.body.classList.contains('modal-open')) return; 
             const sparkle = document.createElement('div');
-            sparkle.className = 'sparkle'; sparkle.style.left = e.clientX + 'px'; sparkle.style.top = e.clientY + 'px';
+            sparkle.className = 'sparkle'; 
+            sparkle.style.left = e.clientX + 'px'; 
+            sparkle.style.top = e.clientY + 'px';
             const randomColor = colors[Math.floor(Math.random() * colors.length)];
-            sparkle.style.backgroundColor = randomColor; sparkle.style.boxShadow = `0 0 10px ${randomColor}, 0 0 20px #fff`;
-            document.body.appendChild(sparkle); setTimeout(() => { sparkle.remove(); }, 800);
+            sparkle.style.backgroundColor = randomColor; 
+            sparkle.style.boxShadow = `0 0 10px ${randomColor}, 0 0 20px #fff`;
+            document.body.appendChild(sparkle); 
+            setTimeout(() => { sparkle.remove(); }, 800);
         });
     </script>
 </body>
