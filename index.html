@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gesto Smart | La App de tu Negocio</title>
     
-    <!-- METADATOS SEO Y REDES SOCIALES -->
     <meta name="description" content="Elegí la App diseñada exactamente para tu rubro. Catálogos en vivo, gestión de stock, clientes y ventas sin fricción.">
     <meta property="og:title" content="Gesto Smart | La App de tu Negocio">
     <meta property="og:description" content="Elegí la App diseñada para tu rubro. Olvidate del Excel y gestioná sin fricción.">
@@ -144,7 +143,7 @@
 
         .cards-container {
             display: flex;
-            gap: 25px;
+            gap: 40px;
             justify-content: center;
             flex-wrap: wrap;
             padding: 0 20px;
@@ -156,7 +155,7 @@
             border: 1px solid #30363d;
             border-radius: 16px;
             padding: 30px;
-            width: 320px;
+            width: 380px;
             text-align: left;
             transition: all 0.3s ease;
             display: flex;
@@ -166,25 +165,24 @@
             transform: translateY(-8px);
             box-shadow: 0 10px 20px rgba(0,0,0,0.5);
         }
-        .card h3 { color: #ffffff; font-size: 1.4em; margin-top: 0; margin-bottom: 5px; }
+        .card h3 { color: #ffffff; font-size: 1.6em; margin-top: 0; margin-bottom: 5px; }
         .card-desc {
-            font-size: 0.9em; color: #8b949e; font-style: italic; margin-bottom: 20px;
+            font-size: 0.95em; color: #8b949e; font-style: italic; margin-bottom: 20px;
             padding-bottom: 15px; border-bottom: 1px solid #30363d;
         }
         .card ul {
-            padding-left: 0; list-style-type: none; color: #c9d1d9; font-size: 0.95em;
-            line-height: 1.5; flex-grow: 1;
+            padding-left: 0; list-style-type: none; color: #c9d1d9; font-size: 1em;
+            line-height: 1.6; flex-grow: 1;
         }
         .card li { margin-bottom: 12px; position: relative; padding-left: 20px; }
         .card li::before { content: "✓"; position: absolute; left: 0; font-weight: bold; }
         .card-retail { border-top: 4px solid #3b82f6; } .card-retail li::before { color: #3b82f6; }
         .card-salon { border-top: 4px solid #ec4899; } .card-salon li::before { color: #ec4899; }
-        .card-web { border-top: 4px solid #10b981; } .card-web li::before { color: #10b981; }
         
-        .card-actions { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
+        .card-actions { display: flex; flex-direction: column; gap: 12px; margin-top: 25px; }
         .btn-interfaz {
-            width: 100%; padding: 10px; background-color: #0d1117; border: 1px solid #30363d;
-            color: #00bfff; border-radius: 8px; font-weight: bold; cursor: pointer;
+            width: 100%; padding: 12px; background-color: #0d1117; border: 1px solid #30363d;
+            color: #00bfff; border-radius: 8px; font-weight: bold; font-size: 1.05em; cursor: pointer;
             transition: all 0.2s ease; text-align: center; text-decoration: none; display: inline-block;
         }
         .btn-interfaz:hover { background-color: #30363d; color: #ffffff; }
@@ -261,7 +259,6 @@
         </div>
 
         <div class="cards-container">
-            <!-- Tarjeta Retail -->
             <div class="card card-retail">
                 <h3>Retail & PyMEs</h3>
                 <div class="card-desc">Control total de mostrador, sin exponer tus números.</div>
@@ -277,7 +274,6 @@
                 </div>
             </div>
             
-            <!-- Tarjeta Salones -->
             <div class="card card-salon">
                 <h3>Estética & Servicios</h3>
                 <div class="card-desc">Historial clínico y caja diaria en un solo flujo.</div>
@@ -289,21 +285,6 @@
                 <div class="card-actions">
                     <a href="https://demo-salon-ruby.vercel.app" target="_blank" class="btn-interfaz btn-demo" style="border-color:#ec4899; color:#ec4899;">🚀 Probar Demo en Vivo</a>
                     <button onclick="abrirModal('salon')" class="btn-interfaz" style="color:#ec4899;">📸 Ver Interfaz</button>
-                </div>
-            </div>
-            
-            <!-- Tarjeta Web -->
-            <div class="card card-web">
-                <h3>E-commerce & Catálogos</h3>
-                <div class="card-desc">Sincronizá tu stock web sin ser programador.</div>
-                <ul>
-                    <li><strong>Cruce Automático:</strong> Subí tu Excel y la App cruza stock físico vs tienda online al instante.</li>
-                    <li><strong>Generador de Catálogos:</strong> Creá flyers listos para WhatsApp o Estados usando las fotos.</li>
-                    <li><strong>Cero Estrés:</strong> Olvidate de armar archivos CSV a mano.</li>
-                </ul>
-                <div class="card-actions">
-                    <a href="https://demo-web-two-woad.vercel.app" target="_blank" class="btn-interfaz btn-demo" style="border-color:#10b981; color:#10b981;">🚀 Probar Demo en Vivo</a>
-                    <button onclick="abrirModal('web')" class="btn-interfaz" style="color:#10b981;">📸 Ver Interfaz</button>
                 </div>
             </div>
         </div>
@@ -348,17 +329,6 @@
                     { titulo: '4. Stock y Control de Insumos', archivo: 'salon4.png' },
                     { titulo: '5. Balance y Rentabilidad Neta', archivo: 'salon5.png' },
                     { titulo: '6. Generador de Textos para Redes', archivo: 'salon6.png' }
-                ]
-            },
-            'web': { 
-                titulo: 'Módulo: E-commerce, Catálogos & Sincronización Web', 
-                items: [
-                    { titulo: '1. Panel Central de Carga de Archivos', archivo: 'captura1.png' },
-                    { titulo: '2. Calculadora de Stock Real (Depósito vs Reservas)', archivo: 'captura2.png' },
-                    { titulo: '3. Generador de Catálogos Express y Flyers', archivo: 'captura3.png' },
-                    { titulo: '4. Catálogo Final en Formato PDF A4', archivo: 'captura4.png' },
-                    { titulo: '5. Flyer Exportado para WhatsApp / Redes', archivo: 'captura5.png' },
-                    { titulo: '6. Auditoría de Productos Faltantes por Publicar', archivo: 'captura6.png' }
                 ]
             }
         };
