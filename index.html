@@ -15,16 +15,21 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Gesto Smart | La App de tu Negocio">
     <meta name="twitter:description" content="Elegí la App diseñada para tu rubro. Olvidate del Excel y gestioná sin fricción.">
-    <meta name="twitter:image" content="https://mariana-gesto-smart.vercel.app/logo.jpg">
+    
+    <!-- Tipografía Moderna -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
 
     <style>
         * { box-sizing: border-box; }
+        
         body {
-            background-color: #050b14;
-            background-image: radial-gradient(circle, #1e293b 1.5px, transparent 1.5px);
+            background-color: #f8fafc;
+            background-image: radial-gradient(#cbd5e1 1.5px, transparent 1.5px);
             background-size: 30px 30px;
-            color: #c9d1d9;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            color: #334155;
+            font-family: 'Plus Jakarta Sans', sans-serif;
             margin: 0;
             padding: 0;
             display: flex;
@@ -33,6 +38,7 @@
             min-height: 100vh;
             overflow-x: hidden;
         }
+
         .main-container {
             width: 100%;
             max-width: 1200px;
@@ -43,6 +49,7 @@
             position: relative;
             z-index: 10;
         }
+
         .header {
             text-align: center;
             padding: 0 20px 40px 20px;
@@ -50,145 +57,283 @@
             flex-direction: column;
             align-items: center;
         }
+
         .logo {
             width: 120px;
             height: 120px;
-            border-radius: 20px;
-            box-shadow: 0 0 25px rgba(0, 191, 255, 0.4);
+            border-radius: 24px;
+            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.2);
             margin-bottom: 25px;
             display: block; 
             object-fit: cover;
         }
+
         .badge {
-            background-color: rgba(0, 191, 255, 0.1);
-            border: 1px solid #00bfff;
-            color: #00bfff;
+            background-color: #e0e7ff;
+            color: #4f46e5;
             padding: 8px 18px;
             border-radius: 30px;
-            font-weight: 700;
+            font-weight: 800;
             font-size: 0.85em;
             letter-spacing: 0.5px;
             margin-bottom: 20px;
+            border: 1px solid #c7d2fe;
         }
+
         h1 {
             font-size: 3.5em;
-            color: #ffffff;
+            color: #0f172a;
             margin: 0 0 15px 0;
             line-height: 1.1;
             font-weight: 800;
+            letter-spacing: -1px;
         }
-        .highlight { color: #00bfff; }
+
+        .highlight { 
+            background: linear-gradient(135deg, #6366f1 0%, #ec4899 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
         .subtitle {
             font-size: 1.25em;
-            color: #8b949e;
+            color: #475569;
             max-width: 650px;
             margin: 0 auto 40px auto;
             line-height: 1.6;
+            font-weight: 400;
         }
         
+        /* Grid corregido para simetría 2x2 exacta */
         .cards-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
             justify-content: center;
             padding: 0 20px;
             width: 100%;
-            max-width: 1100px;
+            max-width: 960px; /* Ajustado para que las 2 columnas queden perfectas */
         }
+
         .card {
-            background-color: rgba(22, 27, 34, 0.85);
-            backdrop-filter: blur(10px);
-            border: 1px solid #30363d;
-            border-radius: 16px;
-            padding: 30px;
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 24px;
+            padding: 35px 30px;
             text-align: left;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             flex-direction: column;
             height: 100%;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            position: relative;
+            overflow: hidden;
         }
+
         .card:hover {
             transform: translateY(-8px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            border-color: #cbd5e1;
         }
-        .card h3 { color: #ffffff; font-size: 1.4em; margin-top: 0; margin-bottom: 5px; }
+
+        .card h3 { 
+            color: #0f172a; 
+            font-size: 1.5em; 
+            margin-top: 0; 
+            margin-bottom: 8px; 
+            font-weight: 800;
+        }
+
         .card-desc {
-            font-size: 0.9em; color: #8b949e; font-style: italic; margin-bottom: 20px;
-            padding-bottom: 15px; border-bottom: 1px solid #30363d;
+            font-size: 0.95em; 
+            color: #64748b; 
+            margin-bottom: 20px;
+            padding-bottom: 15px; 
+            border-bottom: 1px solid #f1f5f9;
+            line-height: 1.5;
         }
+
         .card ul {
-            padding-left: 0; list-style-type: none; color: #c9d1d9; font-size: 0.95em;
-            line-height: 1.5; flex-grow: 1; margin-bottom: 0;
+            padding-left: 0; 
+            list-style-type: none; 
+            color: #334155; 
+            font-size: 0.95em;
+            line-height: 1.6; 
+            flex-grow: 1; 
+            margin-bottom: 0;
         }
-        .card li { margin-bottom: 12px; position: relative; padding-left: 20px; }
-        .card li::before { content: "✓"; position: absolute; left: 0; font-weight: bold; }
+
+        .card li { 
+            margin-bottom: 12px; 
+            position: relative; 
+            padding-left: 24px; 
+        }
         
-        .card-catalogo { border-top: 4px solid #10b981; } .card-catalogo li::before { color: #10b981; }
-        .card-express { border-top: 4px solid #f59e0b; } .card-express li::before { color: #f59e0b; }
-        .card-retail { border-top: 4px solid #3b82f6; } .card-retail li::before { color: #3b82f6; }
-        .card-salon { border-top: 4px solid #ec4899; } .card-salon li::before { color: #ec4899; }
+        .card li::before { 
+            content: "✓"; 
+            position: absolute; 
+            left: 0; 
+            font-weight: 800; 
+        }
         
-        .card-actions { display: flex; flex-direction: column; gap: 8px; margin-top: 25px; }
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+        }
+
+        .card-catalogo::before { background-color: #10b981; } 
+        .card-catalogo li::before { color: #10b981; }
+        
+        .card-express::before { background-color: #f59e0b; } 
+        .card-express li::before { color: #f59e0b; }
+        
+        .card-retail::before { background-color: #3b82f6; } 
+        .card-retail li::before { color: #3b82f6; }
+        
+        .card-salon::before { background-color: #ec4899; } 
+        .card-salon li::before { color: #ec4899; }
+        
+        .card-actions { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 10px; 
+            margin-top: 30px; 
+        }
         
         .btn-demo {
-            width: 100%; padding: 14px; border-radius: 10px; font-weight: bold; font-size: 1.05em; 
-            cursor: pointer; transition: all 0.2s ease; text-align: center; text-decoration: none; 
-            display: inline-block; color: #ffffff;
+            width: 100%; 
+            padding: 14px; 
+            border-radius: 12px; 
+            font-weight: 800; 
+            font-size: 1.05em; 
+            cursor: pointer; 
+            transition: all 0.2s ease; 
+            text-align: center; 
+            text-decoration: none; 
+            display: inline-block; 
         }
-        .btn-demo-web { background-color: rgba(16, 185, 129, 0.15); border: 2px solid #10b981; }
-        .btn-demo-web:hover { background-color: #10b981; color: #050b14; }
-        
-        .btn-demo-express { background-color: rgba(245, 158, 11, 0.15); border: 2px solid #f59e0b; }
-        .btn-demo-express:hover { background-color: #f59e0b; color: #050b14; }
-        
-        .btn-demo-retail { background-color: rgba(59, 130, 246, 0.15); border: 2px solid #3b82f6; }
-        .btn-demo-retail:hover { background-color: #3b82f6; color: #050b14; }
-        
-        .btn-demo-salon { background-color: rgba(236, 72, 153, 0.15); border: 2px solid #ec4899; }
-        .btn-demo-salon:hover { background-color: #ec4899; color: #050b14; }
 
-        .pin-note { font-size: 0.85em; color: #8b949e; text-align: center; margin-top: 5px; font-weight: 600; }
+        .btn-demo-web { color: #10b981; background-color: #ecfdf5; }
+        .btn-demo-web:hover { background-color: #10b981; color: #ffffff; }
+        
+        .btn-demo-express { color: #d97706; background-color: #fffbeb; }
+        .btn-demo-express:hover { background-color: #f59e0b; color: #ffffff; }
+        
+        .btn-demo-retail { color: #2563eb; background-color: #eff6ff; }
+        .btn-demo-retail:hover { background-color: #3b82f6; color: #ffffff; }
+        
+        .btn-demo-salon { color: #db2777; background-color: #fdf2f8; }
+        .btn-demo-salon:hover { background-color: #ec4899; color: #ffffff; }
+
+        .pin-note { 
+            font-size: 0.85em; 
+            color: #64748b; 
+            text-align: center; 
+            margin-top: 5px; 
+            font-weight: 600; 
+            background: #f1f5f9;
+            padding: 4px 0;
+            border-radius: 6px;
+        }
 
         .contact-section {
-            margin-top: 80px; text-align: center; padding: 60px 20px; background-color: #0d1117; border-top: 1px solid #30363d; width: 100%; position: relative; z-index: 10;
+            margin-top: 80px; 
+            text-align: center; 
+            padding: 80px 20px; 
+            background-color: #ffffff; 
+            border-top: 1px solid #e2e8f0; 
+            width: 100%; 
+            position: relative; 
+            z-index: 10;
         }
-        .contact-section h2 { color: #fff; font-size: 2.2em; margin-top: 0; margin-bottom: 10px; }
-        .contact-section p { color: #8b949e; font-size: 1.1em; margin-bottom: 35px; }
+
+        .contact-section h2 { 
+            color: #0f172a; 
+            font-size: 2.5em; 
+            margin-top: 0; 
+            margin-bottom: 15px; 
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .contact-section p { 
+            color: #475569; 
+            font-size: 1.15em; 
+            margin-bottom: 40px; 
+        }
+
         .btn {
-            display: inline-flex; align-items: center; justify-content: center; padding: 14px 30px; margin: 10px; border-radius: 50px; text-decoration: none; font-weight: bold; font-size: 1.1em; color: #ffffff; transition: transform 0.2s, opacity 0.2s;
+            display: inline-flex; 
+            align-items: center; 
+            justify-content: center; 
+            padding: 16px 32px; 
+            margin: 10px; 
+            border-radius: 50px; 
+            text-decoration: none; 
+            font-weight: 800; 
+            font-size: 1.1em; 
+            color: #ffffff; 
+            transition: transform 0.2s, box-shadow 0.2s;
         }
-        .btn:hover { transform: scale(1.05); opacity: 0.9; }
-        .btn-wa { background-color: #25D366; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.2); }
-        .btn-ig { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); box-shadow: 0 4px 15px rgba(220, 39, 67, 0.2); }
+
+        .btn:hover { 
+            transform: translateY(-3px); 
+        }
+
+        .btn-wa { 
+            background-color: #25D366; 
+            box-shadow: 0 10px 20px -5px rgba(37, 211, 102, 0.4); 
+        }
         
+        .btn-ig { 
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); 
+            box-shadow: 0 10px 20px -5px rgba(220, 39, 67, 0.4); 
+        }
+        
+        /* En móviles forzamos a 1 columna */
         @media (max-width: 768px) {
             h1 { font-size: 2.5em; }
-            .cards-container { grid-template-columns: 1fr; }
-            .btn { width: 100%; max-width: 300px; display: flex; }
+            .cards-container { grid-template-columns: 1fr; } 
+            .btn { width: 100%; max-width: 320px; display: flex; }
+            .contact-section { padding: 60px 20px; }
         }
         
-        /* Efecto de destellos con el mouse */
-        .sparkle { position: fixed; pointer-events: none; width: 6px; height: 6px; border-radius: 50%; animation: fadeOut 0.8s forwards; z-index: 8000; }
-        @keyframes fadeOut { 0% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(0); } }
+        .sparkle { 
+            position: fixed; 
+            pointer-events: none; 
+            width: 8px; 
+            height: 8px; 
+            border-radius: 50%; 
+            animation: floatUp 1s forwards; 
+            z-index: 8000; 
+        }
+        
+        @keyframes floatUp { 
+            0% { opacity: 0.8; transform: scale(0.5) translateY(0); } 
+            100% { opacity: 0; transform: scale(1.5) translateY(-30px); } 
+        }
     </style>
 </head>
 <body>
     <div class="main-container">
         <div class="header">
-            <img src="logo.jpg" alt="Gesto Smart Logo" class="logo" onerror="this.src='https://via.placeholder.com/120/1e293b/00bfff?text=GS'">
+            <img src="logo.jpg" alt="Gesto Smart Logo" class="logo" onerror="this.src='https://via.placeholder.com/120/f8fafc/6366f1?text=GS'">
             <div class="badge">⚡ PAGO ÚNICO. ACCESO RÁPIDO. ULTRA FÁCILES.</div>
             <h1>La App de tu negocio<br><span class="highlight">no tiene que ser un dolor de cabeza.</span></h1>
             <p class="subtitle">Elegí la App diseñada exactamente para tu rubro. Dejá de pelear con planillas de Excel y empezá a gestionar de verdad, sin fricción y manteniendo tus datos seguros.</p>
         </div>
 
         <div class="cards-container">
-            <!-- Tarjeta 1: Catálogo Web -->
             <div class="card card-catalogo">
                 <h3>Catálogo Web con Fotos</h3>
                 <div class="card-desc">Tu propia tienda online visual, sin pagar abonos mensuales ni porcentajes por venta.</div>
                 <ul>
-                    <li><strong>Cero Comisiones:</strong> Vendé todo lo que quieras 100% libre de comisiones.</li>
-                    <li><strong>Pedidos al WhatsApp:</strong> El cliente arma su carrito y te llega el pedido directo.</li>
+                    <li><strong>Cero Comisiones:</strong> Vendé todo lo que quieras libre de comisiones.</li>
+                    <li><strong>Pedidos al WhatsApp:</strong> El cliente arma su carrito y te llega el pedido.</li>
                     <li><strong>Pago Único:</strong> Es tuya para siempre.</li>
                 </ul>
                 <div class="card-actions mt-auto">
@@ -196,28 +341,26 @@
                 </div>
             </div>
 
-            <!-- Tarjeta 2: Catálogo Express (Mayorista) -->
             <div class="card card-express">
                 <h3>Catálogo Express (B2B)</h3>
-                <div class="card-desc">Ideal para mayoristas y distribuidoras. Listas de precios rápidas, sin fotos y carga masiva.</div>
+                <div class="card-desc">Ideal para mayoristas y distribuidoras. Listas de precios rápidas y carga masiva.</div>
                 <ul>
-                    <li><strong>Velocidad pura:</strong> Interfaz minimalista lista para cargar cientos de productos.</li>
-                    <li><strong>Calculador de Bultos:</strong> Cargás el kilo y te saca el precio del bulto cerrado automático.</li>
-                    <li><strong>Actualización por Excel:</strong> Subí tu lista y aumentá precios en un clic.</li>
+                    <li><strong>Velocidad pura:</strong> Interfaz minimalista lista para cientos de productos.</li>
+                    <li><strong>Calculador de Bultos:</strong> Cargás el kilo y saca el precio cerrado automático.</li>
+                    <li><strong>Actualización por Excel:</strong> Subí tu lista y aumentá en un clic.</li>
                 </ul>
                 <div class="card-actions mt-auto">
                     <a href="https://demo-catalogo-express.vercel.app/?modo=tienda" target="_blank" class="btn-demo btn-demo-express">🚀 Probar Demo Express</a>
                 </div>
             </div>
 
-            <!-- Tarjeta 3: Retail & PyMEs -->
             <div class="card card-retail">
                 <h3>Retail & PyMEs</h3>
-                <div class="card-desc">Control total de mostrador, sin exponer tus números.</div>
+                <div class="card-desc">Control total de mostrador, sin exponer tus números ni márgenes al personal.</div>
                 <ul>
                     <li><strong>Modo Dueño/Vendedor:</strong> Bloqueá costos y rentabilidad con un PIN.</li>
-                    <li><strong>Punto de Venta ágil:</strong> Cobrá o armá presupuestos rápido.</li>
-                    <li><strong>Módulo RRHH:</strong> Cálculo exacto de comisiones y márgenes reales.</li>
+                    <li><strong>Punto de Venta ágil:</strong> Cobrá o armá presupuestos rapidísimo.</li>
+                    <li><strong>Módulo RRHH:</strong> Cálculo exacto de comisiones reales.</li>
                 </ul>
                 <div class="card-actions mt-auto">
                     <a href="https://demo-retail-five.vercel.app" target="_blank" class="btn-demo btn-demo-retail">🚀 Probar Demo en Vivo</a>
@@ -225,13 +368,12 @@
                 </div>
             </div>
             
-            <!-- Tarjeta 4: Salones -->
             <div class="card card-salon">
                 <h3>Estética & Servicios</h3>
-                <div class="card-desc">Historial clínico y caja diaria en un solo flujo.</div>
+                <div class="card-desc">Historial clínico detallado y caja diaria unificados en un solo flujo de trabajo.</div>
                 <ul>
-                    <li><strong>Fichero Inteligente:</strong> Guardá fórmulas, servicios e historial por cliente.</li>
-                    <li><strong>Stock Automático:</strong> Fraccionamiento inteligente por gramos/usos.</li>
+                    <li><strong>Fichero Inteligente:</strong> Guardá fórmulas y servicios por cliente.</li>
+                    <li><strong>Stock Automático:</strong> Fraccionamiento inteligente por gramos.</li>
                     <li><strong>Métricas Clave:</strong> Alerta de clientes ausentes (+90 días).</li>
                 </ul>
                 <div class="card-actions mt-auto">
@@ -244,24 +386,32 @@
 
     <div class="contact-section">
         <h2>¿Lista para profesionalizar tu gestión?</h2>
-        <p>Hablemos directo. Sin intermediarios, de emprendedora a emprendedor.</p>
+        <p>Hablemos directo. Sin corporativismos, de emprendedora a emprendedor.</p>
         <a href="https://wa.me/5491121586674" target="_blank" class="btn btn-wa">💬 Escribime por WhatsApp</a>
         <a href="https://www.instagram.com/gesto.smart/" target="_blank" class="btn btn-ig">📸 Seguime en @gesto.smart</a>
     </div>
 
     <script>
-        // Efecto visual de destellos (Mouse Trail)
-        const colors = ['#00bfff', '#4dd2ff', '#80dfff']; 
+        const colors = ['#6366f1', '#ec4899', '#3b82f6', '#10b981', '#f59e0b']; 
+        
+        let lastMove = 0;
         document.addEventListener('mousemove', function(e) {
-            const sparkle = document.createElement('div');
-            sparkle.className = 'sparkle'; 
-            sparkle.style.left = e.clientX + 'px'; 
-            sparkle.style.top = e.clientY + 'px';
-            const randomColor = colors[Math.floor(Math.random() * colors.length)];
-            sparkle.style.backgroundColor = randomColor; 
-            sparkle.style.boxShadow = `0 0 10px ${randomColor}, 0 0 20px #fff`;
-            document.body.appendChild(sparkle); 
-            setTimeout(() => { sparkle.remove(); }, 800);
+            const now = Date.now();
+            if (now - lastMove > 30) { 
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle'; 
+                sparkle.style.left = (e.clientX - 4) + 'px'; 
+                sparkle.style.top = (e.clientY - 4) + 'px';
+                
+                const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                sparkle.style.backgroundColor = randomColor; 
+                sparkle.style.boxShadow = `0 0 8px ${randomColor}`;
+                
+                document.body.appendChild(sparkle); 
+                
+                setTimeout(() => { sparkle.remove(); }, 1000);
+                lastMove = now;
+            }
         });
     </script>
 </body>
