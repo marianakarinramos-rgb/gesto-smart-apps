@@ -3,427 +3,384 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gesto Smart | La App de tu Negocio</title>
-    
-    <!-- METADATOS SEO Y REDES SOCIALES -->
-    <meta name="description" content="Elegí la App diseñada exactamente para tu rubro. Catálogos en vivo, gestión de stock, clientes y ventas sin fricción.">
-    <meta property="og:title" content="Gesto Smart | La App de tu Negocio">
-    <meta property="og:description" content="Elegí la App diseñada para tu rubro. Olvidate del Excel y gestioná sin fricción.">
-    <meta property="og:image" content="https://mariana-gesto-smart.vercel.app/logo.jpg">
-    <meta property="og:url" content="https://mariana-gesto-smart.vercel.app">
-    <meta property="og:type" content="website">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Gesto Smart | La App de tu Negocio">
-    <meta name="twitter:description" content="Elegí la App diseñada para tu rubro. Olvidate del Excel y gestioná sin fricción.">
-    
-    <!-- Tipografía Moderna -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
-
+    <title>Gesto Smart - La App de tu negocio sin dolores de cabeza</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        * { box-sizing: border-box; }
-        
-        body {
-            background-color: #f8fafc;
-            background-image: radial-gradient(#cbd5e1 1.5px, transparent 1.5px);
-            background-size: 30px 30px;
-            color: #334155;
-            font-family: 'Plus Jakarta Sans', sans-serif;
+        :root {
+            --bg-darkest: #4C1D3D;
+            --bg-dark: #852E4E;
+            --accent-primary: #A33757;
+            --accent-secondary: #DC586D;
+            --highlight-pink: #FB9590;
+            --highlight-peach: #FFBB94;
+            --text-light: #FFF5F3;
+            --text-muted: #F3D1C9;
+        }
+
+        * {
             margin: 0;
             padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--bg-darkest) 0%, var(--bg-dark) 50%, var(--accent-primary) 100%);
+            color: var(--text-light);
             min-height: 100vh;
             overflow-x: hidden;
         }
 
-        .main-container {
-            width: 100%;
-            max-width: 1200px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding-top: 60px;
-            position: relative;
-            z-index: 10;
-        }
-
-        .header {
+        header {
             text-align: center;
-            padding: 0 20px 40px 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .logo {
-            width: 120px;
-            height: 120px;
-            border-radius: 24px;
-            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.2);
-            margin-bottom: 25px;
-            display: block; 
-            object-fit: cover;
+            padding: 4rem 1.5rem 2.5rem;
+            max-width: 900px;
+            margin: 0 auto;
         }
 
         .badge {
-            background-color: #e0e7ff;
-            color: #4f46e5;
-            padding: 8px 18px;
-            border-radius: 30px;
-            font-weight: 800;
-            font-size: 0.85em;
-            letter-spacing: 0.5px;
-            margin-bottom: 20px;
-            border: 1px solid #c7d2fe;
+            display: inline-block;
+            background: rgba(255, 187, 148, 0.15);
+            color: var(--highlight-peach);
+            padding: 0.5rem 1.25rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(255, 187, 148, 0.3);
         }
 
         h1 {
-            font-size: 3.5em;
-            color: #0f172a;
-            margin: 0 0 15px 0;
-            line-height: 1.1;
+            font-size: clamp(2.2rem, 5vw, 3.8rem);
             font-weight: 800;
-            letter-spacing: -1px;
+            line-height: 1.15;
+            margin-bottom: 1.5rem;
         }
 
-        .highlight { 
-            background: linear-gradient(135deg, #6366f1 0%, #ec4899 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        h1 span {
+            color: var(--highlight-peach);
         }
 
-        .subtitle {
-            font-size: 1.25em;
-            color: #475569;
-            max-width: 650px;
-            margin: 0 auto 40px auto;
+        p.subtitle {
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            color: var(--text-muted);
             line-height: 1.6;
-            font-weight: 400;
+            margin-bottom: 2rem;
         }
-        
-        /* Grid corregido para simetría 2x2 exacta */
-        .cards-container {
+
+        /* ULTRA FLUENT MARQUEE EFFECT */
+        .marquee-container {
+            width: 100%;
+            overflow: hidden;
+            padding: 2.5rem 0;
+            position: relative;
+            background: rgba(76, 29, 61, 0.5);
+            backdrop-filter: blur(12px);
+            border-top: 1px solid rgba(255, 187, 148, 0.2);
+            border-bottom: 1px solid rgba(255, 187, 148, 0.2);
+            margin-bottom: 4rem;
+        }
+
+        .marquee-track {
+            display: flex;
+            gap: 2rem;
+            width: max-content;
+            will-change: transform;
+            animation: scroll 35s linear infinite;
+        }
+
+        .marquee-track.reverse {
+            animation: scroll-reverse 40s linear infinite;
+            margin-top: 2rem;
+        }
+
+        @keyframes scroll {
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-50%, 0, 0); }
+        }
+
+        @keyframes scroll-reverse {
+            0% { transform: translate3d(-50%, 0, 0); }
+            100% { transform: translate3d(0, 0, 0); }
+        }
+
+        .phone-mockup {
+            width: 240px;
+            height: 460px;
+            background: #111;
+            border-radius: 36px;
+            border: 6px solid #2b2b2b;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            position: relative;
+            flex-shrink: 0;
+            transform: translate3d(0,0,0);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .phone-mockup:hover {
+            transform: translateY(-8px) scale(1.02) translate3d(0,0,0);
+            border-color: var(--highlight-peach);
+        }
+
+        .phone-mockup img, .phone-mockup video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* SYMMETRICAL CARDS SECTION (2x2 Grid) */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 1.5rem 4rem;
+        }
+
+        .grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 30px;
-            justify-content: center;
-            padding: 0 20px;
-            width: 100%;
-            max-width: 960px; /* Ajustado para que las 2 columnas queden perfectas */
+            gap: 2.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         .card {
-            background-color: #ffffff;
-            border: 1px solid #e2e8f0;
+            background: rgba(133, 46, 78, 0.4);
+            border: 1px solid rgba(255, 187, 148, 0.25);
             border-radius: 24px;
-            padding: 35px 30px;
-            text-align: left;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 2.5rem 2rem;
             display: flex;
             flex-direction: column;
-            height: 100%;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-            position: relative;
-            overflow: hidden;
+            justify-content: space-between;
+            backdrop-filter: blur(12px);
+            transition: all 0.3s ease;
         }
 
         .card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-            border-color: #cbd5e1;
+            border-color: var(--highlight-peach);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.35);
+            transform: translateY(-5px);
         }
 
-        .card h3 { 
-            color: #0f172a; 
-            font-size: 1.5em; 
-            margin-top: 0; 
-            margin-bottom: 8px; 
-            font-weight: 800;
+        .card h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--highlight-peach);
         }
 
-        .card-desc {
-            font-size: 0.95em; 
-            color: #64748b; 
-            margin-bottom: 20px;
-            padding-bottom: 15px; 
-            border-bottom: 1px solid #f1f5f9;
+        .card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
             line-height: 1.5;
+            margin-bottom: 1.5rem;
         }
 
         .card ul {
-            padding-left: 0; 
-            list-style-type: none; 
-            color: #334155; 
-            font-size: 0.95em;
-            line-height: 1.6; 
-            flex-grow: 1; 
-            margin-bottom: 0;
+            list-style: none;
+            margin-bottom: 2rem;
         }
 
-        .card li { 
-            margin-bottom: 12px; 
-            position: relative; 
-            padding-left: 24px; 
-        }
-        
-        .card li::before { 
-            content: "✓"; 
-            position: absolute; 
-            left: 0; 
-            font-weight: 800; 
-        }
-        
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 6px;
+        .card ul li {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
         }
 
-        .card-catalogo::before { background-color: #10b981; } 
-        .card-catalogo li::before { color: #10b981; }
-        
-        .card-express::before { background-color: #f59e0b; } 
-        .card-express li::before { color: #f59e0b; }
-        
-        .card-retail::before { background-color: #3b82f6; } 
-        .card-retail li::before { color: #3b82f6; }
-        
-        .card-salon::before { background-color: #ec4899; } 
-        .card-salon li::before { color: #ec4899; }
-        
-        .card-actions { 
-            display: flex; 
-            flex-direction: column; 
-            gap: 10px; 
-            margin-top: 30px; 
-        }
-        
-        .btn-demo {
-            width: 100%; 
-            padding: 14px; 
-            border-radius: 12px; 
-            font-weight: 800; 
-            font-size: 1.05em; 
-            cursor: pointer; 
-            transition: all 0.2s ease; 
-            text-align: center; 
-            text-decoration: none; 
-            display: inline-block; 
-        }
-
-        .btn-demo-web { color: #10b981; background-color: #ecfdf5; }
-        .btn-demo-web:hover { background-color: #10b981; color: #ffffff; }
-        
-        .btn-demo-express { color: #d97706; background-color: #fffbeb; }
-        .btn-demo-express:hover { background-color: #f59e0b; color: #ffffff; }
-        
-        .btn-demo-retail { color: #2563eb; background-color: #eff6ff; }
-        .btn-demo-retail:hover { background-color: #3b82f6; color: #ffffff; }
-        
-        .btn-demo-salon { color: #db2777; background-color: #fdf2f8; }
-        .btn-demo-salon:hover { background-color: #ec4899; color: #ffffff; }
-
-        .pin-note { 
-            font-size: 0.85em; 
-            color: #64748b; 
-            text-align: center; 
-            margin-top: 5px; 
-            font-weight: 600; 
-            background: #f1f5f9;
-            padding: 4px 0;
-            border-radius: 6px;
-        }
-
-        .contact-section {
-            margin-top: 80px; 
-            text-align: center; 
-            padding: 80px 20px; 
-            background-color: #ffffff; 
-            border-top: 1px solid #e2e8f0; 
-            width: 100%; 
-            position: relative; 
-            z-index: 10;
-        }
-
-        .contact-section h2 { 
-            color: #0f172a; 
-            font-size: 2.5em; 
-            margin-top: 0; 
-            margin-bottom: 15px; 
-            font-weight: 800;
-            letter-spacing: -0.5px;
-        }
-
-        .contact-section p { 
-            color: #475569; 
-            font-size: 1.15em; 
-            margin-bottom: 40px; 
+        .card ul li strong {
+            color: var(--highlight-peach);
         }
 
         .btn {
-            display: inline-flex; 
-            align-items: center; 
-            justify-content: center; 
-            padding: 16px 32px; 
-            margin: 10px; 
-            border-radius: 50px; 
-            text-decoration: none; 
-            font-weight: 800; 
-            font-size: 1.1em; 
-            color: #ffffff; 
-            transition: transform 0.2s, box-shadow 0.2s;
+            display: inline-block;
+            background: var(--highlight-pink);
+            color: var(--bg-darkest);
+            font-weight: 700;
+            padding: 0.85rem 1.5rem;
+            border-radius: 14px;
+            text-decoration: none;
+            text-align: center;
+            transition: background 0.2s, transform 0.2s;
+            box-shadow: 0 4px 15px rgba(251, 149, 144, 0.3);
         }
 
-        .btn:hover { 
-            transform: translateY(-3px); 
+        .btn:hover {
+            background: var(--highlight-peach);
+            transform: scale(1.02);
         }
 
-        .btn-wa { 
-            background-color: #25D366; 
-            box-shadow: 0 10px 20px -5px rgba(37, 211, 102, 0.4); 
+        .pin-info {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 0.75rem;
+            text-align: center;
         }
-        
-        .btn-ig { 
-            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); 
-            box-shadow: 0 10px 20px -5px rgba(220, 39, 67, 0.4); 
+
+        /* FOOTER */
+        footer {
+            text-align: center;
+            padding: 4rem 1.5rem;
+            background: rgba(76, 29, 61, 0.7);
+            border-top: 1px solid rgba(255, 187, 148, 0.2);
         }
-        
-        /* En móviles forzamos a 1 columna */
-        @media (max-width: 768px) {
-            h1 { font-size: 2.5em; }
-            .cards-container { grid-template-columns: 1fr; } 
-            .btn { width: 100%; max-width: 320px; display: flex; }
-            .contact-section { padding: 60px 20px; }
+
+        footer h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
         }
-        
-        .sparkle { 
-            position: fixed; 
-            pointer-events: none; 
-            width: 8px; 
-            height: 8px; 
-            border-radius: 50%; 
-            animation: floatUp 1s forwards; 
-            z-index: 8000; 
+
+        footer p {
+            color: var(--text-muted);
+            margin-bottom: 2rem;
         }
-        
-        @keyframes floatUp { 
-            0% { opacity: 0.8; transform: scale(0.5) translateY(0); } 
-            100% { opacity: 0; transform: scale(1.5) translateY(-30px); } 
+
+        .social-btns {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .social-btn {
+            background: transparent;
+            color: var(--highlight-peach);
+            border: 2px solid var(--highlight-peach);
+            padding: 0.75rem 1.75rem;
+            border-radius: 50px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .social-btn:hover {
+            background: var(--highlight-peach);
+            color: var(--bg-darkest);
         }
     </style>
 </head>
 <body>
-    <div class="main-container">
-        <div class="header">
-            <img src="logo.jpg" alt="Gesto Smart Logo" class="logo" onerror="this.src='https://via.placeholder.com/120/f8fafc/6366f1?text=GS'">
-            <div class="badge">⚡ PAGO ÚNICO. ACCESO RÁPIDO. ULTRA FÁCILES.</div>
-            <h1>La App de tu negocio<br><span class="highlight">no tiene que ser un dolor de cabeza.</span></h1>
-            <p class="subtitle">Elegí la App diseñada exactamente para tu rubro. Dejá de pelear con planillas de Excel y empezá a gestionar de verdad, sin fricción y manteniendo tus datos seguros.</p>
+
+    <header>
+        <div class="badge">⚡ PAGO ÚNICO • ACCESO RÁPIDO • ULTRA FÁCILES</div>
+        <h1>La App de tu negocio<br><span>no tiene que ser un dolor de cabeza.</span></h1>
+        <p class="subtitle">Elegí la solución diseñada exactamente para tu rubro. Gestioná tus pedidos, catálogos y stock sin fricción ni comisiones mensuales.</p>
+    </header>
+
+    <!-- Carrusel Infinito con tus imágenes reales -->
+    <div class="marquee-container">
+        <!-- Fila 1 (Movimiento a la Izquierda) -->
+        <div class="marquee-track">
+            <div class="phone-mockup"><img src="img/app-catalogo.png" alt="Catálogo Web"></div>
+            <div class="phone-mockup"><img src="img/app-mayorista.png" alt="Catálogo Mayorista"></div>
+            <div class="phone-mockup"><img src="img/app-retail.png" alt="Control de Negocio"></div>
+            <div class="phone-mockup"><img src="img/app-estetica.png" alt="Estética y Servicios"></div>
+            <!-- Duplicado para loop fluido -->
+            <div class="phone-mockup"><img src="img/app-catalogo.png" alt="Catálogo Web"></div>
+            <div class="phone-mockup"><img src="img/app-mayorista.png" alt="Catálogo Mayorista"></div>
+            <div class="phone-mockup"><img src="img/app-retail.png" alt="Control de Negocio"></div>
+            <div class="phone-mockup"><img src="img/app-estetica.png" alt="Estética y Servicios"></div>
         </div>
 
-        <div class="cards-container">
-            <div class="card card-catalogo">
-                <h3>Catálogo Web con Fotos</h3>
-                <div class="card-desc">Tu propia tienda online visual, sin pagar abonos mensuales ni porcentajes por venta.</div>
-                <ul>
-                    <li><strong>Cero Comisiones:</strong> Vendé todo lo que quieras libre de comisiones.</li>
-                    <li><strong>Pedidos al WhatsApp:</strong> El cliente arma su carrito y te llega el pedido.</li>
-                    <li><strong>Pago Único:</strong> Es tuya para siempre.</li>
-                </ul>
-                <div class="card-actions mt-auto">
-                    <a href="https://gesto-smart-demo.vercel.app/?modo=tienda" target="_blank" class="btn-demo btn-demo-web">🚀 Probar Demo</a>
+        <!-- Fila 2 (Movimiento a la Derecha - Reverse) -->
+        <div class="marquee-track reverse">
+            <div class="phone-mockup"><img src="img/app-variantes.png" alt="Variantes y Colores"></div>
+            <div class="phone-mockup"><img src="img/app-caja.png" alt="Caja y Vendedores"></div>
+            <div class="phone-mockup"><img src="img/app-dueño.png" alt="Modo Dueño"></div>
+            <div class="phone-mockup"><img src="img/app-stock.png" alt="Gestión de Stock"></div>
+            <!-- Duplicado para loop fluido -->
+            <div class="phone-mockup"><img src="img/app-variantes.png" alt="Variantes y Colores"></div>
+            <div class="phone-mockup"><img src="img/app-caja.png" alt="Caja y Vendedores"></div>
+            <div class="phone-mockup"><img src="img/app-dueño.png" alt="Modo Dueño"></div>
+            <div class="phone-mockup"><img src="img/app-stock.png" alt="Gestión de Stock"></div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="grid">
+            <!-- Tarjeta 1 -->
+            <div class="card">
+                <div>
+                    <h3>Catálogo Web con Fotos</h3>
+                    <p>Tu propio catálogo online visual, ideal para accesorios, indumentaria, con variantes de colores o modelos, sin pagar abonos mensuales.</p>
+                    <ul>
+                        <li><strong>Cero Comisiones:</strong> Vendé todo lo que quieras libre de porcentajes.</li>
+                        <li><strong>Pedidos al WhatsApp:</strong> Carrito integrado con armado automático de pedido.</li>
+                        <li><strong>Pago Único:</strong> Es tuya para siempre.</li>
+                    </ul>
+                </div>
+                <div>
+                    <a href="https://gesto-smart-demo.vercel.app/?modo=tienda" target="_blank" class="btn">🚀 Probar Demo</a>
                 </div>
             </div>
 
-            <div class="card card-express">
-                <h3>Catálogo Express (B2B)</h3>
-                <div class="card-desc">Ideal para mayoristas y distribuidoras. Listas de precios rápidas y carga masiva.</div>
-                <ul>
-                    <li><strong>Velocidad pura:</strong> Interfaz minimalista lista para cientos de productos.</li>
-                    <li><strong>Calculador de Bultos:</strong> Cargás el kilo y saca el precio cerrado automático.</li>
-                    <li><strong>Actualización por Excel:</strong> Subí tu lista y aumentá en un clic.</li>
-                </ul>
-                <div class="card-actions mt-auto">
-                    <a href="https://demo-catalogo-express.vercel.app/?modo=tienda" target="_blank" class="btn-demo btn-demo-express">🚀 Probar Demo Express</a>
+            <!-- Tarjeta 2 -->
+            <div class="card">
+                <div>
+                    <h3>Catálogo Express (B2B)</h3>
+                    <p>Ideal para mayoristas y distribuidoras. Listas de precios súper rápidas y carga masiva por Excel.</p>
+                    <ul>
+                        <li><strong>Velocidad pura:</strong> Interfaz minimalista lista para cientos de productos.</li>
+                        <li><strong>Calculador de Bultos:</strong> Suma por kilos o bultos automáticos.</li>
+                        <li><strong>Actualización por Excel:</strong> Subí tu lista y actualizá en un clic.</li>
+                    </ul>
+                </div>
+                <div>
+                    <a href="https://demo-catalogo-express.vercel.app/?modo=tienda" target="_blank" class="btn">🚀 Probar Demo Express</a>
                 </div>
             </div>
 
-            <div class="card card-retail">
-                <h3>Retail & PyMEs</h3>
-                <div class="card-desc">Control total de mostrador, sin exponer tus números ni márgenes al personal.</div>
-                <ul>
-                    <li><strong>Modo Dueño/Vendedor:</strong> Bloqueá costos y rentabilidad con un PIN.</li>
-                    <li><strong>Punto de Venta ágil:</strong> Cobrá o armá presupuestos rapidísimo.</li>
-                    <li><strong>Módulo RRHH:</strong> Cálculo exacto de comisiones reales.</li>
-                </ul>
-                <div class="card-actions mt-auto">
-                    <a href="https://demo-retail-five.vercel.app" target="_blank" class="btn-demo btn-demo-retail">🚀 Probar Demo en Vivo</a>
-                    <div class="pin-note">🔑 PIN Admin: 1234</div>
+            <!-- Tarjeta 3 -->
+            <div class="card">
+                <div>
+                    <h3>Retail & PyMEs</h3>
+                    <p>Control total de tu negocio, vendedores, caja, despachos y RRHH. Fichero detallado, agenda y caja diaria unificados en un solo flujo de trabajo.</p>
+                    <ul>
+                        <li><strong>Control Integral:</strong> Vendedores, caja, despachos y RRHH.</li>
+                        <li><strong>Flujo Unificado:</strong> Fichero detallado, agenda y caja diaria.</li>
+                        <li><strong>Seguridad:</strong> Modo Dueño protegido con PIN.</li>
+                    </ul>
+                </div>
+                <div>
+                    <a href="https://demo-retail-five.vercel.app" target="_blank" class="btn">🚀 Probar Demo en Vivo</a>
+                    <div class="pin-info">🔑 PIN Admin: 1234</div>
                 </div>
             </div>
-            
-            <div class="card card-salon">
-                <h3>Estética & Servicios</h3>
-                <div class="card-desc">Historial clínico detallado y caja diaria unificados en un solo flujo de trabajo.</div>
-                <ul>
-                    <li><strong>Fichero Inteligente:</strong> Guardá fórmulas y servicios por cliente.</li>
-                    <li><strong>Stock Automático:</strong> Fraccionamiento inteligente por gramos.</li>
-                    <li><strong>Métricas Clave:</strong> Alerta de clientes ausentes (+90 días).</li>
-                </ul>
-                <div class="card-actions mt-auto">
-                    <a href="https://demo-salon-ruby.vercel.app" target="_blank" class="btn-demo btn-demo-salon">🚀 Probar Demo en Vivo</a>
-                    <div class="pin-note">🔑 PIN Admin: 1234</div>
+
+            <!-- Tarjeta 4 -->
+            <div class="card">
+                <div>
+                    <h3>Estética & Servicios</h3>
+                    <p>Fichero clínico detallado, recetas y caja diaria unificados en un solo flujo de trabajo.</p>
+                    <ul>
+                        <li><strong>Fichero Inteligente:</strong> Historial y fórmulas por cliente.</li>
+                        <li><strong>Stock Fraccionado:</strong> Control por gramos o unidades exactas.</li>
+                        <li><strong>Métricas Clave:</strong> Alerta de clientes ausentes.</li>
+                    </ul>
+                </div>
+                <div>
+                    <a href="https://demo-salon-ruby.vercel.app" target="_blank" class="btn">🚀 Probar Demo en Vivo</a>
+                    <div class="pin-info">🔑 PIN Admin: 1234</div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="contact-section">
+    <footer>
         <h2>¿Lista para profesionalizar tu gestión?</h2>
         <p>Hablemos directo. Sin corporativismos, de emprendedora a emprendedor.</p>
-        <a href="https://wa.me/5491121586674" target="_blank" class="btn btn-wa">💬 Escribime por WhatsApp</a>
-        <a href="https://www.instagram.com/gesto.smart/" target="_blank" class="btn btn-ig">📸 Seguime en @gesto.smart</a>
-    </div>
+        <div class="social-btns">
+            <a href="https://wa.me/5491121586674" target="_blank" class="social-btn">💬 Escribime por WhatsApp</a>
+            <a href="https://www.instagram.com/gesto.smart/" target="_blank" class="social-btn">📸 Seguime en @gesto.smart</a>
+        </div>
+    </footer>
 
-    <script>
-        const colors = ['#6366f1', '#ec4899', '#3b82f6', '#10b981', '#f59e0b']; 
-        
-        let lastMove = 0;
-        document.addEventListener('mousemove', function(e) {
-            const now = Date.now();
-            if (now - lastMove > 30) { 
-                const sparkle = document.createElement('div');
-                sparkle.className = 'sparkle'; 
-                sparkle.style.left = (e.clientX - 4) + 'px'; 
-                sparkle.style.top = (e.clientY - 4) + 'px';
-                
-                const randomColor = colors[Math.floor(Math.random() * colors.length)];
-                sparkle.style.backgroundColor = randomColor; 
-                sparkle.style.boxShadow = `0 0 8px ${randomColor}`;
-                
-                document.body.appendChild(sparkle); 
-                
-                setTimeout(() => { sparkle.remove(); }, 1000);
-                lastMove = now;
-            }
-        });
-
-        // 🛡️ SCRIPT DE SEGURIDAD BÁSICO (Fricción Capa 1)
-        document.addEventListener('contextmenu', event => event.preventDefault());
-
-        document.onkeydown = function(e) {
-            if(e.keyCode == 123) { return false; } // F12
-            if(e.ctrlKey && e.shiftKey && e.keyCode == 73) { return false; } // Ctrl+Shift+I
-            if(e.ctrlKey && e.shiftKey && e.keyCode == 74) { return false; } // Ctrl+Shift+J
-            if(e.ctrlKey && e.keyCode == 85) { return false; } // Ctrl+U
-            if(e.ctrlKey && e.keyCode == 83) { return false; } // Ctrl+S
-        }
-    </script>
 </body>
 </html>
