@@ -105,9 +105,10 @@
             100% { transform: translate3d(0, 0, 0); }
         }
 
+        /* MARCO CELULAR (Vertical) */
         .phone-mockup {
-            width: 240px;
-            height: 460px;
+            width: 230px;
+            height: 440px;
             background: #111;
             border-radius: 36px;
             border: 6px solid #2b2b2b;
@@ -125,6 +126,32 @@
         }
 
         .phone-mockup img, .phone-mockup video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* MARCO ESCRITORIO / PC (Horizontal) - Solo para Retail (app-3) */
+        .desktop-mockup {
+            width: 420px;
+            height: 250px;
+            background: #111;
+            border-radius: 16px;
+            border: 6px solid #2b2b2b;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            position: relative;
+            flex-shrink: 0;
+            transform: translate3d(0,0,0);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .desktop-mockup:hover {
+            transform: translateY(-8px) scale(1.02) translate3d(0,0,0);
+            border-color: var(--highlight-peach);
+        }
+
+        .desktop-mockup img, .desktop-mockup video {
             width: 100%;
             height: 100%;
             object-fit: cover;
@@ -274,32 +301,32 @@
         <p class="subtitle">Elegí la solución diseñada exactamente para tu rubro. Gestioná tus pedidos, catálogos y stock sin fricción ni comisiones mensuales.</p>
     </header>
 
-    <!-- Carrusel Infinito con tus imágenes reales -->
+    <!-- Carrusel Infinito mezclando celulares y la PC de Retail -->
     <div class="marquee-container">
         <!-- Fila 1 (Movimiento a la Izquierda) -->
         <div class="marquee-track">
-            <div class="phone-mockup"><img src="img/app-catalogo.png" alt="Catálogo Web"></div>
-            <div class="phone-mockup"><img src="img/app-mayorista.png" alt="Catálogo Mayorista"></div>
-            <div class="phone-mockup"><img src="img/app-retail.png" alt="Control de Negocio"></div>
-            <div class="phone-mockup"><img src="img/app-estetica.png" alt="Estética y Servicios"></div>
-            <!-- Duplicado para loop fluido -->
-            <div class="phone-mockup"><img src="img/app-catalogo.png" alt="Catálogo Web"></div>
-            <div class="phone-mockup"><img src="img/app-mayorista.png" alt="Catálogo Mayorista"></div>
-            <div class="phone-mockup"><img src="img/app-retail.png" alt="Control de Negocio"></div>
-            <div class="phone-mockup"><img src="img/app-estetica.png" alt="Estética y Servicios"></div>
+            <div class="phone-mockup"><img src="img/app-1.png" alt="Catálogo Web"></div>
+            <div class="phone-mockup"><img src="img/app-2.png" alt="Catálogo Mayorista"></div>
+            <div class="desktop-mockup"><img src="img/app-3.png" alt="Control de Negocio Retail"></div>
+            <div class="phone-mockup"><img src="img/app-4.png" alt="Estética y Servicios"></div>
+            <!-- Duplicado exacto para loop fluido -->
+            <div class="phone-mockup"><img src="img/app-1.png" alt="Catálogo Web"></div>
+            <div class="phone-mockup"><img src="img/app-2.png" alt="Catálogo Mayorista"></div>
+            <div class="desktop-mockup"><img src="img/app-3.png" alt="Control de Negocio Retail"></div>
+            <div class="phone-mockup"><img src="img/app-4.png" alt="Estética y Servicios"></div>
         </div>
 
         <!-- Fila 2 (Movimiento a la Derecha - Reverse) -->
         <div class="marquee-track reverse">
-            <div class="phone-mockup"><img src="img/app-variantes.png" alt="Variantes y Colores"></div>
-            <div class="phone-mockup"><img src="img/app-caja.png" alt="Caja y Vendedores"></div>
-            <div class="phone-mockup"><img src="img/app-dueño.png" alt="Modo Dueño"></div>
-            <div class="phone-mockup"><img src="img/app-stock.png" alt="Gestión de Stock"></div>
-            <!-- Duplicado para loop fluido -->
-            <div class="phone-mockup"><img src="img/app-variantes.png" alt="Variantes y Colores"></div>
-            <div class="phone-mockup"><img src="img/app-caja.png" alt="Caja y Vendedores"></div>
-            <div class="phone-mockup"><img src="img/app-dueño.png" alt="Modo Dueño"></div>
-            <div class="phone-mockup"><img src="img/app-stock.png" alt="Gestión de Stock"></div>
+            <div class="desktop-mockup"><img src="img/app-3.png" alt="Control de Negocio Retail"></div>
+            <div class="phone-mockup"><img src="img/app-1.png" alt="Catálogo Web"></div>
+            <div class="phone-mockup"><img src="img/app-4.png" alt="Estética y Servicios"></div>
+            <div class="phone-mockup"><img src="img/app-2.png" alt="Catálogo Mayorista"></div>
+            <!-- Duplicado exacto para loop fluido -->
+            <div class="desktop-mockup"><img src="img/app-3.png" alt="Control de Negocio Retail"></div>
+            <div class="phone-mockup"><img src="img/app-1.png" alt="Catálogo Web"></div>
+            <div class="phone-mockup"><img src="img/app-4.png" alt="Estética y Servicios"></div>
+            <div class="phone-mockup"><img src="img/app-2.png" alt="Catálogo Mayorista"></div>
         </div>
     </div>
 
