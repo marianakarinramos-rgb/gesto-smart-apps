@@ -504,7 +504,7 @@
                     newVideo.src = element.src;
                     newVideo.autoplay = true;
                     newVideo.loop = true;
-                    newVideo.controls = true; // Permite pausar/despausar en el zoom
+                    newVideo.muted = true; // Totalmente silenciado
                     newVideo.playsInline = true;
                     modalContent.appendChild(newVideo);
                 }
@@ -517,7 +517,7 @@
         function hideModal() {
             modal.classList.remove('active');
             marqueeContainer.classList.remove('paused');
-            modalContent.innerHTML = ''; // Limpia el video para que corte el audio
+            modalContent.innerHTML = ''; // Limpia el contenido al cerrar
         }
 
         closeModalBtn.addEventListener('click', hideModal);
