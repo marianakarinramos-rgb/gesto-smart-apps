@@ -87,11 +87,11 @@
             gap: 2rem;
             width: max-content;
             will-change: transform;
-            animation: scroll 40s linear infinite;
+            animation: scroll 45s linear infinite;
         }
 
         .marquee-track.reverse {
-            animation: scroll-reverse 45s linear infinite;
+            animation: scroll-reverse 50s linear infinite;
             margin-top: 2rem;
         }
 
@@ -105,7 +105,7 @@
             100% { transform: translate3d(0, 0, 0); }
         }
 
-        /* MARCO CELULAR (Vertical) */
+        /* MARCO CELULAR UNIFORME */
         .phone-mockup {
             width: 230px;
             height: 440px;
@@ -127,33 +127,6 @@
 
         .phone-mockup img,
         .phone-mockup video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        /* MARCO ESCRITORIO / PC (Horizontal) */
-        .desktop-mockup {
-            width: 420px;
-            height: 250px;
-            background: #111;
-            border-radius: 16px;
-            border: 6px solid #2b2b2b;
-            overflow: hidden;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-            position: relative;
-            flex-shrink: 0;
-            transform: translate3d(0,0,0);
-            transition: transform 0.3s ease, border-color 0.3s ease;
-        }
-
-        .desktop-mockup:hover {
-            transform: translateY(-8px) scale(1.02) translate3d(0,0,0);
-            border-color: var(--highlight-peach);
-        }
-
-        .desktop-mockup img,
-        .desktop-mockup video {
             width: 100%;
             height: 100%;
             object-fit: cover;
@@ -303,46 +276,50 @@
         <p class="subtitle">Herramientas simples, de pago único y adaptadas a la forma en que vendés.</p>
     </header>
 
-    <!-- Carrusel Infinito con Videos y Fotos integrados -->
+    <!-- Carrusel Infinito con Videos y Fotos Uniformes -->
     <div class="marquee-container">
         <!-- Fila 1 (Movimiento a la Izquierda) -->
         <div class="marquee-track">
-            <div class="phone-mockup"><video src="app-1.mp4" autoplay muted loop playsinline></video></div>
             <div class="phone-mockup"><img src="app-1.png" alt="App 1"></div>
-            <div class="phone-mockup"><video src="app-2.mp4" autoplay muted loop playsinline></video></div>
+            <div class="phone-mockup"><video src="app-3.mp4" autoplay muted loop playsinline></video></div>
             <div class="phone-mockup"><img src="app-2.png" alt="App 2"></div>
-            <div class="desktop-mockup"><img src="app-3.png" alt="App 3"></div>
+            <div class="phone-mockup"><video src="app-1.mp4" autoplay muted loop playsinline></video></div>
+            <div class="phone-mockup"><img src="app-3.png" alt="App 3"></div>
             <div class="phone-mockup"><video src="app-4.mp4" autoplay muted loop playsinline></video></div>
             <div class="phone-mockup"><img src="app-4.png" alt="App 4"></div>
+            <div class="phone-mockup"><video src="app-2.mp4" autoplay muted loop playsinline></video></div>
             
             <!-- Duplicado exacto para loop infinito fluido -->
-            <div class="phone-mockup"><video src="app-1.mp4" autoplay muted loop playsinline></video></div>
             <div class="phone-mockup"><img src="app-1.png" alt="App 1"></div>
-            <div class="phone-mockup"><video src="app-2.mp4" autoplay muted loop playsinline></video></div>
+            <div class="phone-mockup"><video src="app-3.mp4" autoplay muted loop playsinline></video></div>
             <div class="phone-mockup"><img src="app-2.png" alt="App 2"></div>
-            <div class="desktop-mockup"><img src="app-3.png" alt="App 3"></div>
+            <div class="phone-mockup"><video src="app-1.mp4" autoplay muted loop playsinline></video></div>
+            <div class="phone-mockup"><img src="app-3.png" alt="App 3"></div>
             <div class="phone-mockup"><video src="app-4.mp4" autoplay muted loop playsinline></video></div>
             <div class="phone-mockup"><img src="app-4.png" alt="App 4"></div>
+            <div class="phone-mockup"><video src="app-2.mp4" autoplay muted loop playsinline></video></div>
         </div>
 
         <!-- Fila 2 (Movimiento a la Derecha - Reverse) -->
         <div class="marquee-track reverse">
-            <div class="desktop-mockup"><img src="app-3.png" alt="App 3"></div>
-            <div class="phone-mockup"><video src="app-4.mp4" autoplay muted loop playsinline></video></div>
             <div class="phone-mockup"><img src="app-4.png" alt="App 4"></div>
             <div class="phone-mockup"><video src="app-2.mp4" autoplay muted loop playsinline></video></div>
-            <div class="phone-mockup"><img src="app-2.png" alt="App 2"></div>
+            <div class="phone-mockup"><img src="app-3.png" alt="App 3"></div>
             <div class="phone-mockup"><video src="app-1.mp4" autoplay muted loop playsinline></video></div>
+            <div class="phone-mockup"><img src="app-2.png" alt="App 2"></div>
+            <div class="phone-mockup"><video src="app-3.mp4" autoplay muted loop playsinline></video></div>
             <div class="phone-mockup"><img src="app-1.png" alt="App 1"></div>
+            <div class="phone-mockup"><video src="app-4.mp4" autoplay muted loop playsinline></video></div>
 
             <!-- Duplicado exacto para loop infinito fluido -->
-            <div class="desktop-mockup"><img src="app-3.png" alt="App 3"></div>
-            <div class="phone-mockup"><video src="app-4.mp4" autoplay muted loop playsinline></video></div>
             <div class="phone-mockup"><img src="app-4.png" alt="App 4"></div>
             <div class="phone-mockup"><video src="app-2.mp4" autoplay muted loop playsinline></video></div>
-            <div class="phone-mockup"><img src="app-2.png" alt="App 2"></div>
+            <div class="phone-mockup"><img src="app-3.png" alt="App 3"></div>
             <div class="phone-mockup"><video src="app-1.mp4" autoplay muted loop playsinline></video></div>
+            <div class="phone-mockup"><img src="app-2.png" alt="App 2"></div>
+            <div class="phone-mockup"><video src="app-3.mp4" autoplay muted loop playsinline></video></div>
             <div class="phone-mockup"><img src="app-1.png" alt="App 1"></div>
+            <div class="phone-mockup"><video src="app-4.mp4" autoplay muted loop playsinline></video></div>
         </div>
     </div>
 
