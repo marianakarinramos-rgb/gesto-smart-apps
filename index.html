@@ -95,6 +95,11 @@
             margin-top: 2rem;
         }
 
+        /* Pausa la animación cuando el modal está abierto */
+        .marquee-container.paused .marquee-track {
+            animation-play-state: paused !important;
+        }
+
         @keyframes scroll {
             0% { transform: translate3d(0, 0, 0); }
             100% { transform: translate3d(-50%, 0, 0); }
@@ -118,6 +123,7 @@
             flex-shrink: 0;
             transform: translate3d(0,0,0);
             transition: transform 0.3s ease, border-color 0.3s ease;
+            cursor: pointer;
         }
 
         .phone-mockup:hover {
@@ -130,6 +136,72 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+            pointer-events: none; /* Permite hacer click directo en el cuadro del phone-mockup */
+        }
+
+        /* MODAL / VISOR AMPLIADO */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(20, 5, 15, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-phone {
+            width: clamp(280px, 80vw, 360px);
+            height: clamp(550px, 85vh, 700px);
+            background: #111;
+            border-radius: 44px;
+            border: 8px solid #2b2b2b;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.8), 0 0 30px rgba(251, 149, 144, 0.2);
+            position: relative;
+        }
+
+        .modal-phone img,
+        .modal-phone video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            background: rgba(255, 187, 148, 0.2);
+            color: var(--highlight-peach);
+            border: 1px solid rgba(255, 187, 148, 0.4);
+            font-size: 1.8rem;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            z-index: 10000;
+        }
+
+        .close-modal:hover {
+            background: var(--highlight-peach);
+            color: var(--bg-darkest);
         }
 
         /* SYMMETRICAL CARDS SECTION (2x2 Grid) */
@@ -277,7 +349,7 @@
     </header>
 
     <!-- Carrusel Infinito con Videos y Fotos Uniformes -->
-    <div class="marquee-container">
+    <div class="marquee-container" id="marqueeContainer">
         <!-- Fila 1 (Movimiento a la Izquierda) -->
         <div class="marquee-track">
             <div class="phone-mockup"><img src="app-1.png" alt="App 1"></div>
@@ -321,6 +393,12 @@
             <div class="phone-mockup"><img src="app-1.png" alt="App 1"></div>
             <div class="phone-mockup"><video src="app-4.mp4" autoplay muted loop playsinline></video></div>
         </div>
+    </div>
+
+    <!-- MODAL PARA VER EL CELULAR EN GRANDE -->
+    <div class="modal" id="mediaModal">
+        <button class="close-modal" id="closeModal">&times;</button>
+        <div class="modal-phone" id="modalPhoneContent"></div>
     </div>
 
     <div class="container">
@@ -401,6 +479,55 @@
             <a href="https://www.instagram.com/gesto.smart/" target="_blank" class="social-btn">📸 Seguime en @gesto.smart</a>
         </div>
     </footer>
+
+    <script>
+        const mockups = document.querySelectorAll('.phone-mockup');
+        const modal = document.getElementById('mediaModal');
+        const modalContent = document.getElementById('modalPhoneContent');
+        const closeModalBtn = document.getElementById('closeModal');
+        const marqueeContainer = document.getElementById('marqueeContainer');
+
+        mockups.forEach(mockup => {
+            mockup.addEventListener('click', () => {
+                const element = mockup.querySelector('img, video');
+                if (!element) return;
+
+                modalContent.innerHTML = '';
+
+                if (element.tagName === 'IMG') {
+                    const newImg = document.createElement('img');
+                    newImg.src = element.src;
+                    newImg.alt = element.alt;
+                    modalContent.appendChild(newImg);
+                } else if (element.tagName === 'VIDEO') {
+                    const newVideo = document.createElement('video');
+                    newVideo.src = element.src;
+                    newVideo.autoplay = true;
+                    newVideo.loop = true;
+                    newVideo.controls = true; // Permite pausar/despausar en el zoom
+                    newVideo.playsInline = true;
+                    modalContent.appendChild(newVideo);
+                }
+
+                marqueeContainer.classList.add('paused');
+                modal.classList.add('active');
+            });
+        });
+
+        function hideModal() {
+            modal.classList.remove('active');
+            marqueeContainer.classList.remove('paused');
+            modalContent.innerHTML = ''; // Limpia el video para que corte el audio
+        }
+
+        closeModalBtn.addEventListener('click', hideModal);
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                hideModal();
+            }
+        });
+    </script>
 
 </body>
 </html>
