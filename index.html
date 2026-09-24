@@ -26,12 +26,14 @@
         }
     </script>
     <style>
-        /* Efecto glow personalizado para hover */
         .glow-hover:hover {
             text-shadow: 0 0 10px rgba(255, 157, 138, 0.8);
         }
         .card-glow:hover {
             box-shadow: 0 0 20px rgba(255, 157, 138, 0.15);
+        }
+        body.modal-open {
+            overflow: hidden;
         }
     </style>
 </head>
@@ -40,7 +42,6 @@
     <!-- Navegación Sticky -->
     <nav class="fixed top-0 w-full bg-brand-bg/95 backdrop-blur-sm z-50 border-b border-white/5">
         <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-            <!-- Logo -->
             <a href="#inicio" class="flex items-center gap-3 group">
                 <div class="w-8 h-8 bg-brand-accent rounded flex items-center justify-center text-brand-bg font-bold text-lg group-hover:scale-105 transition-transform">
                     G
@@ -48,7 +49,6 @@
                 <span class="font-semibold text-xl tracking-tight">Gesto Smart</span>
             </a>
             
-            <!-- Enlaces -->
             <div class="hidden md:flex gap-8 text-sm font-medium text-white/80">
                 <a href="#inicio" class="hover:text-brand-accent glow-hover transition-all duration-300">Inicio</a>
                 <a href="#soluciones" class="hover:text-brand-accent glow-hover transition-all duration-300">Soluciones</a>
@@ -72,30 +72,14 @@
                     Gesto Smart ofrece aplicaciones web simples, de pago único y sin comisiones para pequeñas empresas, PyMEs y emprendedores. Gestioná tus ventas, catálogos e historial de clientes con total autonomía.
                 </p>
             </div>
-            <!-- Mockups visuales simulados -->
-            <div class="relative h-[500px] w-full flex justify-center lg:justify-end">
-                <div class="absolute right-0 top-0 w-64 h-[450px] bg-[#fdf2f8] rounded-3xl p-4 shadow-2xl transform rotate-3 border-4 border-gray-800">
-                    <div class="w-full h-12 flex justify-between items-center border-b border-gray-200 pb-2">
-                        <div class="flex items-center gap-2"><div class="w-6 h-6 rounded-full bg-green-200"></div><span class="text-xs text-gray-800 font-bold">Samy Fit</span></div>
-                        <div class="flex gap-1"><div class="w-4 h-4 bg-gray-200 rounded"></div><div class="w-4 h-4 bg-gray-200 rounded"></div></div>
-                    </div>
-                    <div class="mt-4 w-full h-8 bg-pink-50 rounded-full border border-pink-100 flex items-center px-3"><span class="text-xs text-gray-400">Buscar productos...</span></div>
-                    <div class="mt-4 grid grid-cols-2 gap-2">
-                        <div class="h-24 bg-gray-200 rounded-lg bg-[url('https://images.unsplash.com/photo-1596422846543-74ecf4699507?q=80&w=200&auto=format&fit=crop')] bg-cover"></div>
-                        <div class="h-24 bg-gray-200 rounded-lg bg-[url('https://images.unsplash.com/photo-1621939514649-280e2ee25f60?q=80&w=200&auto=format&fit=crop')] bg-cover"></div>
-                    </div>
-                </div>
-                <div class="absolute right-40 bottom-0 w-64 h-[400px] bg-white rounded-3xl p-4 shadow-2xl transform -rotate-3 border-4 border-gray-800">
-                    <div class="w-full h-8 flex justify-between items-center border-b border-gray-200 pb-2">
-                        <span class="text-xs text-gray-800 font-bold">Mi Tienda Mayorista</span>
-                    </div>
-                    <div class="mt-4 space-y-3">
-                        <div class="w-full h-16 border border-gray-100 rounded flex items-center p-2 gap-2">
-                            <div class="w-12 h-12 bg-gray-100 rounded bg-[url('https://images.unsplash.com/photo-1581007871115-f14bc016e0a4?q=80&w=100&auto=format&fit=crop')] bg-cover"></div>
-                            <div class="flex-1"><div class="h-2 w-16 bg-gray-300 rounded mb-1"></div><div class="h-2 w-10 bg-brand-accent rounded"></div></div>
-                        </div>
-                    </div>
-                </div>
+            
+            <!-- Mockups visuales con imágenes reales de tu sistema -->
+            <div class="relative h-[500px] w-full flex justify-center lg:justify-end items-center">
+                <!-- Imagen trasera (Sistema Retail) -->
+                <img src="retail.png" alt="Sistema Backend" class="absolute z-0 w-80 rounded-xl shadow-2xl transform -rotate-6 border-4 border-gray-900 right-20 md:right-32 object-cover object-left-top h-[350px] opacity-90 transition-transform duration-500 hover:-rotate-3 hover:scale-105">
+                
+                <!-- Imagen frontal (Catálogo Mayorista) en formato .png -->
+                <img src="catalogo-mayorista.png" alt="Catálogo Frontend" class="absolute z-10 w-64 rounded-xl shadow-2xl transform rotate-3 border-4 border-white right-0 md:right-10 object-cover object-top h-[420px] transition-transform duration-500 hover:rotate-0 hover:scale-105">
             </div>
         </div>
     </section>
@@ -117,41 +101,55 @@
         <p class="text-white/70 max-w-2xl mx-auto mb-16">Aplicaciones enfocadas en la utilidad práctica, optimizadas para resolver operativamente la gestión diaria según tu rubro.</p>
         
         <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 text-left">
-            <!-- Rubro: Retail & Zapatos -->
-            <div class="bg-brand-card rounded-2xl p-6 border border-white/5 transition-all duration-300 card-glow hover:-translate-y-1 cursor-pointer group">
-                <div class="w-full aspect-square bg-gray-100 rounded-xl mb-6 overflow-hidden border border-gray-200">
-                    <img src="catalogo-zapatos.png" alt="Catálogo de Zapatos" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500">
+            
+            <!-- Rubro: Gestión Retail -->
+            <div onclick="openModal('retail')" class="bg-brand-card rounded-2xl p-6 border border-white/5 transition-all duration-300 card-glow hover:-translate-y-1 cursor-pointer group relative">
+                <div class="w-full aspect-square bg-[#0a0f16] rounded-xl mb-6 overflow-hidden border border-gray-700 relative">
+                    <img src="retail.png" alt="Sistema de Gestión Retail" class="w-full h-full object-cover object-left-top group-hover:scale-110 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-brand-bg/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <span class="text-white font-bold bg-black/50 px-4 py-2 rounded-full border border-white/20">🔍 Ver Funcionamiento</span>
+                    </div>
                 </div>
-                <h3 class="text-xl font-bold mb-2 text-white group-hover:text-brand-accent transition-colors">Retail & Calzado</h3>
-                <p class="text-sm text-white/60">Control de stock por variantes (talles/colores), lectura de código de barras y caja diaria centralizada.</p>
+                <h3 class="text-xl font-bold mb-2 text-white group-hover:text-brand-accent transition-colors">Gestión Retail</h3>
+                <p class="text-sm text-white/60">Programa integral de gestión de ventas. Control de stock detallado, punto de venta ágil, presupuestos, base de clientes y caja diaria centralizada.</p>
             </div>
 
             <!-- Rubro: Gastronomía -->
-            <div class="bg-brand-card rounded-2xl p-6 border border-white/5 transition-all duration-300 card-glow hover:-translate-y-1 cursor-pointer group">
-                <div class="w-full aspect-square bg-gray-100 rounded-xl mb-6 overflow-hidden border border-gray-200">
-                    <img src="catalogo-comidas.png" alt="Menú Gastronomía" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500">
+            <div onclick="openModal('comidas')" class="bg-brand-card rounded-2xl p-6 border border-white/5 transition-all duration-300 card-glow hover:-translate-y-1 cursor-pointer group relative">
+                <div class="w-full aspect-square bg-gray-100 rounded-xl mb-6 overflow-hidden border border-gray-200 relative">
+                    <img src="catalogo-comidas.png" alt="Menú Gastronomía" class="w-full h-full object-cover object-top group-hover:scale-110 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-brand-bg/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <span class="text-white font-bold bg-black/50 px-4 py-2 rounded-full border border-white/20">🔍 Ver Funcionamiento</span>
+                    </div>
                 </div>
                 <h3 class="text-xl font-bold mb-2 text-white group-hover:text-brand-accent transition-colors">Gastronomía</h3>
-                <p class="text-sm text-white/60">Comandas ágiles, control de mesas, catálogo digital y gestión de pedidos para mostrador o delivery.</p>
+                <p class="text-sm text-white/60">Ideal para PyMEs que hacen delivery o retiro por el local. La gente ve el menú y hace el pedido que te llega directo al WhatsApp con dirección, teléfono y detalle.</p>
             </div>
 
             <!-- Rubro: Joyería -->
-            <div class="bg-brand-card rounded-2xl p-6 border border-white/5 transition-all duration-300 card-glow hover:-translate-y-1 cursor-pointer group">
-                <div class="w-full aspect-square bg-[#fff0f4] rounded-xl mb-6 overflow-hidden border border-pink-100">
-                    <img src="catalogo-joyeria.png" alt="Catálogo de Joyería" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500">
+            <div onclick="openModal('joyeria')" class="bg-brand-card rounded-2xl p-6 border border-white/5 transition-all duration-300 card-glow hover:-translate-y-1 cursor-pointer group relative">
+                <div class="w-full aspect-square bg-[#fff0f4] rounded-xl mb-6 overflow-hidden border border-pink-100 relative">
+                    <img src="catalogo-joyeria.png" alt="Catálogo de Joyería" class="w-full h-full object-cover object-top group-hover:scale-110 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-brand-bg/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <span class="text-white font-bold bg-black/50 px-4 py-2 rounded-full border border-white/20">🔍 Ver Funcionamiento</span>
+                    </div>
                 </div>
                 <h3 class="text-xl font-bold mb-2 text-white group-hover:text-brand-accent transition-colors">Joyería & Accesorios</h3>
-                <p class="text-sm text-white/60">Catálogo de alta resolución, gestión de artículos únicos, lista de precios mayorista y minorista.</p>
+                <p class="text-sm text-white/60">Catálogo online de alta resolución, gestión de artículos únicos, control de stock integrado y carrito de compras para clientes y mayoristas.</p>
             </div>
 
             <!-- Rubro: Estética -->
-            <div class="bg-brand-card rounded-2xl p-6 border border-white/5 transition-all duration-300 card-glow hover:-translate-y-1 cursor-pointer group">
-                <div class="w-full aspect-square bg-white rounded-xl mb-6 overflow-hidden border border-gray-200">
-                    <img src="salon-generico.png" alt="Dashboard de Salón" class="w-full h-full object-cover object-left-top group-hover:scale-105 transition-transform duration-500">
+            <div onclick="openModal('estetica')" class="bg-brand-card rounded-2xl p-6 border border-white/5 transition-all duration-300 card-glow hover:-translate-y-1 cursor-pointer group relative">
+                <div class="w-full aspect-square bg-white rounded-xl mb-6 overflow-hidden border border-gray-200 relative">
+                    <img src="salon-generico.png" alt="Dashboard de Salón" class="w-full h-full object-cover object-left-top group-hover:scale-110 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-brand-bg/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <span class="text-white font-bold bg-black/50 px-4 py-2 rounded-full border border-white/20">🔍 Ver Funcionamiento</span>
+                    </div>
                 </div>
                 <h3 class="text-xl font-bold mb-2 text-white group-hover:text-brand-accent transition-colors">Estética & Servicios</h3>
-                <p class="text-sm text-white/60">Fichero clínico inteligente, agenda de turnos, historial por cliente y control de insumos fraccionados.</p>
+                <p class="text-sm text-white/60">Sistema de gestión con fichero clínico inteligente, agenda interactiva de turnos, historial por cliente y control de stock e insumos preciso.</p>
             </div>
+
         </div>
     </section>
 
@@ -199,45 +197,33 @@
                 </ul>
             </div>
             
-            <!-- Simulador de Manual de Usuario UI -->
-            <div class="bg-[#111] rounded-xl border border-gray-800 shadow-2xl p-2 flex h-[500px]">
-                <div class="w-1/3 border-r border-gray-800 p-4 space-y-4">
-                    <div class="h-4 w-24 bg-gray-800 rounded"></div>
-                    <div class="space-y-2 mt-6">
-                        <div class="h-3 w-full bg-brand-accent/20 rounded"></div>
-                        <div class="h-3 w-3/4 bg-gray-800 rounded"></div>
-                        <div class="h-3 w-5/6 bg-gray-800 rounded"></div>
-                        <div class="h-3 w-4/5 bg-gray-800 rounded"></div>
-                    </div>
-                </div>
-                <div class="w-2/3 p-6 space-y-4 bg-[#1a1a1a] rounded-r-lg">
-                    <div class="h-6 w-48 bg-gray-700 rounded mb-6"></div>
-                    <div class="w-full h-24 bg-green-900/20 border border-green-800/50 rounded-lg p-3">
-                        <div class="h-3 w-32 bg-green-500/50 rounded mb-2"></div>
-                        <div class="h-2 w-full bg-gray-700 rounded mb-1"></div>
-                        <div class="h-2 w-4/5 bg-gray-700 rounded"></div>
-                    </div>
-                    <div class="w-full h-24 bg-blue-900/20 border border-blue-800/50 rounded-lg p-3">
-                        <div class="h-3 w-32 bg-blue-500/50 rounded mb-2"></div>
-                        <div class="h-2 w-full bg-gray-700 rounded mb-1"></div>
-                        <div class="h-2 w-4/5 bg-gray-700 rounded"></div>
-                    </div>
-                    <div class="w-full h-24 bg-red-900/20 border border-red-800/50 rounded-lg p-3">
-                        <div class="h-3 w-32 bg-red-500/50 rounded mb-2"></div>
-                        <div class="h-2 w-full bg-gray-700 rounded mb-1"></div>
-                        <div class="h-2 w-4/5 bg-gray-700 rounded"></div>
-                    </div>
-                </div>
+            <!-- Contenedor Real para la imagen del Manual -->
+            <div class="w-full flex justify-center lg:justify-end">
+                <img src="manual-operaciones.png" alt="Manual de Operaciones" class="rounded-xl shadow-2xl border border-white/10 w-full object-cover">
             </div>
         </div>
     </section>
 
-    <!-- Footer CTA -->
+    <!-- Footer -->
     <footer class="bg-black/30 border-t border-white/5 pt-20 pb-10 px-6 mt-12 text-center">
         <h4 class="text-brand-accent text-xs font-bold tracking-widest uppercase mb-4">Evolucioná tu gestión</h4>
         <h2 class="text-3xl font-bold mb-4">Agilidad real para tu negocio<br>sin ataduras contractuales</h2>
-        <p class="text-white/60 mb-16 text-sm">Elegí la aplicación que mejor se adapte a tu rubro y comenzá a ordenar tus<br>pedidos, agendas y cajas con total libertad.</p>
+        <p class="text-white/60 mb-10 text-sm">Elegí la aplicación que mejor se adapte a tu rubro y comenzá a ordenar tus<br>pedidos, agendas y cajas con total libertad.</p>
         
+        <!-- Botones de Contacto CTA -->
+        <div class="flex justify-center gap-4 mb-16 flex-wrap">
+            <!-- Botón WhatsApp -->
+            <a href="https://wa.me/5491121586674" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 bg-[#25D366]/10 text-[#25D366] hover:bg-[#25D366] hover:text-white px-6 py-3 rounded-full font-bold transition-all duration-300 border border-[#25D366]/30 hover:shadow-[0_0_15px_rgba(37,211,102,0.5)]">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 0C5.383 0 0 5.383 0 12.031c0 2.124.553 4.195 1.603 6.012L.268 23.364l5.459-1.434c1.761.956 3.738 1.458 5.754 1.458h.004c6.645 0 12.031-5.386 12.031-12.031 0-3.218-1.253-6.246-3.528-8.523A11.966 11.966 0 0012.031 0zm0 21.411h-.003c-1.785 0-3.535-.48-5.068-1.389l-.363-.214-3.766.988.999-3.673-.235-.373A10.024 10.024 0 011.986 12.03c0-5.541 4.508-10.049 10.05-10.049 2.684 0 5.207 1.045 7.104 2.943 1.896 1.898 2.941 4.42 2.941 7.107 0 5.542-4.509 10.051-10.051 10.051zm5.511-7.531c-.302-.152-1.788-.883-2.064-.984-.276-.1-.477-.152-.678.152-.201.302-.78 .984-.956 1.186-.176.201-.352.226-.654.075-1.401-.703-2.618-1.579-3.554-2.883-.239-.333.242-.315.68-.96.151-.226.075-.427-.025-.579-.088-.132-.678-1.636-.928-2.241-.243-.591-.49-.512-.678-.521h-.578c-.201 0-.528.075-.804.377-.276.302-1.055 1.03-1.055 2.513s1.08 2.915 1.231 3.116c.151.201 2.124 3.243 5.143 4.545.719.31 1.28.495 1.718.634.722.23 1.38.197 1.897.12.58-.087 1.788-.731 2.039-1.437.251-.706.251-1.312.176-1.437-.075-.126-.276-.201-.578-.353z"/></svg>
+                WhatsApp
+            </a>
+            <!-- Botón Instagram -->
+            <a href="https://instagram.com/gesto.smart" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 bg-[#E1306C]/10 text-[#E1306C] hover:bg-[#E1306C] hover:text-white px-6 py-3 rounded-full font-bold transition-all duration-300 border border-[#E1306C]/30 hover:shadow-[0_0_15px_rgba(225,48,108,0.5)]">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                Instagram
+            </a>
+        </div>
+
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center border-t border-white/10 pt-10 text-left">
             <div class="mb-6 md:mb-0 text-center md:text-left">
                 <div class="flex items-center gap-2 mb-2 justify-center md:justify-start">
@@ -254,5 +240,100 @@
         </div>
     </footer>
 
+    <!-- MODAL LIGHTBOX -->
+    <div id="galleryModal" class="fixed inset-0 z-[100] hidden flex items-center justify-center bg-black/95 backdrop-blur-sm transition-opacity duration-300">
+        <button onclick="closeModal()" class="absolute top-6 right-6 text-white hover:text-brand-accent transition-colors z-[110]">
+            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+        <button onclick="prevImage()" class="absolute left-4 md:left-12 text-white/50 hover:text-white transition-colors z-[110]">
+            <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+        </button>
+
+        <div class="relative max-w-5xl w-full mx-4 flex flex-col items-center">
+            <div id="modalLabel" class="bg-brand-accent text-brand-bg font-bold px-6 py-2 rounded-full mb-4 text-sm tracking-wide">
+                Vista de Catálogo
+            </div>
+            <img id="modalImage" src="" alt="Vista previa de la interfaz" class="max-h-[75vh] w-auto object-contain rounded-lg shadow-2xl border border-white/10 transition-all duration-300">
+            <div class="flex gap-2 mt-6" id="modalDots"></div>
+        </div>
+
+        <button onclick="nextImage()" class="absolute right-4 md:right-12 text-white/50 hover:text-white transition-colors z-[110]">
+            <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+        </button>
+    </div>
+
+    <!-- SCRIPT DE GALERÍA -->
+    <script>
+        const galleries = {
+            'retail': [
+                { src: 'retail.png', label: '1. Panel Central y Stock' },
+                { src: 'punto-de-venta-retail.png', label: '2. Punto de Venta Operativo' },
+                { src: 'caja-diaria-retail.png', label: '3. Control de Caja y Remitos' }
+            ],
+            'comidas': [
+                { src: 'catalogo-comidas.png', label: '1. Tu Menú Digital' },
+                { src: 'backend-gastronomia.png', label: '2. Gestión de Menú y Platos' },
+                { src: 'carrito-comidas.png', label: '3. Pedido por WhatsApp' }
+            ],
+            'joyeria': [
+                { src: 'catalogo-joyeria.png', label: '1. Vitrina de Joyería' },
+                { src: 'backend-joyeria.png', label: '2. Control de Inventario Fino' },
+                { src: 'carrito-joyeria.png', label: '3. Carrito y Confirmación de Pedido' }
+            ],
+            'estetica': [
+                { src: 'salon-generico.png', label: '1. Panel Principal del Salón' },
+                { src: 'backend-estetica.png', label: '2. Ficha de Clientes y Stock' },
+                { src: 'agenda-estetica.png', label: '3. Agenda de Turnos' }
+            ]
+        };
+
+        let currentCategory = '';
+        let currentIndex = 0;
+
+        function openModal(category) {
+            currentCategory = category;
+            currentIndex = 0;
+            updateModalContent();
+            document.getElementById('galleryModal').classList.remove('hidden');
+            document.body.classList.add('modal-open');
+        }
+
+        function closeModal() {
+            document.getElementById('galleryModal').classList.add('hidden');
+            document.body.classList.remove('modal-open');
+        }
+
+        function nextImage() {
+            currentIndex = (currentIndex + 1) % galleries[currentCategory].length;
+            updateModalContent();
+        }
+
+        function prevImage() {
+            currentIndex = (currentIndex - 1 + galleries[currentCategory].length) % galleries[currentCategory].length;
+            updateModalContent();
+        }
+
+        function updateModalContent() {
+            const currentItem = galleries[currentCategory][currentIndex];
+            const imgElement = document.getElementById('modalImage');
+            imgElement.src = currentItem.src;
+            document.getElementById('modalLabel').innerText = currentItem.label;
+
+            const dotsContainer = document.getElementById('modalDots');
+            dotsContainer.innerHTML = '';
+            
+            galleries[currentCategory].forEach((_, index) => {
+                const dot = document.createElement('div');
+                dot.className = `w-2 h-2 rounded-full transition-colors ${index === currentIndex ? 'bg-brand-accent scale-125' : 'bg-white/30'}`;
+                dotsContainer.appendChild(dot);
+            });
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+            if (e.key === 'ArrowRight' && !document.getElementById('galleryModal').classList.contains('hidden')) nextImage();
+            if (e.key === 'ArrowLeft' && !document.getElementById('galleryModal').classList.contains('hidden')) prevImage();
+        });
+    </script>
 </body>
 </html>
